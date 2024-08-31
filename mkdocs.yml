@@ -1,0 +1,91 @@
+nav: 
+  - 概述: index.md
+  - 预备:
+    - 数码产品: 预备/数码产品.md
+    - Windows基本使用: 预备/个人电脑使用.md
+  - 数学: 
+    - 数学基础: 计算机基础/math.md
+  - 工具:
+    - Markdown: 计算机基础/工具/markdown.md  
+    - 基本图形开发环境配置:  计算机基础/工具/基础环境.md
+    - vscode与jetbrains使用:  计算机基础/工具/vscode.md
+    - Git与GitHub基本使用: 计算机基础/工具/Git.md
+    - linux基础:  计算机基础/工具/linux.md
+    - 常见配置文件格式: 计算机基础/工具/数据描述语言.md
+    - 命令行基础与shell: 计算机基础/工具/shell.md
+    - 命令行原生文本处理: 计算机基础/工具/shell文本处理.md
+    - linux的网络与进程管理: 计算机基础/工具/shell网络与系统管理.md
+    - Vim基础: 计算机基础/工具/Vim.md
+    - Emacs基础: 计算机基础/工具/Emacs.md
+    - makefile与CMake基础: 计算机基础/工具/makefile.md
+    - 终端开发环境配置: 计算机基础/工具/终端.md
+    - 命令行工具基本使用:  计算机基础/工具/开发环境使用.md
+    - 汇编学习环境: 计算机基础/工具/汇编环境.md
+    - python环境: 计算机基础/工具/py环境.md  
+    - Docker基础: 计算机基础/工具/Docker.md
+    - ssh基础: 计算机基础/工具/ssh.md
+  - C:
+    - C prime plus:  计算机基础/C/cpp.md
+    - C和指针:  计算机基础/C/czz.md
+    - C语言重点总结: 计算机基础/C/myc.md
+    - C缺陷与陷阱: 计算机基础/C/cqx.md
+    - C专家编程: 计算机基础/C/czj.md
+    - 汇编语言(王爽): 计算机基础/C/8086.md
+    - 程序员的自我修养----链接、装载与库: 计算机基础/C/链接.md
+  - 软件工程相关:
+    - 大话设计模式:  计算机基础/软件工程/设计模式.md
+    - head first面向对象分析与设计:  计算机基础/软件工程/面向对象.md
+    - 静态软件分析: 计算机基础/软件工程/静态软件分析.md
+    - clean code:  计算机基础/软件工程/cc.md
+    - 设计模式 可复用面向对象软件的基础: 计算机基础/软件工程/bsj.md
+    - 重构 改善既有代码的设计:  计算机基础/软件工程/重构.md
+    - 单元测试的艺术:  计算机基础/软件工程/单元测试.md
+    - 代码大全2: 计算机基础/软件工程/cc2.md
+    - clean coder: 计算机基础/软件工程/ccr.md
+    - 人月神话:  计算机基础/软件工程/人月.md
+    - UNIX编程艺术: 计算机基础/软件工程/unix.md
+    - 软件工程: 计算机基础/软件工程/软件工程.md
+    - 敏捷软件开发：原则、模式与实践: 计算机基础/软件工程/敏捷.md
+  - C++:
+    - C++引言: 计算机基础/C++/C++引言.md
+    - C++ prime: 计算机基础/C++/C++ pp.md
+    - Effective C++四件套: 计算机基础/C++/EC++.md
+    - 深度探索C++对象模型: 计算机基础/C++/DC++.md
+    - 现代C++语言核心特性解析: 计算机基础/C++/MC++.md
+    - STL源码剖析: 计算机基础/C++/STL.md
+    - lua: 计算机基础/C++/lua.md
+  - 算法:
+    - 大话数据结构:  计算机基础/算法/数据结构.md
+    - 算法: 计算机基础/算法/基础算法.md
+    - 算法补充:  计算机基础/算法/补充算法.md
+    - 剑指offer: 计算机基础/算法/剑指offer.md
+    - 编程珠玑与其续: 计算机基础/算法/编程珠玑.md
+    - 编程之美: 计算机基础/算法/编程之美.md
+    - 题解:  计算机基础/算法/题解.md
+    - 算法竞赛:  计算机基础/算法/算法竞赛.md
+  - 计算机程序的构造与解释:  计算机基础/函数式.md
+  - Python:
+    - Python编程 从入门到实践: 计算机基础/Python.md
+  - rust: 计算机基础/rust.md
+  
+
+
+site_name: 海星笔记
+theme:
+  icon:
+    repo: fontawesome/brands/git-alt
+  name: material
+  palette:
+    scheme: slate
+    primary: deep purple
+  font:
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - header.autohide
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/hxaxd/hxlog
+repo_url: https://github.com/hxaxd/hxlog
+repo_name: 海星笔记

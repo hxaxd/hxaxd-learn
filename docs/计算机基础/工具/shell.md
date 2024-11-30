@@ -20,7 +20,7 @@ man代号
 - shutddown 警告关机 -r/h/c/k [time/min] [warning]
 - reboot 重启
 - poweroff 关机
-### 变量：
+### 变量:
 - name=abc  
 - name="abc$LANG"->abczh_CN....  
 - name='abc&LANG'->abc&LANG  
@@ -59,7 +59,7 @@ command <<EOF 和 EOF 之间的所有内容都会被当作输入传递给 cat,�
 [0-9]
 
 xargs 将输入转换为参数  
-如：cat hosts | xargs -I{} ssh root@{} hostname
+如:cat hosts | xargs -I{} ssh root@{} hostname
 
 alias unalias 别名
 ```
@@ -92,8 +92,8 @@ chown name:group filename 改文件归属 -R递归
 chmod [mode] filename -R递归
 
 mode:
-1. ugoa +-= rwx
-2. xyz r/w/x=4/2/1 x/y/z=u/g/o(r+w+x) 如777
+- ugoa +-= rwx
+- xyz r/w/x=4/2/1 x/y/z=u/g/o(r+w+x) 如777
 
 touch 建立空文件/改时间
 

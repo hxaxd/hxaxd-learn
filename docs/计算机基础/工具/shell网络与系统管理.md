@@ -1,3 +1,4 @@
+
 ### 网络
 ```bash
 netstat -atunlp all/tcp/ucp/端口号/监听/PID 看网络与对应进程
@@ -52,12 +53,12 @@ nohub command 持续运行,不随shell而死
 
 kill sign PID   
 
-sign：
-SIGTERM (默认信号,值为 15)：请求进程安全退出 
-SIGKILL (值为 9)：强制立即终止进程,不给予进程清理资源的机会 
-SIGINT (值为 2)：与 Ctrl+C 相同,通常用于中断进程 
-SIGSTOP (值为 19)：暂停进程,直到收到 SIGCONT 
-SIGCONT (值为 18)：继续执行之前被 SIGSTOP 暂停的进程 
+sign:
+SIGTERM (默认信号,值为 15):请求进程安全退出 
+SIGKILL (值为 9):强制立即终止进程,不给予进程清理资源的机会 
+SIGINT (值为 2):与 Ctrl+C 相同,通常用于中断进程 
+SIGSTOP (值为 19):暂停进程,直到收到 SIGCONT 
+SIGCONT (值为 18):继续执行之前被 SIGSTOP 暂停的进程 
 示例
 ```
 ### 文件系统

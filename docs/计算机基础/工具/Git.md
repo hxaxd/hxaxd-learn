@@ -42,7 +42,7 @@ git config --global credential.helper osxkeychain
 `git diff -staged`将比对已暂存文件与最后一次提交的文件差异
 - `git commit`将提交修改并调用shell的默认编辑器写提交消息 -a自动add并提交
 ### 撤销
--  `git rm name` 删除  
+- `git rm name` 删除  
 -f 强制删 (暂存中)  
 --cached name 不跟踪但不删  
 支持glob,但注意\转义 (因为不是用shell的glob)
@@ -66,7 +66,7 @@ git commit -m 'initial commit'
 git add forgotten_file
 git commit --amend
 ```
--  `git reset HEAD name`撤销暂存
+- `git reset HEAD name`撤销暂存
 - `git checkout -- name`用仓库中的版本替换
 
 

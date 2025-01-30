@@ -1,4 +1,4 @@
-[Emacs](https://zhuanlan.zhihu.com/p/385214753)是与vim齐名的编辑器
+- [Emacs](https://zhuanlan.zhihu.com/p/385214753) 知乎大佬 4
 
 配置在环境配置中
 

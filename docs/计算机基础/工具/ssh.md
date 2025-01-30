@@ -1,6 +1,14 @@
+- [ssh](https://blog.csdn.net/m0_51720581/article/details/131796669) 精简 4
+
 利用ssh远程开发是我们要学习的技能之一,本文只记录客户端操作
 
 ssh是一种协议,最常用的实现是openssh,内置在大部分linux系统下,现在的windows也可以选择添加了
+
+~/.ssh存放SSH客户端相关配置和密钥文件
+- 生成authorized_keys文件用于存放相关的主机和密钥信息
+- sshd_config(server配置文件)
+- ssh_config(client配置文件) 
+
 
 ```bash
 # 连接
@@ -10,8 +18,18 @@ ssh -l [用户名] hostname
 
 ssh hostname
 
-# 文件复制
+# 将本地机器中的文件复制到远程机器中
+scp /path/local_file remote_username@remote_ip:/path/target_file
+
+# 添加-r参数,递归拷贝目录
+scp -r /path/local_directory remote_username@remote_ip:/path/target_directory
+
+# 将远程机器中的文件复制到本地机器中
+# 远程拷贝多个文件的命令形式比较繁琐,就不写了
 scp remote_username@remote_ip:/path/source_file /path/target_file
+
+# 指定使用23号端口
+scp -P　23 /path/local_file remote_username@remote_ip:/path/target_file
 ```
 
 不过,更推荐使用vscode的remote-ssh插件
@@ -28,5 +46,3 @@ scp remote_username@remote_ip:/path/source_file /path/target_file
 `eval $(ssh-agent)`  
 使用ssh-add命令将你的私钥添加到ssh-agent中:  
 `ssh-add ~/.ssh/id_rsa`  
-
-## 了解隧道

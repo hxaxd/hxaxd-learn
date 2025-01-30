@@ -1,3 +1,6 @@
+- [vsc官方文档](https://code.visualstudio.com/Docs) 结构不好 3
+- [clion官方文档](https://www.jetbrains.com/help/clion/installation-guide.html) 同上 3
+
 > 将时间花在你的开发环境上是最节省时间的举措
 
 ## vscode
@@ -15,7 +18,7 @@
 - `cmd+p`可以快速打开文件(尝试反复按) 输入? 可以查看推荐命令
 - 点右箭头也可以打开
 - `edu/term`加' '即可打开编辑器/终端
-- Configure Display Language”命令修改界面自然语言(需要先下载语言插件)
+- Configure Display Language"命令修改界面自然语言(需要先下载语言插件)
 
 ### 编辑器
 
@@ -59,17 +62,6 @@
 - `cmd+k o`分离窗口
 - `cmd+k shift+cmd+\` 分屏
 
-### 插件
-
-- `shift+cmd+x` 插件界面
-- 我推荐`one dark pro darker`主题
-- `error lens` 可以显示错误
-- 关键软件/语言配套的插件
-- `vscode-icons` 图标主题
-- `markdown all in one` 可以预览markdown
-- `MarsCode AI` 豆包
-- `path intellisense` 路径补全
-
 ### 终端
 
 - vscode内置终端,实现编译的插件本质都是快捷命令
@@ -86,14 +78,14 @@
 - 会在根目录下建立`.vscode`文件夹保存
 - 详见官方文档
 
-主流快捷键  
-Vim  
-Sublime  
-Emacs  
-Atom  
-Brackets  
-Eclipse  
-Visual Studio  
+主流快捷键体系  
+- Vim  
+- Sublime  
+- Emacs  
+- Atom  
+- Brackets  
+- Eclipse  
+- Visual Studio  
 
 
 ## clion

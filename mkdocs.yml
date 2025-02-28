@@ -1,143 +1,195 @@
-nav: 
-  - 概述: index.md
-  - 理论基础: 
-    - 数学基础: 计算机基础/理论基础/数学.md
-    - 计算理论: 计算机基础/理论基础/计算理论.md
+nav:
+  - 目录: index.md
+  - 理论基础:
+    - 微积分: 计算机基础/理论基础/微积分.md
+    - 数理逻辑: 计算机基础/理论基础/数理逻辑.md
+    - 线性代数: 计算机基础/理论基础/线性代数.md
+    - 初等数论: 计算机基础/理论基础/初等数论.md
+    - 抽象代数: 计算机基础/理论基础/抽象代数.md
+    - 组合数学: 计算机基础/理论基础/组合数学.md
+    - 集合论: 计算机基础/理论基础/集合论.md
+    - 图论: 计算机基础/理论基础/图论.md
+    - 概率论: 计算机基础/理论基础/概率论.md
+    - 数学增补: 计算机基础/理论基础/数学增补.md
     - 信息论: 计算机基础/理论基础/信息论.md
-    - 数字设计:  计算机基础/理论基础/数字设计.md
-    - 编译原理: 计算机基础/理论基础/龙.md
-    - 计算机程序的构造和解释: 计算机基础/理论基础/SICP.md
+    - 电路分析: 计算机基础/理论基础/电路分析.md
+    - 模拟电子技术: 计算机基础/理论基础/模拟电子技术.md
+    - 数字电子技术: 计算机基础/理论基础/数字电子技术.md
+    - 数字设计: 计算机基础/理论基础/数字设计.md
+    - 计算理论: 计算机基础/理论基础/计算理论.md
+    - 编译原理: 计算机基础/理论基础/编译原理.md
+    - 计算机程序的构造和解释: 计算机基础/理论基础/计算机程序的构造和解释.md
   - 工具:
-    - 常用快捷键:  计算机基础/工具/快捷键.md
-    - Markdown: 计算机基础/工具/markdown.md  
-    - 基本图形开发环境配置:  计算机基础/工具/基础环境.md
-    - vscode与jetbrains使用:  计算机基础/工具/vscode.md
-    - Git与GitHub基本使用: 计算机基础/工具/Git.md
-    - linux基础:  计算机基础/工具/linux.md
-    - 常见配置文件格式: 计算机基础/工具/数据描述语言.md
-    - 命令行基础与shell: 计算机基础/工具/shell.md
-    - 命令行原生文本处理: 计算机基础/工具/shell文本处理.md
-    - linux的网络与进程管理: 计算机基础/工具/shell网络与系统管理.md
-    - shell脚本编程: 计算机基础/工具/shell脚本编程.md
-    - Vim基础: 计算机基础/工具/Vim.md
-    - Emacs基础: 计算机基础/工具/Emacs.md
-    - 终端开发环境配置: 计算机基础/工具/终端.md
-    - 命令行工具基本使用:  计算机基础/工具/终端环境使用.md
-    - ssh基础: 计算机基础/工具/ssh.md
-    - Tax基础: 计算机基础/工具/Tax.md
-    - WEB开发常识与工具: 计算机基础/工具/WEB开发常识与工具.md 
-  - C/C++:
-    - C prime plus:  计算机基础/C/核心c.md
-    - C和指针:  计算机基础/C/c和指针.md
-    - C语言重点总结: 计算机基础/C/c总结.md
-    - C缺陷与陷阱: 计算机基础/C/c缺陷与陷阱.md
-    - C专家编程: 计算机基础/C/c专家.md
-    - C++引言: 计算机基础/C++/C++引言.md
-    - C++ prime: 计算机基础/C++/核心C++.md
-    - Effective C++四件套: 计算机基础/C++/有效C++.md
-    - 程序员的自我修养: 计算机基础/C++/链接.md
-    - 深度探索C++对象模型: 计算机基础/C++/C++内存模型.md
-    - 现代C++语言核心特性解析: 计算机基础/C++/现代C++.md
-    - STL源码剖析: 计算机基础/C++/STL源码.md
-    - C++性能优化: 计算机基础/C++/C++性能优化.md
+    - 快捷键备忘录: 计算机基础/工具/快捷键备忘录.md
+    - Markdown: 计算机基础/工具/Markdown.md
+    - 基本图形开发环境配置: 计算机基础/工具/基本图形开发环境配置.md
+    - Git基本使用: 计算机基础/工具/Git基本使用.md
+    - Linux基础: 计算机基础/工具/Linux基础.md
+    - 标记语言: 计算机基础/工具/标记语言.md
+    - Shell基础: 计算机基础/工具/Shell基础.md
+    - Shell文本处理: 计算机基础/工具/Shell文本处理.md
+    - Linux系统与网络管理: 计算机基础/工具/Linux系统与网络管理.md
+    - Shell编程: 计算机基础/工具/Shell编程.md
+    - Vim基础: 计算机基础/工具/Vim基础.md
+    - Emacs基础: 计算机基础/工具/Emacs基础.md
+    - 终端开发环境配置: 计算机基础/工具/终端开发环境配置.md
+    - SSH基础: 计算机基础/工具/SSH基础.md
+    - Tax基础: 计算机基础/工具/Tax基础.md
+    - Nginx: 计算机基础/工具/Nginx.md
+    - 前端开发常识: 计算机基础/工具/前端开发常识.md
+    - 容器常识: 计算机基础/工具/容器常识.md
+    - WEB开发常识: 计算机基础/工具/WEB开发常识.md
+  - C语言:
+    - CPrimePlus: 计算机基础/C/CPrimePlus.md
+    - C和指针: 计算机基础/C/C和指针.md
+    - C缺陷与陷阱: 计算机基础/C/C缺陷与陷阱.md
+    - C专家编程: 计算机基础/C/C专家编程.md
+    - C语言重点总结: 计算机基础/C/C语言重点总结.md
+  - C++语言:
+    - C++Prime: 计算机基础/C++/C++Prime.md
+    - EffectiveC++: 计算机基础/C++/EffectiveC++.md
+    - MoreEffectiveC++: 计算机基础/C++/MoreEffectiveC++.md
+    - EffectiveModernC++: 计算机基础/C++/EffectiveModernC++.md
+    - EffectiveSTL: 计算机基础/C++/EffectiveSTL.md
+    - 程序员的自我修养: 计算机基础/C++/程序员的自我修养.md
+    - 深度探索C++对象模型: 计算机基础/C++/深度探索C++对象模型.md
+    - 现代C++语言核心特性解析: 计算机基础/C++/现代C++语言核心特性解析.md
+    - STL源码剖析: 计算机基础/C++/STL源码剖析.md
+    - C++性能优化指南: 计算机基础/C++/C++性能优化指南.md
     - C++标准库: 计算机基础/C++/C++标准库.md
-    - C++框架与包管理: 计算机基础/C++/框架.md
+    - Boost库: 计算机基础/C++/Boost库.md
+    - QT框架: 计算机基础/C++/QT框架.md
+    - C++工具: 计算机基础/C++/C++工具.md
   - 算法:
-    - 大话数据结构:  计算机基础/算法/数据结构.md
-    - 算法: 计算机基础/算法/基础算法.md
-    - 算法补充:  计算机基础/算法/补充算法.md
+    - 大话数据结构: 计算机基础/算法/大话数据结构.md
+    - 算法设计与分析: 计算机基础/算法/算法设计与分析.md
+    - 数值分析: 计算机基础/算法/数值分析.md
+    - 最优化算法: 计算机基础/算法/最优化算法.md
+    - 算法第四版: 计算机基础/算法/算法第四版.md
+    - 算法导论: 计算机基础/算法/算法导论.md
+    - 算法补充: 计算机基础/算法/算法补充.md
     - 代码随想录: 计算机基础/算法/代码随想录.md
-    - 剑指offer: 计算机基础/算法/剑指offer.md
-    - 编程珠玑与其续: 计算机基础/算法/编程珠玑.md
+    - 剑指Offer: 计算机基础/算法/剑指Offer.md
+    - 编程珠玑: 计算机基础/算法/编程珠玑.md
+    - 编程珠玑续: 计算机基础/算法/编程珠玑续.md
     - 编程之美: 计算机基础/算法/编程之美.md
-    - 程序员面试金典:  计算机基础/算法/程序员面试.md
-    - 力扣题解:  计算机基础/算法/力扣题解.md
-  - 计算机系统:
-    - 深入理解计算机系统: 计算机基础/计算机系统/CSAPP.md
-    - 编码: 计算机基础/计算机系统/编码.md
-    - 计算机组成与设计: 计算机基础/计算机系统/IO.md
-    - 汇编语言(王爽): 计算机基础/计算机系统/8086.md
-  - 操作系统: 
+    - 程序员面试金典: 计算机基础/算法/程序员面试金典.md
+    - 力扣题解: 计算机基础/算法/力扣题解.md
+  - 计算机系统与组成:
+    - 汇编语言(王爽): 计算机基础/计算机系统与组成/汇编语言(王爽).md
+    - 编码: 计算机基础/计算机系统与组成/编码.md
+    - 深入理解计算机系统: 计算机基础/计算机系统与组成/深入理解计算机系统.md
+    - 计算机组成与设计: 计算机基础/计算机系统与组成/计算机组成与设计.md
+  - 操作系统:
     - 操作系统导论: 计算机基础/操作系统/操作系统导论.md
-    - linux内核设计与实现: 计算机基础/操作系统/linux内核设计与实现.md
-    - 深入理解linux内核: 计算机基础/操作系统/深入理解linux内核.md
+    - Linux内核设计与实现: 计算机基础/操作系统/Linux内核设计与实现.md
+    - 深入理解Linux内核: 计算机基础/操作系统/深入理解Linux内核.md
 
   - 并发编程:
-    - C++并发编程: 进阶/并发/C++并发编程.md
-  - 软件工程_代码与技术:
-    - 软件分析:  进阶/软件工程/软件分析.md
-    - 大话设计模式:  进阶/软件工程/设计模式.md
-    - head first面向对象分析与设计:  进阶/软件工程/面向对象.md
-    - clean code:  进阶/软件工程/clean code.md
-    - 设计模式 可复用面向对象软件的基础: 进阶/软件工程/black设计模式.md
-    - 重构 改善既有代码的设计:  进阶/软件工程/重构.md
-    - 单元测试的艺术:  进阶/软件工程/单元测试.md
-    - 代码大全2: 进阶/软件工程/code2.md
-    - UNIX编程艺术: 进阶/软件工程/unix艺术.md
-    - 系统设计: 进阶/软件工程/系统设计.md
-    - 架构整洁之道:  进阶/软件工程/架构整洁之道.md
-  - 软件工程_管理:
-    - 人件:  进阶/软件工程/人件.md
-    - 人月神话:  进阶/软件工程/人月.md
-    - 软件工程: 进阶/软件工程/软件工程.md
-    - 敏捷软件开发:原则、模式与实践: 进阶/软件工程/敏捷.md
-    - 程序员整洁之道:  进阶/软件工程/clean coder.md
-    - 程序员修炼之道:  进阶/软件工程/程序员修炼之道.md
+    - C++并发编程: 深入方向/并发编程/C++并发编程.md
+  - 体系结构:
+    - 计算机体系结构: 深入方向/体系结构/计算机体系结构.md
+  - 代码风格与编程技术:
+    - 软件分析: 深入方向/代码风格与编程技术/软件分析.md
+    - 大话设计模式: 深入方向/代码风格与编程技术/大话设计模式.md
+    - HeadFirst面向对象分析与设计: 深入方向/代码风格与编程技术/HeadFirst面向对象分析与设计.md
+    - CleanCode: 深入方向/代码风格与编程技术/CleanCode.md
+    - 设计模式: 深入方向/代码风格与编程技术/设计模式.md
+    - 重构: 深入方向/代码风格与编程技术/重构.md
+    - 单元测试的艺术: 深入方向/代码风格与编程技术/单元测试的艺术.md
+    - 代码大全2: 深入方向/代码风格与编程技术/代码大全2.md
+    - UNIX编程艺术: 深入方向/代码风格与编程技术/UNIX编程艺术.md
+    - 系统设计: 深入方向/代码风格与编程技术/系统设计.md
+    - 架构整洁之道: 深入方向/代码风格与编程技术/架构整洁之道.md
+  - 软件工程:
+    - 人件: 深入方向/软件工程/人件.md
+    - 人月神话: 深入方向/软件工程/人月神话.md
+    - 软件工程: 深入方向/软件工程/软件工程.md
+    - 敏捷软件开发: 深入方向/软件工程/敏捷软件开发.md
+    - 程序员整洁之道: 深入方向/软件工程/程序员整洁之道.md
+    - 程序员修炼之道: 深入方向/软件工程/程序员修炼之道.md
   - 计算机网络:
-    - 自顶向下方法: 进阶/计算机网络/自顶向下方法.md
-    - TCP/IP详解: 进阶/计算机网络/TCPIP.md
-    - 图解http: 进阶/计算机网络/图解http.md
+    - 自顶向下方法: 深入方向/计算机网络/自顶向下方法.md
+    - TCPIP详解: 深入方向/计算机网络/TCPIP详解.md
+    - 图解HTTP: 深入方向/计算机网络/图解HTTP.md
   - 数据库:
-    - 数据库系统概念: 进阶/数据库/数据库系统概念.md
-    - SQL必知必会: 进阶/数据库/SQL必知必会.md
-    - MySQL必知必会: 进阶/数据库/Mysql必知必会.md
-    - mysql技术内幕: 进阶/数据库/mysql技术内幕.md
-    - 高性能mysql: 进阶/数据库/高性能mysql.md
-    - redis实战: 进阶/数据库/redis实战.md
-    - redis设计与实现: 进阶/数据库/redis设计与实现.md
-  - UNIX&Linux系统与网络编程:
-    - UNIX环境高级编程: 进阶/UNIX&Linux系统与网络编程/UNIX环境高级编程.md
-    - UNIX网络编程: 进阶/UNIX&Linux系统与网络编程/UNIX网络编程.md
-    - Linux高性能服务器编程: 进阶/UNIX&Linux系统与网络编程/Linux高性能服务器编程.md
-    - Linux多线程服务端编程: 进阶/UNIX&Linux系统与网络编程/Linux多线程服务端编程.md
+    - 数据库系统概念: 深入方向/数据库/数据库系统概念.md
+    - SQL必知必会: 深入方向/数据库/SQL必知必会.md
+    - MySQL必知必会: 深入方向/数据库/MySQL必知必会.md
+    - MySQL技术内幕: 深入方向/数据库/MySQL技术内幕.md
+    - 高性能MySQL: 深入方向/数据库/高性能MySQL.md
+    - Redis实战: 深入方向/数据库/Redis实战.md
+    - Redis设计与实现: 深入方向/数据库/Redis设计与实现.md
+  - UNIX系统与网络编程:
+    - UNIX环境高级编程: 深入方向/UNIX系统与网络编程/UNIX环境高级编程.md
+    - UNIX网络编程: 深入方向/UNIX系统与网络编程/UNIX网络编程.md
+    - Linux高性能服务器编程: 深入方向/UNIX系统与网络编程/Linux高性能服务器编程.md
+    - Linux多线程服务端编程: 深入方向/UNIX系统与网络编程/Linux多线程服务端编程.md
   - 通识编程语言:
-    - rust程序设计: 进阶/rust/rust.md
-    - golang: 进阶/golang/golang.md
-    - Haskell: 进阶/Haskell/Haskell.md
-    - Lua: 进阶/lua/lua.md
-    - Zig: 进阶/Zig/Zig.md 
-    - Nim: 进阶/Nim/Nim.md
+    - Rust程序设计: 深入方向/Rust/Rust.md
+    - Go: 深入方向/Go/Go.md
+    - Haskell: 深入方向/Haskell/Haskell.md
+    - Lua: 深入方向/Lua/Lua.md
+    - Zig: 深入方向/Zig/Zig.md
   - 分布式:
-    - 分布式系统: 进阶/分布式/分布式系统.md
-    - 数据密集型应用系统设计: 进阶/分布式/数据密集型应用系统设计.md
-    - 微服务: 进阶/分布式/微服务.md
+    - 分布式系统: 深入方向/分布式/分布式系统.md
+    - 数据密集型应用系统设计: 深入方向/分布式/数据密集型应用系统设计.md
   - Python:
-    - Python编程 从入门到实践: 进阶/python/Python.md
-    - 流畅的python: 进阶/python/流畅的python.md
-    - 后端开发基本框架: 进阶/python/后端开发基本框架.md
-    - 数据处理与计算框架: 进阶/python/数据处理与计算框架.md
-
-
-
-  
-
+    - Python编程: 深入方向/Python/Python编程.md
+    - 流畅的Python: 深入方向/Python/流畅的Python.md
+    - Python后端开发基本框架: 深入方向/Python/Python后端开发基本框架.md
+    - Python数据处理与计算框架: 深入方向/Python/Python数据处理与计算框架.md
 
 site_name: 海星笔记
 theme:
-  icon:
-    repo: fontawesome/brands/git-alt
   name: material
   palette:
     scheme: slate
     primary: deep purple
+  languge: zh
+  icon:
+    repo: fontawesome/brands/git-alt
   font:
-    code: Roboto Mono
+    code: JetBrains Mono
+    text: JetBrains Mono
   features:
-    - navigation.tabs
-    - header.autohide
+    - navigation.tabs # 平铺导航栏
+    - navigation.tabs.sticky # 导航栏固定
+    - header.autohide # 自动隐藏标题栏
+    - navigation.footer # 页脚
+    - navigation.instant # 即时加载, 本网站 url 变化时自动加载
+    - navigation.tracking # 导航栏追踪锚点
+    - navigation.path # 显示路径
+    - search.suggest # 搜索建议
+    - search.highlight # 搜索结果高亮
+    - content.code.copy # 代码块复制
+
+plugins:
+  - search
+
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/hxaxd/hxlog
+      link: https://github.com/hxaxd/
+
 repo_url: https://github.com/hxaxd/hxlog
 repo_name: 海星笔记
+
+markdown_extensions:
+  - pymdownx.arithmatex: # 数学
+      generic: true
+  - pymdownx.highlight: # 高亮依赖
+      anchor_linenums: true
+  - pymdownx.superfences # 高亮
+  - pymdownx.inlinehilite # 高亮增强
+  - admonition # 提示框
+  - pymdownx.details # 可折叠提示框
+  - pymdownx.superfences # 提示框增强
+
+extra_javascript:
+  - javascripts/katex.js
+  - https://unpkg.com/katex@0/dist/katex.min.js
+  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+
+extra_css:
+  - https://unpkg.com/katex@0/dist/katex.min.css

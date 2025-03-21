@@ -36,6 +36,8 @@ User.model_dump_json() # 转换为 json
     * 数据验证
     * 自动生成交互式文档(可以自定义任何基于 OpenAPI 的文档)
 * 可使用 `async` 与 `await` 实现异步
+* 可以定义元数据, 提供给文档
+* 集成 HTTPX 库进行测试
 
 ```python
 from fastapi import FastAPI
@@ -129,6 +131,10 @@ async def create_item(item: Item): # 请求体
     return item
 ```
 
+#### 更新
+
+* 可以单独定义需要更新的部分的模型, 这样就不会覆盖所有字段
+
 ### 响应
 
 * `jsonable_encoder` 可以将任意类型转换为 JSON 格式兼容
@@ -136,6 +142,202 @@ async def create_item(item: Item): # 请求体
 ```python
 @app.post("/user/", response_model=UserOut) # 用装饰器声明响应模型
 @app.post("/items/", status_code=201) # 声明状态码
+```
+
+#### 后台任务
+
+* 可以使用 `BackgroundTasks` 对象来声明后台任务
+    * 后台任务会在响应函数返回后执行
+
+```python
+from fastapi import BackgroundTasks, FastAPI
+
+app = FastAPI()
+
+
+def write_notification(email: str, message=""): # 后台任务
+    with open("log.txt", mode="w") as email_file:
+        content = f"notification for {email}: {message}"
+        email_file.write(content)
+
+
+@app.post("/send-notification/{email}")
+async def send_notification(email: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(write_notification, email, message="some notification") # 进行后台任务
+    return {"message": "Notification sent in the background"}
+```
+
+#### 静态文件
+
+* 事实建立独立的 app 来处理静态文件请求
+
+```python
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
+app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static") # 挂载静态文件
+# 指定路径, 实例, 名称
+```
+
+### 依赖注入
+
+* 可以使用 `Depends` 对象来声明依赖
+    * 依赖可以是任何可调用对象, 包括函数, 类, 协程函数
+* 可以嵌套依赖, 菱形依赖自动处理
+* 路径装饰器也可以声明依赖, 依赖会被调用 (比如用来判断请求头), 但依赖的值不会被传递给响应函数
+    * 相应的 `app` 实例也可以声明依赖, 相当于为所有路由声明依赖
+
+```python
+async def get_db(): # 这么声明的依赖会停在 yield 处, 并将 db 传递给响应函数
+    db = DBSession()
+    try:
+        yield db
+    finally: # 直到响应函数返回后, 才会执行 finally 块
+        db.close()
+```
+
+```python
+from typing import Union
+
+from fastapi import Depends, FastAPI
+
+app = FastAPI()
+
+
+async def common_parameters(
+    q: Union[str, None] = None, skip: int = 0, limit: int = 100
+):
+    return {"q": q, "skip": skip, "limit": limit}
+
+
+@app.get("/items/")
+async def read_items(commons: dict = Depends(common_parameters)):
+    return commons
+
+
+@app.get("/users/")
+async def read_users(commons: dict = Depends(common_parameters)):
+    return commons
+```
+
+### 中间件
+
+* 自己的装饰器
+
+```python
+import time
+
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.perf_counter()
+    response = await call_next(request)
+    process_time = time.perf_counter() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
+```
+
+### 安全
+
+* 可以使用 `CORSMiddleware` 来添加 CORS 支持 (指定允许的域名, 方法等)
+* 基于 OAuth2 规范实现安全认证
+* fastapi 会接收账号密码, 验证后返回 token
+    * 前端保存 token, 每次请求时在请求头添加 Authorization : "Bearer+token"
+    * 后端验证 token, 并返回用户信息
+* 使用 passlib 库来哈希密码
+* 使用 pyJWT 库来生成 JWT 令牌
+
+```python
+from typing import Union
+
+from fastapi import Depends, FastAPI
+from fastapi.security import OAuth2PasswordBearer
+from pydantic import BaseModel
+
+app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") # 验证器
+
+
+class User(BaseModel): # 声明用户模型
+    username: str
+    email: Union[str, None] = None
+    full_name: Union[str, None] = None
+    disabled: Union[bool, None] = None
+
+
+def fake_decode_token(token): # 返回用户
+    return User(
+        username=token + "fakedecoded", email="john@example.com", full_name="John Doe"
+    )
+
+
+async def get_current_user(token: str = Depends(oauth2_scheme)): # 验证函数, 依赖于验证器
+    user = fake_decode_token(token)
+    return user
+
+
+@app.get("/users/me")
+async def read_users_me(current_user: User = Depends(get_current_user)): # 依赖于验证函数
+    return current_user
+```
+
+```python
+@app.post("/token")
+async def login(form_data: OAuth2PasswordRequestForm = Depends()): # 登陆函数, 表单依赖于 OAuth2PasswordRequestForm
+    # 注意, 表单模型不能自定义, 是 OAuth2 规范约定的模型
+    user_dict = fake_users_db.get(form_data.username)
+    if not user_dict:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+    user = UserInDB(**user_dict)
+    hashed_password = fake_hash_password(form_data.password) # 哈希密码, 一般使用 passlib 库
+    if not hashed_password == user.hashed_password:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+
+    return {"access_token": user.username, "token_type": "bearer"}
+```
+
+
+### 架构
+
+* 可以使用 `APIRouter` 来声明本文件的路由组 (app 的分身)
+    * `router = APIRouter()`
+    * `@router.get("/")`
+* app 用 `include_router` 来包含路由组
+* 可以使用 `prefix` 和 `tags` 来声明路由组的前缀和标签
+    * `router = APIRouter(prefix="/users", tags=["users"])`
+    * 亦可 `app.include_router(router, prefix="/admin", tags=["admin"])`
+
+```python
+from fastapi import Depends, FastAPI
+
+from .dependencies import get_query_token, get_token_header
+from .internal import admin
+from .routers import items, users
+
+app = FastAPI(dependencies=[Depends(get_query_token)])
+
+
+app.include_router(users.router)
+app.include_router(items.router)
+app.include_router(
+    admin.router,
+    prefix="/admin",
+    tags=["admin"],
+    dependencies=[Depends(get_token_header)],
+    responses={418: {"description": "I'm a teapot"}},
+)
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello Bigger Applications!"}
 ```
 
 ## mysql-connector-python

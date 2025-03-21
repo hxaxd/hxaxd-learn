@@ -3,3 +3,5 @@
 - matplotlib
 - seaborn
 - jupyter
+- scipy
+- sympy

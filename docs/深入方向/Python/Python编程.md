@@ -33,6 +33,22 @@ alias pip="/opt/homebrew/bin/pip3"
 * Python 原生的虚拟环境 venv 足够使用, 但第三方的虚拟环境工具要更加易用, 如 conda
 * PyCharm 支持虚拟环境的图形化管理
 
+```shell
+conda create -n 环境名 python=版本号 # 创建虚拟环境
+conda activate 环境名 # 激活虚拟环境
+conda deactivate # 退出虚拟环境
+
+
+conda env list # 查看虚拟环境列表
+conda env remove -n 环境名 # 删除虚拟环境
+
+
+conda install 包名 # 安装包
+conda remove 包名 # 删除包
+conda update 包名 # 更新包
+conda list # 查看已安装的包
+```
+
 ## 起步
 
 介绍主流系统中 python 的安装与在终端和 VSCode 中运行代码

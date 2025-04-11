@@ -1,2 +1,2 @@
-- Pickle
-- SQLite
+* Pickle
+* SQLite

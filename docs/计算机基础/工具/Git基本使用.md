@@ -73,10 +73,52 @@ git config --global credential.helper osxkeychain
 * `git push origin --delete serverfix` 删除远程分支
 * `git rebase master serverfix` 合并分支 (变基)
 
+### 标签
+
+* `git tag name` 打标签, 默认为 HEAD, 也可以指定提交
+* HEAD 指向当前分支的最新提交
+* `git tag -a name -m "message"` 打标签并添加注释
+* `git tag -d name` 删除标签
+* `git push origin name` 推送标签
+* `git push origin --tags` 推送所有标签
+* 标签常用于标记重要的版本
+
+### 模块
+
+* `git submodule add <url> <path>` 添加子模块
+* `git submodule init` 初始化子模块
+* `git submodule update` 更新子模块
+* `git submodule foreach git pull origin master` 更新所有子模块
+* `git submodule status` 查看子模块状态
+* `git submodule foreach git checkout master` 切换所有子模块到 master 分支
+* `git submodule foreach git pull origin master` 拉取所有子模块
+* `git submodule foreach git push origin master` 推送所有子模块
+
 ## GitHub
 
 * 交友网站
 
-## GitLab
+### GitHub Actions
+
+* 自动化 CI/CD
+
+```yaml
+name: CI/CD
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+```
+
+## GitLab / Gitea
 
 * 私有化部署

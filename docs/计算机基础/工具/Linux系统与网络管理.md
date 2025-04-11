@@ -14,6 +14,9 @@ ifconfig # 传统的网络配置工具,用来显示和设置网络接口的参�
 dig # 查询DNS
 
 rsync -av 源 obj # 同步
+
+iptables # 防火墙
+# 规则链
 ```
 
 ## 账号

@@ -30,13 +30,15 @@ alias pip="/opt/homebrew/bin/pip3"
 ### IDE 与虚拟环境
 
 * IDE 推荐使用 PyCharm 教育免费
-* Python 原生的虚拟环境 venv 足够使用, 但第三方的虚拟环境工具要更加易用, 如 conda
+* Python 原生的虚拟环境 venv 足够使用 (不可随意更换 py 版本), 但第三方的虚拟环境工具要更加易用, 如 conda, uv
 * PyCharm 支持虚拟环境的图形化管理
+
+#### conda
 
 ```shell
 conda create -n 环境名 python=版本号 # 创建虚拟环境
-conda activate 环境名 # 激活虚拟环境
-conda deactivate # 退出虚拟环境
+activate 环境名 # 激活虚拟环境
+deactivate # 退出虚拟环境
 
 
 conda env list # 查看虚拟环境列表
@@ -47,6 +49,32 @@ conda install 包名 # 安装包
 conda remove 包名 # 删除包
 conda update 包名 # 更新包
 conda list # 查看已安装的包
+```
+
+#### uv
+
+```shell
+pip install uv # 安装 uv 工具
+
+uv python list # 查看已安装的 python 版本
+uv python install 版本号 # 安装 python 版本
+
+uv python pin 3.13 # 设置默认 python 版本为 3.13
+uv init # 初始化 uv 环境
+
+uv add 包名 # 安装包
+uv remove 包名 # 删除包
+uv update 包名 # 更新包
+uv tree # 查看已安装的包
+
+uv tool list # 查看已安装的工具
+uv tool install 工具名 # 安装工具
+uv tool uninstall 工具名 # 删除工具
+
+uv tool run 工具名 # 运行工具
+uv tool run ruff # 检查代码
+
+uv pip install 包名 # 安装包
 ```
 
 ## 起步

@@ -2,15 +2,15 @@
 
 ## 参考资料
 
-* [ssh](https://blog.csdn.net/m0_51720581/article/details/131796669) - csdn - 4
+- [ssh](https://blog.csdn.net/m0_51720581/article/details/131796669) - csdn - 4
 
 ## 概念
 
-* ssh 是一种协议, 最常用的实现是 openssh, 内置在大部分 Linux 系统下, 现在的 Windows 也可以选择添加了
-* `~/.ssh` 存放 SSH 客户端相关配置和密钥文件
-* 生成 `authorized_keys` 文件用于存放相关的主机和密钥信息
-* `sshd_config` (server 配置文件)
-* `ssh_config` (client 配置文件)
+- ssh 是一种协议, 最常用的实现是 openssh, 内置在大部分 Linux 系统下, 现在的 Windows 也可以选择添加了
+- `~/.ssh` 存放 SSH 客户端相关配置和密钥文件
+- 生成 `authorized_keys` 文件用于存放相关的主机和密钥信息
+- `sshd_config` (server 配置文件)
+- `ssh_config` (client 配置文件)
 
 ```shell
 # 连接
@@ -34,8 +34,8 @@ scp remote_username@remote_ip:/path/source_file /path/target_file
 scp -P　23 /path/local_file remote_username@remote_ip:/path/target_file
 ```
 
-* 更推荐使用 `VSCode` 的 `remote-ssh` 插件
-* 依照[官方文档](https://VSCode.github.net.cn/docs/remote/ssh), 可以非常简单的使用本地的 VSCode 环境 (包含插件), 编辑远程的文件
+- 更推荐使用 `VSCode` 的 `remote-ssh` 插件
+- 依照[官方文档](https://VSCode.github.net.cn/docs/remote/ssh), 可以非常简单的使用本地的 VSCode 环境 (包含插件), 编辑远程的文件
 
 ## 免密码登陆
 

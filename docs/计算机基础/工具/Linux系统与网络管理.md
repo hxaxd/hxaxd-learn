@@ -1,6 +1,6 @@
 # Linux 进阶
 
-* [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md) - 指导向 - 4
+- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md) - 指导向 - 4
 
 ## 网络
 
@@ -36,7 +36,7 @@ w # 看登陆
 pgrep -f name # 查询进程
 pkill -f name # 发送 sign 可以用名字是优势
 
-du # 当前目录硬盘占用 -h 人类可读 -s * 符合后面通配的文件的占用
+du # 当前目录硬盘占用 -h 人类可读 -s - 符合后面通配的文件的占用
 df # 整个系统的情况 -i 看inode使用情况
 free # 看内存情况
 

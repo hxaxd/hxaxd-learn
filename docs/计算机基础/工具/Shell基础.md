@@ -2,13 +2,13 @@
 
 ## 参考资料
 
-* [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md) - 指导向 - 4
+- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md) - 指导向 - 4
 
 ## 帮助
 
-* 面对一个 command, 你首先要知道它是可执行文件 shell 内置命令还是别名 `type command`
+- 面对一个 command, 你首先要知道它是可执行文件 shell 内置命令还是别名 `type command`
 
-* 用 man 来查询帮助, 不是所有 shell 都提供 info/help, 用 apropos 去查找文档
+- 用 man 来查询帮助, 不是所有 shell 都提供 info/help, 用 apropos 去查找文档
 
 ```text
 man 的代号
@@ -25,10 +25,10 @@ man 的代号
 
 ### 开关机
 
-* `sync` 数据写入磁盘
-* `shutddown [时间] [消息]` 警告关机
-* `reboot` 重启
-* `poweroff` 关机
+- `sync` 数据写入磁盘
+- `shutddown [时间] [消息]` 警告关机
+- `reboot` 重启
+- `poweroff` 关机
 
 ### 命令
 

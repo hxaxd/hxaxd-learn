@@ -2,16 +2,16 @@
 
 ## 参考资料
 
-* 官方文档 - ... - 5
+- 官方文档 - ... - 5
 
 ## Pydantic
 
-* 定义模型, 以供类型检查
-* 模型还具有许多高级特性, 例如:
-    * 模板
-    * 动态创建
-    * const
-    * 默认值
+- 定义模型, 以供类型检查
+- 模型还具有许多高级特性, 例如:
+    - 模板
+    - 动态创建
+    - const
+    - 默认值
 
 ```python
 from pydantic import BaseModel
@@ -32,12 +32,12 @@ User.model_dump_json() # 转换为 json
 
 ## FastAPI
 
-* 依赖 OpenAPI 与 Pydantic 库实现
-    * 数据验证
-    * 自动生成交互式文档(可以自定义任何基于 OpenAPI 的文档)
-* 可使用 `async` 与 `await` 实现异步
-* 可以定义元数据, 提供给文档
-* 集成 HTTPX 库进行测试
+- 依赖 OpenAPI 与 Pydantic 库实现
+    - 数据验证
+    - 自动生成交互式文档(可以自定义任何基于 OpenAPI 的文档)
+- 可使用 `async` 与 `await` 实现异步
+- 可以定义元数据, 提供给文档
+- 集成 HTTPX 库进行测试
 
 ```python
 from fastapi import FastAPI
@@ -49,17 +49,17 @@ async def root(): # 异步函数
     return {"message": "Hello World"} # 返回 json
 ```
 
-* 一个 url `协议://主机:端口/路径` 路径亦称为端点 / 路由
-* 使用 HTTP 方法来区分不同的操作
-    * GET - 查询
-    * POST - 创建
-    * PUT - 更新
-    * DELETE - 删除
+- 一个 url `协议://主机:端口/路径` 路径亦称为端点 / 路由
+- 使用 HTTP 方法来区分不同的操作
+    - GET - 查询
+    - POST - 创建
+    - PUT - 更新
+    - DELETE - 删除
 
 ### 路径参数
 
-* 对于路径参数函数的类型重载, 注意声明顺序决定检查顺序
-* 可以使用 `Path` 对象来声明路径参数类型, 默认值等
+- 对于路径参数函数的类型重载, 注意声明顺序决定检查顺序
+- 可以使用 `Path` 对象来声明路径参数类型, 默认值等
 
 ```python
 @app.get("/items/{id}") # 路径参数
@@ -76,13 +76,13 @@ class ModelName(str, Enum): # 继承 str 的原因是为了兼容生成文档
 
 ### 查询参数
 
-* 形如 `/items/?skip=0&limit=10`
-    * `/items/` 会使用默认值
-    * 可使用 `None` 类型表示可选参数
-    * 也可以是 `bool` 类型, 会自动转换为 `True` 和 `False`
-* 这回不依赖声明顺序了, 检查查询参数来决定使用哪个函数
-* 可以使用 `Query` 对象来声明查询参数类型, 默认值等
-* `Annotated[FilterParams, Query()]` 用一个模型声明查询参数类型
+- 形如 `/items/?skip=0&limit=10`
+    - `/items/` 会使用默认值
+    - 可使用 `None` 类型表示可选参数
+    - 也可以是 `bool` 类型, 会自动转换为 `True` 和 `False`
+- 这回不依赖声明顺序了, 检查查询参数来决定使用哪个函数
+- 可以使用 `Query` 对象来声明查询参数类型, 默认值等
+- `Annotated[FilterParams, Query()]` 用一个模型声明查询参数类型
 
 ```python
 from fastapi import FastAPI
@@ -99,16 +99,16 @@ async def read_item(skip: int = 0, limit: int = 10): # 没同名, 代表查询�
 
 ### 请求体
 
-* 直接实现类型检查 + JSON
-* 和上面的可以叠加
-* 也可以用多个单独的参数来实现
-* `Annotated[class, Cookie()]` 声明 Cookie 参数
-    * Header / Cookie / Query / Path 同理
-* 请求体不是 JSON 格式的, 而是表单格式的
-    * 使用 `Form` 对象来声明表单参数
-    * `Annotated[class, From()]` 亦可
-    * 也可以使用 `File` 对象来声明文件参数
-    * 也可以使用 `UploadFile` 对象来声明文件参数类型
+- 直接实现类型检查 + JSON
+- 和上面的可以叠加
+- 也可以用多个单独的参数来实现
+- `Annotated[class, Cookie()]` 声明 Cookie 参数
+    - Header / Cookie / Query / Path 同理
+- 请求体不是 JSON 格式的, 而是表单格式的
+    - 使用 `Form` 对象来声明表单参数
+    - `Annotated[class, From()]` 亦可
+    - 也可以使用 `File` 对象来声明文件参数
+    - 也可以使用 `UploadFile` 对象来声明文件参数类型
 
 ```python
 from fastapi import FastAPI
@@ -133,11 +133,11 @@ async def create_item(item: Item): # 请求体
 
 #### 更新
 
-* 可以单独定义需要更新的部分的模型, 这样就不会覆盖所有字段
+- 可以单独定义需要更新的部分的模型, 这样就不会覆盖所有字段
 
 ### 响应
 
-* `jsonable_encoder` 可以将任意类型转换为 JSON 格式兼容
+- `jsonable_encoder` 可以将任意类型转换为 JSON 格式兼容
 
 ```python
 @app.post("/user/", response_model=UserOut) # 用装饰器声明响应模型
@@ -146,8 +146,8 @@ async def create_item(item: Item): # 请求体
 
 #### 后台任务
 
-* 可以使用 `BackgroundTasks` 对象来声明后台任务
-    * 后台任务会在响应函数返回后执行
+- 可以使用 `BackgroundTasks` 对象来声明后台任务
+    - 后台任务会在响应函数返回后执行
 
 ```python
 from fastapi import BackgroundTasks, FastAPI
@@ -169,7 +169,7 @@ async def send_notification(email: str, background_tasks: BackgroundTasks):
 
 #### 静态文件
 
-* 事实建立独立的 app 来处理静态文件请求
+- 事实建立独立的 app 来处理静态文件请求
 
 ```python
 from fastapi import FastAPI
@@ -183,11 +183,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static") # 挂载静
 
 ### 依赖注入
 
-* 可以使用 `Depends` 对象来声明依赖
-    * 依赖可以是任何可调用对象, 包括函数, 类, 协程函数
-* 可以嵌套依赖, 菱形依赖自动处理
-* 路径装饰器也可以声明依赖, 依赖会被调用 (比如用来判断请求头), 但依赖的值不会被传递给响应函数
-    * 相应的 `app` 实例也可以声明依赖, 相当于为所有路由声明依赖
+- 可以使用 `Depends` 对象来声明依赖
+    - 依赖可以是任何可调用对象, 包括函数, 类, 协程函数
+- 可以嵌套依赖, 菱形依赖自动处理
+- 路径装饰器也可以声明依赖, 依赖会被调用 (比如用来判断请求头), 但依赖的值不会被传递给响应函数
+    - 相应的 `app` 实例也可以声明依赖, 相当于为所有路由声明依赖
 
 ```python
 async def get_db(): # 这么声明的依赖会停在 yield 处, 并将 db 传递给响应函数
@@ -224,7 +224,7 @@ async def read_users(commons: dict = Depends(common_parameters)):
 
 ### 中间件
 
-* 自己的装饰器
+- 自己的装饰器
 
 ```python
 import time
@@ -245,13 +245,13 @@ async def add_process_time_header(request: Request, call_next):
 
 ### 安全
 
-* 可以使用 `CORSMiddleware` 来添加 CORS 支持 (指定允许的域名, 方法等)
-* 基于 OAuth2 规范实现安全认证
-* fastapi 会接收账号密码, 验证后返回 token
-    * 前端保存 token, 每次请求时在请求头添加 Authorization : "Bearer+token"
-    * 后端验证 token, 并返回用户信息
-* 使用 passlib 库来哈希密码
-* 使用 pyJWT 库来生成 JWT 令牌
+- 可以使用 `CORSMiddleware` 来添加 CORS 支持 (指定允许的域名, 方法等)
+- 基于 OAuth2 规范实现安全认证
+- fastapi 会接收账号密码, 验证后返回 token
+    - 前端保存 token, 每次请求时在请求头添加 Authorization : "Bearer+token"
+    - 后端验证 token, 并返回用户信息
+- 使用 passlib 库来哈希密码
+- 使用 pyJWT 库来生成 JWT 令牌
 
 ```python
 from typing import Union
@@ -306,13 +306,13 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()): # 登陆函�
 
 ### 架构
 
-* 可以使用 `APIRouter` 来声明本文件的路由组 (app 的分身)
-    * `router = APIRouter()`
-    * `@router.get("/")`
-* app 用 `include_router` 来包含路由组
-* 可以使用 `prefix` 和 `tags` 来声明路由组的前缀和标签
-    * `router = APIRouter(prefix="/users", tags=["users"])`
-    * 亦可 `app.include_router(router, prefix="/admin", tags=["admin"])`
+- 可以使用 `APIRouter` 来声明本文件的路由组 (app 的分身)
+    - `router = APIRouter()`
+    - `@router.get("/")`
+- app 用 `include_router` 来包含路由组
+- 可以使用 `prefix` 和 `tags` 来声明路由组的前缀和标签
+    - `router = APIRouter(prefix="/users", tags=["users"])`
+    - 亦可 `app.include_router(router, prefix="/admin", tags=["admin"])`
 
 ```python
 from fastapi import Depends, FastAPI
@@ -342,12 +342,12 @@ async def root():
 
 ## mysql-connector-python
 
-* 一个 mysql 数据库的 python 驱动程序
-* 几乎是 sql 语句的一对一实现
+- 一个 mysql 数据库的 python 驱动程序
+- 几乎是 sql 语句的一对一实现
 
 ## SQLAlchemy
 
-* 一个 ORM 框架, 在连接库上抽象了操作接口
+- 一个 ORM 框架, 在连接库上抽象了操作接口
 
 ### 连接
 
@@ -451,11 +451,11 @@ with Session(engine) as session: # 操作
 
 ### `relationship`
 
-* 可以定义延迟加载, 预加载, 级联删除等特性
-    * `cascade="all, delete-orphan"` 级联删除
-* 正常声明一对多
-    * `uselist=False` 表示单个对象而非列表
-    * 辅以外键约束, 实现其它关系
+- 可以定义延迟加载, 预加载, 级联删除等特性
+    - `cascade="all, delete-orphan"` 级联删除
+- 正常声明一对多
+    - `uselist=False` 表示单个对象而非列表
+    - 辅以外键约束, 实现其它关系
 
 ```python
 class Parent(Base):
@@ -470,7 +470,7 @@ class Child(Base):
     parent = relationship("Parent", back_populates="children")
 ```
 
-* 多对多关系需要使用关联模型定义 (中间表)
+- 多对多关系需要使用关联模型定义 (中间表)
 
 ```python
 class Enrollment(Base):
@@ -497,7 +497,7 @@ class Course(Base):
 
 ## Uvicorn
 
-* 基于 ASGI 协议的异步 web 服务器 (不同于 WSGI)
+- 基于 ASGI 协议的异步 web 服务器 (不同于 WSGI)
 
 ```shell
 uvicorn filename:objname # 启动服务器

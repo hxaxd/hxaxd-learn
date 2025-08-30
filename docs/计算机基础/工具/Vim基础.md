@@ -2,12 +2,12 @@
 
 ## 参考资料
 
-* [vim](https://gitlab.com/wsdjeg/vim-galore-zh_cn) - 够用 - 4
+- [vim](https://gitlab.com/wsdjeg/vim-galore-zh_cn) - 够用 - 4
 
 ## 基础
 
-* vim 是一种模式编辑 / 完全键盘 / 命令操作的编辑器, 熟练它可以非常快的编辑代码
-* 当然, 最主要的是在几乎所有 UNIX-like 系统当中都有 vi
+- vim 是一种模式编辑 / 完全键盘 / 命令操作的编辑器, 熟练它可以非常快的编辑代码
+- 当然, 最主要的是在几乎所有 UNIX-like 系统当中都有 vi
 
 ```text
 x/X 删除

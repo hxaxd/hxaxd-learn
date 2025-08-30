@@ -6,4 +6,4 @@
 
 如果你发现笔记中有错误, 或者任何其他问题, 欢迎提 issue 或联系我
 
-* 邮箱: <hxaxdcs@gmail.com>
+- 邮箱: <hxaxdcs@gmail.com>

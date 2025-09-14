@@ -91,3 +91,42 @@ firewall-cmd --permanent --add-port=80/tcp # 开放 80 端口
 firewall-cmd --permanent --remove-port=8080/tcp # 移除端口
 firewall-cmd --reload # 重启防火墙 ( 修改配置后要重启防火墙 )
 ```
+
+## 替代方案
+
+### Caddy
+
+- 与 Nginx 相比，Caddy 的最大优势在于其开箱即用的自动化特性，尤其是自动配置和管理 SSL 证书(通过 Let's Encrypt)
+- Caddy 采用单进程架构，通过内置的 Go runtime 实现高并发处理能力，无需手动配置 worker 进程
+
+#### 配置示例
+
+```caddy
+# 基本静态站点服务
+example.com {
+    root * /var/www/html
+    file_server
+}
+
+# 反向代理配置
+api.example.com {
+    reverse_proxy 127.0.0.1:8080
+}
+
+# 多个后端的负载均衡
+service.example.com {
+    reverse_proxy 192.168.1.10:8080 192.168.1.11:8080 {
+        lb_policy round_robin
+    }
+}
+```
+
+#### 常用命令
+
+```shell
+caddy run            # 启动 Caddy 服务器
+caddy stop           # 停止 Caddy 服务器
+caddy reload         # 重新加载配置文件
+caddy validate       # 验证配置文件的正确性
+caddy adapt --config Caddyfile --pretty # 将 Caddyfile 转换为 JSON 格式配置（用于高级配置）
+```

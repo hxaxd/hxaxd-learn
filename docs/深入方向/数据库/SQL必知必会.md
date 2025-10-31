@@ -22,13 +22,13 @@
 
 ```sql
 SELECT 列名 FROM 表名; -- 检索一列
-SELECT 列名1,列名2 FROM 表名; -- 检索多列
+SELECT 列名 1, 列名 2 FROM 表名; -- 检索多列
 SELECT * FROM 表名; -- 检索所有列
 
-SELECT DISTINCT 列名 FROM 表名; -- 检索不重复的列 (去重),修饰 SELECT 而非列名
+SELECT DISTINCT 列名 FROM 表名; -- 检索不重复的列 (去重), 修饰 SELECT 而非列名
 
 SELECT 列名 FROM 表名 LIMIT N OFFSET M; -- 返回第 M 行(从 0 开始数)起前 N 行
-SELECT 列名 FROM 表名 LIMIT M,N -- 等效
+SELECT 列名 FROM 表名 LIMIT M, N -- 等效
 ```
 
 ## 排序检索数据
@@ -36,27 +36,27 @@ SELECT 列名 FROM 表名 LIMIT M,N -- 等效
 - 字典序中 `A` 等于 `a` (MySQL 的默认情况), 可以修改
 
 ```sql
-SELECT 列名1 FROM 表名 ORDER BY 列名2,列名3 -- 检索结果按 列2 排序 (相同按 列3 ...)
-SELECT 列名1 FROM 表名 ORDER BY 2,3 -- 检索结果按第 2 列 (列存在顺序) 排序
+SELECT 列名 1 FROM 表名 ORDER BY 列名 2, 列名 3 -- 检索结果按 列 2 排序 (相同按 列 3 ...)
+SELECT 列名 1 FROM 表名 ORDER BY 2, 3 -- 检索结果按第 2 列 (列存在顺序) 排序
 
-SELECT 列名1 FROM 表名 ORDER BY 列名2 DESC,列名3 DESC -- 降序, 修饰列名而非 ORDER BY
+SELECT 列名 1 FROM 表名 ORDER BY 列名 2 DESC, 列名 3 DESC -- 降序, 修饰列名而非 ORDER BY
 ```
 
 ### 过滤数据 / 高级数据过滤
 
-- 使用 `AND`,`OR`,`NOT` 联结修饰真值
+- 使用 `AND`, `OR`, `NOT` 联结修饰真值
 - `AND` 的优先级高于 `OR`
 - 数值与 `NULL` 不存在`!=` 关系
 
 ```sql
-SELECT 列名1 FROM 表名 WHERE 真值表达式 ORDER BY 列名2,列名3 -- 应在 ORDER BY 前面
+SELECT 列名 1 FROM 表名 WHERE 真值表达式 ORDER BY 列名 2, 列名 3 -- 应在 ORDER BY 前面
 
 /*
 = != <> 等于 不等于 不等于
 < <= !< 小于 小于等于 不小于 大于一样
 BETWEEN low AND high 两数之间
 IS NULL 为 NULL
-IN (值1,...) 等于 () 内任何值 (可以是另一个子句)
+IN (值 1, ...) 等于 () 内任何值 (可以是另一个子句)
 */
 ```
 
@@ -70,7 +70,7 @@ IN (值1,...) 等于 () 内任何值 (可以是另一个子句)
     - 影响通配符的匹配
 
 ```sql
-SELECT 列名1 FROM 表名 WHERE 列名2 LIKE '通配符字符串'; -- LIKE 相当于 =
+SELECT 列名 1 FROM 表名 WHERE 列名 2 LIKE '通配符字符串'; -- LIKE 相当于 =
 ```
 
 ### 创建计算字段
@@ -78,10 +78,10 @@ SELECT 列名1 FROM 表名 WHERE 列名2 LIKE '通配符字符串'; -- LIKE 相�
 - 计算字段是表达式 / 函数的结果 (临时字段)
 
 ```sql
-SELECT Concat(列名1,列名2,'666') FROM 表名 -- MySQL 的函数
-SELECT 列名1*列名2 FROM 表名 -- 算术运算
+SELECT Concat(列名 1, 列名 2, '666') FROM 表名 -- MySQL 的函数
+SELECT 列名 1*列名 2 FROM 表名 -- 算术运算
 
-SELECT Concat(列名1,列名2,'666') AS 别名 FROM 表名 -- 便于客户端引用
+SELECT Concat(列名 1, 列名 2, '666') AS 别名 FROM 表名 -- 便于客户端引用
 ```
 
 ### 使用函数处理数据
@@ -115,17 +115,17 @@ SUM() -- 字面意思, 都会忽略 NULL
 
 ### 分组数据
 
-- `GROUP BY` 应在 `WHERE` 后面,`ORDER BY` 前面
+- `GROUP BY` 应在 `WHERE` 后面, `ORDER BY` 前面
 - `NULL` 值会被单独分组
 - `GROUP BY` 不可跟随聚集函数, 除此之外的 `SELECT` 列都需要出现在 `GROUP BY` 中
 - `HAVING` 几乎与 `WHERE` 相同, 但它过滤的对象是分组后的结果 (比如聚集函数)
 
 ```sql
-SELECT 列名1,列名2 FROM 表名 GROUP BY 列名1,列名2; -- 分组后, 列名1,列名2 相同的行被分为一组
+SELECT 列名 1, 列名 2 FROM 表名 GROUP BY 列名 1, 列名 2; -- 分组后, 列名 1, 列名 2 相同的行被分为一组
 
-SELECT 列名1,列名2 FROM 表名 GROUP BY 列名1 HAVING 真值表达式; -- 对分组后的结果过滤
+SELECT 列名 1, 列名 2 FROM 表名 GROUP BY 列名 1 HAVING 真值表达式; -- 对分组后的结果过滤
 
-SELECT 列名1,列名2 FROM 表名 GROUP BY 列名1 HAVING 真值表达式 ORDER BY 列名3,列名4; -- 对分组后的结果过滤并排序
+SELECT 列名 1, 列名 2 FROM 表名 GROUP BY 列名 1 HAVING 真值表达式 ORDER BY 列名 3, 列名 4; -- 对分组后的结果过滤并排序
 ```
 
 ### 使用子查询
@@ -134,9 +134,9 @@ SELECT 列名1,列名2 FROM 表名 GROUP BY 列名1 HAVING 真值表达式 ORDER
 - 子查询仅可返回一列
 
 ```sql
-SELECT 列名1 FROM 表名1 WHERE 列名2 IN (SELECT 列名3 FROM 表名2 WHERE 真值表达式); -- 子查询可以是任何仅返回一列的 SELECT 语句
+SELECT 列名 1 FROM 表名 1 WHERE 列名 2 IN (SELECT 列名 3 FROM 表名 2 WHERE 真值表达式); -- 子查询可以是任何仅返回一列的 SELECT 语句
 
-SELECT 列名1 (SELECT 计算字段 FROM 表名2 WHERE 外层查询结果参与的真值表达式) FROM 表名1; -- 要求子查询不可升维
+SELECT 列名 1 (SELECT 计算字段 FROM 表名 2 WHERE 外层查询结果参与的真值表达式) FROM 表名 1; -- 要求子查询不可升维
 ```
 
 - 完全限定列名 (表名.列名)
@@ -148,10 +148,10 @@ SELECT 列名1 (SELECT 计算字段 FROM 表名2 WHERE 外层查询结果参与�
     - SQL 会尝试所有可能的组合, 因此性能会很差
 
 ```sql
-SELECT 列名1,列名2 FROM 表名1,表名2 WHERE 真值表达式; -- 满足真值表达式的行被联结即等值联结(内联结)
--- 没WHERE会返回笛卡尔积
+SELECT 列名 1, 列名 2 FROM 表名 1, 表名 2 WHERE 真值表达式; -- 满足真值表达式的行被联结即等值联结(内联结)
+-- 没 WHERE 会返回笛卡尔积
 -- 亦可
-SELECT 列名1,列名2 FROM 表名1 INNER JOIN 表名2 ON 真值表达式; -- 内联结
+SELECT 列名 1, 列名 2 FROM 表名 1 INNER JOIN 表名 2 ON 真值表达式; -- 内联结
 ```
 
 ### 创建高级联结
@@ -163,7 +163,7 @@ SELECT 列名1,列名2 FROM 表名1 INNER JOIN 表名2 ON 真值表达式; -- �
 - 自联结往往比同类型的子查询更高效
 
 ```sql
-SELECT 列名1,列名2 FROM 表名1 AS 别名1,表名1 AS 别名2 WHERE 真值表达式; -- 自联结
+SELECT 列名 1, 列名 2 FROM 表名 1 AS 别名 1, 表名 1 AS 别名 2 WHERE 真值表达式; -- 自联结
 ```
 
 #### 自然联结
@@ -176,7 +176,7 @@ SELECT 列名1,列名2 FROM 表名1 AS 别名1,表名1 AS 别名2 WHERE 真值�
 - 外部联结返回内联结的结果与左表不满足联结条件的行
 
 ```sql
-SELECT 列名1,列名2 FROM 表名1 LEFT OUTER JOIN 表名2 ON 真值表达式; -- 左外部联结, 右 / 全外部联结不具有可移植性
+SELECT 列名 1, 列名 2 FROM 表名 1 LEFT OUTER JOIN 表名 2 ON 真值表达式; -- 左外部联结, 右 / 全外部联结不具有可移植性
 ```
 
 ### 组合查询
@@ -193,16 +193,16 @@ SELECT 列名1,列名2 FROM 表名1 LEFT OUTER JOIN 表名2 ON 真值表达式; 
 - 一次插入多行优于多条单行插入
 
 ```sql
-INSERT INTO 表名 VALUES(值1,值2,...); -- 按次序插入, 跳过应指明 NULL
+INSERT INTO 表名 VALUES(值 1, 值 2, ...); -- 按次序插入, 跳过应指明 NULL
 
-INSERT INTO 表名(列名1,列名2,...) VALUES(值1,值2,...); -- 更安全, 省略的列会被置为 NULL (若表定义, 为默认值)
+INSERT INTO 表名(列名 1, 列名 2, ...) VALUES(值 1, 值 2, ...); -- 更安全, 省略的列会被置为 NULL (若表定义, 为默认值)
 
-INSERT INTO 表名(列名1,列名2,...) VALUES(值1,值2,...),VALUES(值3,值4,...); -- 插入多行, MySQL 支持
+INSERT INTO 表名(列名 1, 列名 2, ...) VALUES(值 1, 值 2, ...), VALUES(值 3, 值 4, ...); -- 插入多行, MySQL 支持
 
-INSERT INTO 表名(列名1,列名2,...) SELECT 列名1,列名2,... FROM 表名2; -- 从 表2 中选择行插入 表1
+INSERT INTO 表名(列名 1, 列名 2, ...) SELECT 列名 1, 列名 2, ... FROM 表名 2; -- 从 表 2 中选择行插入 表 1
 -- 注意被插入表必须存在
 
-SELECT * INTO 表名1 FROM 表名2; -- 从 表2 中导出 表1 ,注意 表1 不存在
+SELECT * INTO 表名 1 FROM 表名 2; -- 从 表 2 中导出 表 1 , 注意 表 1 不存在
 ```
 
 ### 更新与删除数据
@@ -210,7 +210,7 @@ SELECT * INTO 表名1 FROM 表名2; -- 从 表2 中导出 表1 ,注意 表1 不�
 - `UPDATE IGNORE` 可以强制更新多行的 `UPDATE` 语句不保持原子性
 
 ```sql
-UPDATE 表名 SET 列名1=值1,列名2=值2,... WHERE 真值表达式; -- 更新列, 不指定 WHERE 则更新所有行 (小心!)
+UPDATE 表名 SET 列名 1=值 1, 列名 2=值 2, ... WHERE 真值表达式; -- 更新列, 不指定 WHERE 则更新所有行 (小心!)
 
 DELETE FROM 表名 WHERE 真值表达式; -- 删除行, 不指定 WHERE 则删除所有行 (小心!)
 -- 想删除某行某列, 则应 UPDATE 为 NULL
@@ -222,11 +222,11 @@ DELETE FROM 表名 WHERE 真值表达式; -- 删除行, 不指定 WHERE 则删�
 ### 创建和操纵表
 
 ```sql
-CREATE TABLE 表名(列名1 数据类型 NOT NULL,列名2 数据类型,...); -- 创建表, NOT NULL 表示不可为空 (默认为 NULL,可为空)
+CREATE TABLE 表名(列名 1 数据类型 NOT NULL, 列名 2 数据类型, ...); -- 创建表, NOT NULL 表示不可为空 (默认为 NULL, 可为空)
 
 列名 数据类型 NOT NULL DEFAULT 值; -- 指定默认值
 
-ALTER TABLE 表名 ADD 列名 数据类型; -- 添加列, ALTER TABLE还支持许多操作, 但强依赖环境, 不建议使用
+ALTER TABLE 表名 ADD 列名 数据类型; -- 添加列, ALTER TABLE 还支持许多操作, 但强依赖环境, 不建议使用
 
 RENAME TABLE 旧表名 TO 新表名; -- 重命名表
 
@@ -241,7 +241,7 @@ DROP TABLE 表名; -- 删除表
 - 视图会保存查询的顺序
 
 ```sql
-CREATE VIEW 视图名 AS SELECT 列名1,列名2,... FROM 表名; -- 创建视图, 注意视图名不能重复
+CREATE VIEW 视图名 AS SELECT 列名 1, 列名 2, ... FROM 表名; -- 创建视图, 注意视图名不能重复
 
 DROP VIEW 视图名; -- 删除视图
 ```
@@ -251,7 +251,7 @@ DROP VIEW 视图名; -- 删除视图
 - 存储过程是一组流程控制的 SQL 语句
 
 ```sql
-EXECUTE 存储过程名(参数1,参数2,...); -- 执行存储过程
+EXECUTE 存储过程名(参数 1, 参数 2, ...); -- 执行存储过程
 ```
 
 - 存储过程的创建与编写依赖数据库, 在 MySQL 必知必会中讨论吧
@@ -263,11 +263,11 @@ EXECUTE 存储过程名(参数1,参数2,...); -- 执行存储过程
 ```sql
 START TRANSACTION; -- 开始事务
 
--- 一系列SQL语句
+-- 一系列 SQL 语句
 
 ROLLBACK; -- 回滚到事务开始前的状态
 
-COMMIT; -- 提交事务,注意提交后不可回滚
+COMMIT; -- 提交事务, 注意提交后不可回滚
 
 SAVEPOINT 保存点名; -- 设置保存点
 ROLLBACK TO 保存点名; -- 回滚到保存点
@@ -278,15 +278,15 @@ ROLLBACK TO 保存点名; -- 回滚到保存点
 
 ### 使用游标
 
-- 游标是用于可视化操作的数据库对象,WEB 应用中不常用
+- 游标是用于可视化操作的数据库对象, WEB 应用中不常用
 - MySQL 的游标只能用于存储过程
 
 ```sql
-DECLARE 游标名 CURSOR FOR SELECT 列名1,列名2,... FROM 表名; -- 声明游标, 此时还未查询
+DECLARE 游标名 CURSOR FOR SELECT 列名 1, 列名 2, ... FROM 表名; -- 声明游标, 此时还未查询
 
 OPEN CURSOR 游标名; -- 打开游标
 
-FETCH CURSOR 游标名 INTO 变量1,变量2,...; -- 从游标中获取一行数据到变量中
+FETCH CURSOR 游标名 INTO 变量 1, 变量 2, ...; -- 从游标中获取一行数据到变量中
 
 CLOSE CURSOR 游标名; -- 关闭游标
 ```
@@ -298,7 +298,7 @@ CLOSE CURSOR 游标名; -- 关闭游标
 ```sql
 列名 数据类型 NOT NULL DEFAULT 值 PRIMARY KEY -- 声明主键
 
-列名1 数据类型 NOT NULL DEFAULT 值 REFERENCES 表名(列名2) -- 声明外键
+列名 1 数据类型 NOT NULL DEFAULT 值 REFERENCES 表名(列名 2) -- 声明外键
 
 列名 数据类型 NOT NULL DEFAULT 值 UNIQUE -- 声明唯一键 (不可作外键)
 

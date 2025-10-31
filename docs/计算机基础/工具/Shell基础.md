@@ -70,19 +70,19 @@ rmdir name 删除目录
 rm name 删除
 
 cd 跳转目录
-.当前 ..父 -上 ~家 ~name name的家
+.当前 ..父 -上 ~家 ~name name 的家
 
-ls 列出目录中文件 -al  -i 显示inode
+ls 列出目录中文件 -al  -i 显示 inode
 
-ln from obj 硬链接 -s软
+ln from obj 硬链接 -s 软
 
 file filename 看文件类型
-find 建议用fd代替
+find 建议用 fd 代替
 head/tail filename 看文件头尾 tail -f 自动跟随新增 (实时监控)
 more/less filename 按页看文件
-cat filename读文本文件 -n行号 -s多空行合并
-od filename二进制看文件 -t x/c 16进制/字符
-wc filename统计
+cat filename 读文本文件 -n 行号 -s 多空行合并
+od filename 二进制看文件 -t x/c 16 进制/字符
+wc filename 统计
 
 touch 建立空文件/改时间
 
@@ -94,12 +94,12 @@ rename from obj filename
 ### 文件权限
 
 ```text
-chown name:group filename 改文件归属 -R递归
-chmod [mode] filename -R递归
+chown name:group filename 改文件归属 -R 递归
+chmod [mode] filename -R 递归
 
 mode:
 - u/g/o/a +/-/= r/w/x
-- xyz r/w/x=4/2/1 x/y/z=u/g/o(r+w+x) 如777
+- xyz r/w/x=4/2/1 x/y/z=u/g/o(r+w+x) 如 777
 
 umask 打印文件默认权限 拿掉的权限累加
 chattr -R +-ai 只追加/不可修改 改变属性

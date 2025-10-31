@@ -43,7 +43,7 @@ make -n # 打印命令, 不执行
 
 ```Makefile
 targets : prerequisites
-    command # 注意这个tab必须存在
+    command # 注意这个 tab 必须存在
     ...
 ```
 
@@ -80,27 +80,27 @@ clean :
 - `CMakeLists.txt`
 
 ```CMakeLists
-# PROJECT_BINARY_DIR是cmake系统变量,意思是执行cmake命令的目录
+# PROJECT_BINARY_DIR 是 cmake 系统变量, 意思是执行 cmake 命令的目录
 
 cmake_minimum_required (VERSION 2.8)
-# 要求cmake版本
+# 要求 cmake 版本
 
 project (learn_cmake)
 # 指定项目名称
 
 include_directories ( dir )
-# 将dir目录加入头文件搜索路径
+# 将 dir 目录加入头文件搜索路径
 
 add_subdirectory ( dir )
-# 递归调用dir目录下的CMakeLists.txt
+# 递归调用 dir 目录下的 CMakeLists.txt
 
 aux_source_directory(dir var)
-# 将dir目录下的所有文件加入var
+# 将 dir 目录下的所有文件加入 var
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
-# 指定库生成到lib目录
+# 指定库生成到 lib 目录
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
-# 指定可执行文件生成到bin目录
+# 指定可执行文件生成到 bin 目录
 
 add_executable(hello ${var})
 # 生成可执行文件
@@ -108,10 +108,10 @@ add_library(lib_name STATIC/SHARED ${var})
 # 生成库文件
 
 find_library(var lib_name lib_path1 lib_path2)
-# 查找库,并把库的绝对路径和名称存储到第一个参数里
+# 查找库, 并把库的绝对路径和名称存储到第一个参数里
 
 target_link_libraries ( hello lib1 lib2 )
-# 将lib1 lib2加入target的链接库
+# 将 lib1 lib2 加入 target 的链接库
 
 add_compile_options ( hello PRIVATE "-Wall" )
 # 将"-Wall"加入编译选项

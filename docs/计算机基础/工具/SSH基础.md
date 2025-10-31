@@ -23,14 +23,14 @@ ssh hostname
 # 将本地机器中的文件复制到远程机器中
 scp /path/local_file remote_username@remote_ip:/path/target_file
 
-# 添加-r参数,递归拷贝目录
+# 添加-r 参数, 递归拷贝目录
 scp -r /path/local_directory remote_username@remote_ip:/path/target_directory
 
 # 将远程机器中的文件复制到本地机器中
-# 远程拷贝多个文件的命令形式比较繁琐,就不写了
+# 远程拷贝多个文件的命令形式比较繁琐, 就不写了
 scp remote_username@remote_ip:/path/source_file /path/target_file
 
-# 指定使用23号端口
+# 指定使用 23 号端口
 scp -P　23 /path/local_file remote_username@remote_ip:/path/target_file
 ```
 

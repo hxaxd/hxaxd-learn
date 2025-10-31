@@ -327,11 +327,11 @@ app = FastAPI(dependencies=[Depends(get_query_token)])
 app.include_router(users.router)
 app.include_router(items.router)
 app.include_router(
-    admin.router,
-    prefix="/admin",
-    tags=["admin"],
-    dependencies=[Depends(get_token_header)],
-    responses={418: {"description": "I'm a teapot"}},
+    admin.router, 
+    prefix="/admin", 
+    tags=["admin"], 
+    dependencies=[Depends(get_token_header)], 
+    responses={418: {"description": "I'm a teapot"}}, 
 )
 
 
@@ -360,8 +360,8 @@ engine = create_engine("sqlite+pysqlite:///:memory:", echo=True) # 内存中的 
 # 不多介绍文本 SQL
 with engine.connect() as conn: # 通过连接对数据库进行操作
     conn.execute(
-        text("INSERT INTO some_table (x, y) VALUES (:x, :y)"),
-        [{"x": 1, "y": 1}, {"x": 2, "y": 4}],
+        text("INSERT INTO some_table (x, y) VALUES (:x, :y)"), 
+        [{"x": 1, "y": 1}, {"x": 2, "y": 4}], 
     ) # 操作会被缓存, 直到 commit 才会被执行
     conn.commit()
 
@@ -383,8 +383,8 @@ user_table = Table( # 声明表结构
     "user_account", # 表名
     metadata_obj, # 元数据对象
     Column("id", Integer, primary_key=True), # 声明列
-    Column("name", String(30)),
-    Column("fullname", String),
+    Column("name", String(30)), 
+    Column("fullname", String), 
 )
 print(user_table.c.keys) # 列名
 
@@ -508,5 +508,5 @@ uvicorn filename:objname # 启动服务器
 # --workers 进程数
 # --log-level 日志级别
 # --log-config 日志文件位置
-# --ssl-keyfile=SSL密钥文件 --ssl-certfile=SSL证书文件
+# --ssl-keyfile=SSL 密钥文件 --ssl-certfile=SSL 证书文件
 ```

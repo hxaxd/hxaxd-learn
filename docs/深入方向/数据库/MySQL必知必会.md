@@ -44,8 +44,8 @@ SHOW WARNINGS; -- 查看警告信息
 - `+` 匹配至少一个字符
 - `?` 匹配零或一个字符
 - `{n}` 匹配 n 个 `{n}` 前面的模式
-- `{n,}` 匹配至少 n 个 `{n,}` 前面的模式
-- `{n,m}` 匹配 n 到 m 个 `{n,m}` 前面的模式
+- `{n, }` 匹配至少 n 个 `{n, }` 前面的模式
+- `{n, m}` 匹配 n 到 m 个 `{n, m}` 前面的模式
 - `[]` 匹配任意字符中的一个
 - `[^]` 匹配任意字符中的一个 (取反)
 - `|` 逻辑或, 连接两个模式
@@ -74,14 +74,14 @@ SELECT * FROM table_name WHERE column_name REGEXP '正则表达式'; -- 正则�
 FULLTEXT(列名)
 
 -- 使用
-SELECT * FROM table_name WHERE MATCH(column_name) AGAINST('搜索关键字'); -- 不区分大小写,搜索子串
--- 注意,全文本搜索会给结果按匹配度(子串出现的先后)排序
+SELECT * FROM table_name WHERE MATCH(column_name) AGAINST('搜索关键字'); -- 不区分大小写, 搜索子串
+-- 注意, 全文本搜索会给结果按匹配度(子串出现的先后)排序
 
 -- 查询拓展
 SELECT * FROM table_name WHERE MATCH(column_name) AGAINST('搜索关键字' WITH QUERY EXPANSION);  -- 将结果作为关键字搜索
 
 -- 布尔搜索
-SELECT * FROM table_name WHERE MATCH(column_name) AGAINST('+搜索关键字1 -搜索关键字2' IN BOOLEAN MODE); -- 搜索 关键字1 出现,搜索 关键字2 不出现
+SELECT * FROM table_name WHERE MATCH(column_name) AGAINST('+搜索关键字 1 -搜索关键字 2' IN BOOLEAN MODE); -- 搜索 关键字 1 出现, 搜索 关键字 2 不出现
 -- 有许多符号可以使用
 ```
 
@@ -91,24 +91,24 @@ SELECT * FROM table_name WHERE MATCH(column_name) AGAINST('+搜索关键字1 -�
 - MYISAM 支持全文本搜索 InnoDB 支持事务处理, MEMORY 是存在于内存中的 MYISAM
 
 ```sql
-CREATE TABLE 表名(列名1 数据类型 NOT NULL,列名2 数据类型,...)ENGINE=InnoDB; -- 指定引擎
+CREATE TABLE 表名(列名 1 数据类型 NOT NULL, 列名 2 数据类型, ...)ENGINE=InnoDB; -- 指定引擎
 
-列名 数据类型 NOT NULL AUTO_INCREMENT; -- 指定自增列 (行间值唯一)(有个全局变量,每次自增 1 作为默认值)
--- 但也可以在 INSERT 中指定 (相当于改变变量值,以此自增)
+列名 数据类型 NOT NULL AUTO_INCREMENT; -- 指定自增列 (行间值唯一)(有个全局变量, 每次自增 1 作为默认值)
+-- 但也可以在 INSERT 中指定 (相当于改变变量值, 以此自增)
 
 SELECT last_insert_id(); -- 获取最后一次插入的自增列的值
 ```
 
 ### 创建存储过程
 
-- 参数名前的 `IN`,`OUT`,`INOUT` 指定参数的类型 (传入, 传出, 传入传出)
+- 参数名前的 `IN`, `OUT`, `INOUT` 指定参数的类型 (传入, 传出, 传入传出)
 - MySQL 的变量名必须以 `@`开头
     - `SELECT ... INTO @变量名;` 赋值
     - `SET @变量名=值;` 赋值
     - `SELECT @变量名;` 查看值
 
 ```sql
-CREATE PROCEDURE 存储过程名(IN 参数1 数据类型,OUT 参数2 数据类型,INOUT ...)COMMENT '注释' -- 会在 SHOW PROCEDURE STATUS 中显示
+CREATE PROCEDURE 存储过程名(IN 参数 1 数据类型, OUT 参数 2 数据类型, INOUT ...)COMMENT '注释' -- 会在 SHOW PROCEDURE STATUS 中显示
 BEGIN
     -- 存储过程体
     IF 条件 THEN
@@ -116,7 +116,7 @@ BEGIN
     END IF;
 END;
 
-CALL 存储过程名(123456,@AAAA,...); -- 调用存储过程
+CALL 存储过程名(123456, @AAAA, ...); -- 调用存储过程
 
 DROP PROCEDURE 存储过程名; -- 删除存储过程
 
@@ -159,7 +159,7 @@ SHOW CHARACTER SET; -- 查看所有字符集
 
 SHOW COLLATION; -- 查看所有校对顺序
 
-CREATE TABLE 表名(列名1 数据类型 DEFAULT CHARACTER SET 字符集 COLLATE 校对顺序,列名2 数据类型)DEFAULT CHARACTER SET 字符集 COLLATE 校对顺序; -- 指定列/全局字符集和校对顺序
+CREATE TABLE 表名(列名 1 数据类型 DEFAULT CHARACTER SET 字符集 COLLATE 校对顺序, 列名 2 数据类型)DEFAULT CHARACTER SET 字符集 COLLATE 校对顺序; -- 指定列/全局字符集和校对顺序
 ```
 
 ### 用户管理
@@ -174,9 +174,9 @@ DROP USER 用户名; -- 删除用户
 
 SHOW GRANTS FOR 用户名; -- 查看用户的权限
 
-GRANT 权限1,权限2 ON 数据库.表 TO 用户名; -- 授予用户权限
+GRANT 权限 1, 权限 2 ON 数据库.表 TO 用户名; -- 授予用户权限
 REVOKE ALL 权限 FROM 用户名; -- 撤销用户权限
--- 可以是ALL或ON ...
+-- 可以是 ALL 或 ON ...
 
 SET PASSWORD FOR 用户名=密码; -- 设置用户密码
 ```
@@ -200,7 +200,7 @@ SELECT * FROM 表名 INTO OUTFILE '文件路径'; -- 备份表
 RESTORE TABLE 表名 FROM '文件路径'; -- 恢复表
 
 ANALYZE TABLE 表名; -- 分析表状态
--- 类似的有许多,不列举
+-- 类似的有许多, 不列举
 ```
 
 ### 性能优化
@@ -238,7 +238,7 @@ ANALYZE TABLE 表名; -- 分析表状态
     - `REAL` 4 字节
     - `FLOAT` 单精度
     - `DOUBLE` 双精度
-    - `DECIMAL(总位数,小数位数)` 可变精度
+    - `DECIMAL(总位数, 小数位数)` 可变精度
 - 布尔
     - `BOOL` 1bit
 - 日期

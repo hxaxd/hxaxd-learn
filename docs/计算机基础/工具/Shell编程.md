@@ -34,7 +34,7 @@ name='abc\&LANG'->abc&LANG
 - `${name:1:4}` 提取子字符串
 - `${name:(-1)}` 提取最后一个字符
 - `${name:0:-1}` 提取除了最后一个字符的所有字符
-- `echo 反引expr index "$string" io反引` 查找字符位置 (i 或 o)
+- `echo 反引 expr index "$string" io 反引` 查找字符位置 (i 或 o)
 
 ### 数组
 
@@ -42,14 +42,14 @@ name='abc\&LANG'->abc&LANG
 - `val=${array_name[@]}` 获取所有元素
 - `len=${#array_name[@]}` 获取元素数量
 - `len=${#array_name[*]}` 获取元素长度
-- `declare -A map` 声明数组类型 `-A` 关联数组 (字典),`-a` 数组
+- `declare -A map` 声明数组类型 `-A` 关联数组 (字典), `-a` 数组
 - `echo "数组的键为: ${!site[*]}"` 所有键
 
 ### 参数
 
 - 环境变量
 - `$0` 脚本名称
-- `$1`,`$2` 脚本参数
+- `$1`, `$2` 脚本参数
 - `$#` 参数数量
 - `$?` 上一个命令的退出状态
 - `$*` 所有参数 (字符串形式)
@@ -120,11 +120,11 @@ name='abc\&LANG'->abc&LANG
 - `echo "\"It is a test\""` 转义
 - `echo -e "OK! \n"` `-e` 后 `\n` 换行 `\c` 跟下一行连接
 - `echo "It is a test" > myfile` 重定向
-- `echo 反引date反引` 显示命令结果
+- `echo 反引 date 反引` 显示命令结果
 
 #### `printf`(可移植)
 
-- `printf "%-10s %-8s %-4s\n" 姓名 性别 体重kg` 格式化输出, 可以指定宽度, 类型, 并且随意使用转义字符
+- `printf "%-10s %-8s %-4s\n" 姓名 性别 体重 kg` 格式化输出, 可以指定宽度, 类型, 并且随意使用转义字符
 
 #### `test`(可移植)
 
@@ -162,7 +162,7 @@ done
 
 ```shell
 int=1
-while(( $int<=5 )) # until与之相反
+while(( $int<=5 )) # until 与之相反
 do
     echo $int
     let "int++"
@@ -197,7 +197,7 @@ esac
 {
     action;
 
-    [return int;](可选,int为0-255)
+    [return int;](可选, int 为 0-255)
 }
 ```
 
@@ -208,7 +208,7 @@ esac
 - `/dev/null` 黑洞
 
 ```shell
-$ wc -l << EOF  # Here Document 将EOF中的内容作为command的输入
+$ wc -l << EOF  # Here Document 将 EOF 中的内容作为 command 的输入
     欢迎来到
     菜鸟教程
     www.runoob.com
@@ -222,7 +222,7 @@ EOF
 # author:菜鸟教程
 # url:www.runoob.com
 
-#使用 . 号来引用test1.sh 文件
+#使用 . 号来引用 test1.sh 文件
 . ./test1.sh
 
 # 或者使用以下包含文件代码

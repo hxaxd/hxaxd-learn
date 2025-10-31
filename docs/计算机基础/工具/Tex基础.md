@@ -20,8 +20,8 @@
 
 ## 文档类型
 
-- 英文, 可以用 `book article和beamer`
-- 中文, 可以用 `ctexbook ctexart和ctexbeamer`, 这些类型自带了对中文的支持
+- 英文, 可以用 `book article 和 beamer`
+- 中文, 可以用 `ctexbook ctexart 和 ctexbeamer`, 这些类型自带了对中文的支持
 - 不同的文件类型, 编写的过程中也会有一定的差异, 如果直接修改文件类型的话, 甚至会报错
 - 以下统一选用 `ctexart` 在编辑框第一行
 
@@ -229,7 +229,7 @@
 ## 页码
 
 - 默认的页码编码方式是阿拉伯数字, 用户也可以自己设置为小写罗马数字 `\pagenumbering{roman}`
-- 另外,aiph 表示小写字母
+- 另外, aiph 表示小写字母
 - Aiph 表示大写字母
 - Roman 表示大写罗马数字
 - arabic 表示默认的阿拉伯数字

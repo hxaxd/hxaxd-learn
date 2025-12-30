@@ -2,7 +2,7 @@
 
 ## 参考资料
 
-- [Emacs](https://zhuanlan.zhihu.com/p/385214753) - 知乎大佬 - 4
+- [Emacs](https://zhuanlan.zhihu.com/p/385214753)
 
 ## 快捷键
 

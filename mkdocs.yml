@@ -39,16 +39,13 @@ nav:
     - C++Prime: C++/C++Prime.md
     - EffectiveC++: C++/EffectiveC++.md
     - MoreEffectiveC++: C++/MoreEffectiveC++.md
-    - EffectiveModernC++: C++/EffectiveModernC++.md
     - EffectiveSTL: C++/EffectiveSTL.md
+    - EffectiveModernC++: C++/EffectiveModernC++.md
     - 程序员的自我修养: C++/程序员的自我修养.md
     - 深度探索C++对象模型: C++/深度探索C++对象模型.md
-    - 现代C++语言核心特性解析: C++/现代C++语言核心特性解析.md
     - STL源码剖析: C++/STL源码剖析.md
-    - C++性能优化指南: C++/C++性能优化指南.md
     - C++库: C++/C++库.md
     - C++工具: C++/C++工具.md
-    - C++并行编程: C++/C++并发编程.md
   - 算法:
     - 大话数据结构: 算法/大话数据结构.md
     - 算法设计与分析: 算法/算法设计与分析.md
@@ -69,45 +66,28 @@ nav:
   - 操作系统:
     - 操作系统导论: 操作系统/操作系统导论.md
     - Linux内核: 操作系统/Linux内核.md
-  - 并行编程:
-    - 并行编程导论: 并行编程/并行编程导论.md
-    - OpenGL异构计算: 并行编程/OpenGL异构计算.md
   - 代码风格与编程技术:
     - 大话设计模式: 代码风格与编程技术/大话设计模式.md
-    - CleanCode: 代码风格与编程技术/CleanCode.md
-    - 设计模式: 代码风格与编程技术/设计模式.md
-    - 重构: 代码风格与编程技术/重构.md
-    - 单元测试的艺术: 代码风格与编程技术/单元测试的艺术.md
-    - 代码大全2: 代码风格与编程技术/代码大全2.md
-    - UNIX编程艺术: 代码风格与编程技术/UNIX编程艺术.md
-    - 架构整洁之道: 代码风格与编程技术/架构整洁之道.md
     - Google 代码规范: 代码风格与编程技术/Google代码规范.md
   - 计算机网络:
     - 自顶向下方法: 计算机网络/自顶向下方法.md
     - TCPIP详解: 计算机网络/TCPIP详解.md
   - 数据库:
-    - 数据库系统概念: 数据库/数据库系统概念.md
     - SQL必知必会: 数据库/SQL必知必会.md
     - Redis设计与实现: 数据库/Redis设计与实现.md
     - MySQL技术内幕: 数据库/MySQL技术内幕.md
-    - 高性能MySQL: 数据库/高性能MySQL.md
   - UNIX系统与网络编程:
     - Linux高性能服务器编程: UNIX系统与网络编程/Linux高性能服务器编程.md
     - Linux多线程服务端编程: UNIX系统与网络编程/Linux多线程服务端编程.md
-    - UNIX环境高级编程: UNIX系统与网络编程/UNIX环境高级编程.md
-    - UNIX网络编程: UNIX系统与网络编程/UNIX网络编程.md
   - 通识编程语言:
     - Rust程序设计: Rust/Rust.md
     - Go: Go/Go.md
     - Lua: Lua/Lua.md
     - Haskell: Haskell/Haskell.md
-    - Prolog: Prolog/Prolog.md
   - 分布式:
-    - 分布式系统: 分布式/分布式系统.md
     - 数据密集型应用系统设计: 分布式/数据密集型应用系统设计.md
     - 系统设计: 分布式/系统设计.md
   - Python:
-    - Python编程: Python/Python编程.md
     - 流畅的Python: Python/流畅的Python.md
     - Python后端开发基本框架: Python/Python后端开发基本框架.md
     - Python数据处理与计算框架: Python/Python数据处理与计算框架.md
@@ -120,6 +100,8 @@ nav:
     - 分布式协调: 面试题/分布式协调.md
     - 网关: 面试题/网关.md
     - 其它: 面试题/其它.md
+  - 其他:
+    - 计算机与人脑: 其他/计算机与人脑.md
 
 site_name: 海星笔记
 theme:

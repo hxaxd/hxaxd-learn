@@ -2,8 +2,8 @@
 
 ## 参考资料
 
-- [翁恺老师的 C 语言课](https://www.bilibili.com/video/BV1XZ4y1S7e1) 神作 5
-- c prime plus 大而全 5
+- [翁恺老师的 C 语言课](https://www.bilibili.com/video/BV1XZ4y1S7e1)
+- c prime plus
 
 首先以一个轻松的视频课程了解 c, 然后...
 

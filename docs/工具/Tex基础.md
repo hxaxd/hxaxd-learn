@@ -2,7 +2,7 @@
 
 ## 参考资料
 
-- [知乎教程](https://zhuanlan.zhihu.com/p/456055339) - 够用 - 4
+- [知乎教程](https://zhuanlan.zhihu.com/p/456055339)
 
 ## KaTex
 

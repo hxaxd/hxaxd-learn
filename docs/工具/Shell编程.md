@@ -2,7 +2,7 @@
 
 ## 参考资料
 
-- [菜鸟教程](https://www.runoob.com/Linux/Linux-shell.html) - 清晰明了即可 - 5
+- [菜鸟教程](https://www.runoob.com/Linux/Linux-shell.html)
 
 ### 基本
 

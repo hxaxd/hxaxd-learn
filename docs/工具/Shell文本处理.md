@@ -2,7 +2,7 @@
 
 ## 参考资料
 
-- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md) - 指导向 - 4
+- [命令行的艺术](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md)
 
 ## 文本基本操作
 
@@ -91,7 +91,7 @@ sed -n '2~2p'  # 只打印偶数行
 # i:在行前面插入文本, 支持使用 \n 实现多行追加
 # c:替换行为单行或多行文本, 支持使用 \n 实现多行追加
 # !:模式空间中匹配行取反处理
-# s///:查找替换, 支持使用其它分隔符, s@@@ , s### , 加 g 表示行内全局替换
+# s///:查找替换, 支持使用其它分隔符, s@@@, s###, 加 g 表示行内全局替换
 ```
 
 ## `awk`

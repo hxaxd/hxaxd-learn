@@ -2,7 +2,7 @@
 
 ## 参考资料
 
-- [vim](https://gitlab.com/wsdjeg/vim-galore-zh_cn) - 够用 - 4
+- [vim](https://gitlab.com/wsdjeg/vim-galore-zh_cn)
 
 ## 基础
 

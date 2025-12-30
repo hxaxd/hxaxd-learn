@@ -2,8 +2,8 @@
 
 ## 参考资料
 
-- [Git book](https://git-scm.com/book/zh/v2) - 标准的文档 - 4
-- [How to Write a Git Commit Message](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md) - 教你写提交信息 - 5
+- [Git book](https://git-scm.com/book/zh/v2)
+- [How to Write a Git Commit Message](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md)
 
 ## 概念
 

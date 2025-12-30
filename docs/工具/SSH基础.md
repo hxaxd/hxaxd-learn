@@ -2,7 +2,7 @@
 
 ## 参考资料
 
-- [ssh](https://blog.csdn.net/m0_51720581/article/details/131796669) - csdn - 4
+- [ssh](https://blog.csdn.net/m0_51720581/article/details/131796669)
 
 ## 概念
 

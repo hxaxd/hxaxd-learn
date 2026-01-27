@@ -31,18 +31,13 @@ git config --global credential.helper osxkeychain
 
 - `git init` 在当前目录建立 `.git` 初始化
 - `git clone <url> name` 克隆到当前目录, name 可选
-- `git status` 检查文件状态
-- `git add name` 跟踪并暂存新文件, 暂存已修改文件, 暂存只保存当前版本, 未提交之前再次修改, 需要再次暂存
-- `git status -s` 检查文件状态, 只显示简短信息
 - `.gitignore` 指明需要忽视的文件, 标准的 glob 模式匹配, 递归地应用在整个工作区中
-- `git diff` 比较工作目录中当前文件和暂存区域快照之间的差异
-- `git diff -staged` 将比对已暂存文件与最后一次提交的文件差异
 - `git commit` 将提交修改并调用 shell 的默认编辑器写提交消息 -a 自动 add 并提交
 
 ### 撤销
 
-- `git rm name` 删除文件
-- `git mv` 相当于重命名
+- `git rm --cached name` 停止跟踪某文件, 保留工作区文件
+- `git mv` 相当于重命名 (git 自动跟踪)
 - `git log` 看历史更改提交人, mail, 提交消息
 - `git reset --soft name` 回退版本, 保留工作区, 保留暂存区
 - `git reset --hard name` 都不保留
@@ -94,6 +89,10 @@ git config --global credential.helper osxkeychain
 - `git submodule foreach git checkout master` 切换所有子模块到 master 分支
 - `git submodule foreach git pull origin master` 拉取所有子模块
 - `git submodule foreach git push origin master` 推送所有子模块
+
+### 交互式变基
+
+- `git rebase -i HEAD~3` 交互式变基, 修改最近 3 次提交
 
 ## GitHub
 

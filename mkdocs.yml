@@ -1,108 +1,102 @@
 nav:
   - 目录: index.md
   - 理论基础:
-    - 数学基础: 理论基础/数学基础.md
-    - 离散数学: 理论基础/离散数学.md
-    - 初等数论: 理论基础/初等数论.md
-    - 数学增补: 理论基础/数学增补.md
-    - 数值分析: 理论基础/数值分析.md
-    - 电子技术: 理论基础/电子技术.md
-    - 计算理论与编译原理: 理论基础/计算理论与编译原理.md
+      - 数学基础: 理论基础/数学基础.md
+      - 离散数学: 理论基础/离散数学.md
+      - 初等数论: 理论基础/初等数论.md
+      - 数学增补: 理论基础/数学增补.md
+      - 电子技术: 理论基础/电子技术.md
+      - 计算理论与编译原理: 理论基础/计算理论与编译原理.md
   - 工具:
-    - 快捷键备忘录: 工具/快捷键备忘录.md
-    - Markdown: 工具/Markdown.md
-    - 基本图形开发环境配置: 工具/基本图形开发环境配置.md
-    - Git基本使用: 工具/Git基本使用.md
-    - Linux基础: 工具/Linux基础.md
-    - 标记语言与序列化: 工具/标记语言与序列化.md
-    - Shell基础: 工具/Shell基础.md
-    - Shell文本处理: 工具/Shell文本处理.md
-    - Linux系统与网络管理: 工具/Linux系统与网络管理.md
-    - Shell编程: 工具/Shell编程.md
-    - Vim基础: 工具/Vim基础.md
-    - Emacs基础: 工具/Emacs基础.md
-    - 终端开发环境配置: 工具/终端开发环境配置.md
-    - SSH基础: 工具/SSH基础.md
-    - Tex基础: 工具/Tex基础.md
-    - Nginx: 工具/Nginx.md
-    - 前端开发常识: 工具/前端开发常识.md
-    - 容器常识: 工具/容器常识.md
-    - WEB开发常识: 工具/WEB开发常识.md
-    - AI 工具: 工具/AI工具.md
+      - Markdown: 工具/Markdown.md
+      - 基本图形开发环境配置: 工具/基本图形开发环境配置.md
+      - Git基本使用: 工具/Git基本使用.md
+      - Linux基础: 工具/Linux基础.md
+      - 标记语言与序列化: 工具/标记语言与序列化.md
+      - Shell基础: 工具/Shell基础.md
+      - Shell文本处理: 工具/Shell文本处理.md
+      - Linux系统与网络管理: 工具/Linux系统与网络管理.md
+      - Shell编程: 工具/Shell编程.md
+      - 终端开发环境配置: 工具/终端开发环境配置.md
+      - Tex基础: 工具/Tex基础.md
+      - Nginx: 工具/Nginx.md
+      - 前端开发常识: 工具/前端开发常识.md
+      - 容器常识: 工具/容器常识.md
+      - WEB开发常识: 工具/WEB开发常识.md
+      - AI 工具: 工具/AI工具.md
   - C语言:
-    - CPrimePlus: C/CPrimePlus.md
-    - C和指针: C/C和指针.md
-    - C缺陷与陷阱: C/C缺陷与陷阱.md
-    - C专家编程: C/C专家编程.md
-    - C语言重点总结: C/C语言重点总结.md
+      - CPrimePlus: C/CPrimePlus.md
+      - C和指针: C/C和指针.md
+      - C缺陷与陷阱: C/C缺陷与陷阱.md
+      - C专家编程: C/C专家编程.md
+      - C语言重点总结: C/C语言重点总结.md
   - C++语言:
-    - C++Prime: C++/C++Prime.md
-    - EffectiveC++: C++/EffectiveC++.md
-    - MoreEffectiveC++: C++/MoreEffectiveC++.md
-    - EffectiveSTL: C++/EffectiveSTL.md
-    - EffectiveModernC++: C++/EffectiveModernC++.md
-    - 程序员的自我修养: C++/程序员的自我修养.md
-    - 深度探索C++对象模型: C++/深度探索C++对象模型.md
-    - STL源码剖析: C++/STL源码剖析.md
-    - C++库: C++/C++库.md
-    - C++工具: C++/C++工具.md
+      - LearnCPP: C++/LearnCPP.md
+      - C++Prime: C++/C++Prime.md
+      - C++最佳实践: C++/C++最佳实践.md
+      - EffectiveModernC++: C++/EffectiveModernC++.md
+      - 程序员的自我修养: C++/程序员的自我修养.md
+      - 深度探索C++对象模型: C++/深度探索C++对象模型.md
+      - STL: C++/STL.md
+      - C++工具: C++/C++工具.md
   - 算法:
-    - 大话数据结构: 算法/大话数据结构.md
-    - 算法设计与分析: 算法/算法设计与分析.md
-    - 算法第四版: 算法/算法第四版.md
-    - 算法理论: 算法/算法理论.md
-    - 算法补充: 算法/算法补充.md
-    - 代码随想录: 算法/代码随想录.md
-    - 剑指Offer: 算法/剑指Offer.md
-    - 编程珠玑: 算法/编程珠玑.md
-    - 编程珠玑续: 算法/编程珠玑续.md
-    - 编程之美: 算法/编程之美.md
-    - 程序员面试金典: 算法/程序员面试金典.md
-    - 力扣题解: 算法/力扣题解.md
+      - 大话数据结构: 算法/大话数据结构.md
+      - 算法设计与分析: 算法/算法设计与分析.md
+      - 算法第四版: 算法/算法第四版.md
+      - 算法理论: 算法/算法理论.md
+      - 算法补充: 算法/算法补充.md
+      - 代码随想录: 算法/代码随想录.md
+      - 剑指Offer: 算法/剑指Offer.md
+      - 编程珠玑: 算法/编程珠玑.md
+      - 编程珠玑续: 算法/编程珠玑续.md
+      - 编程之美: 算法/编程之美.md
+      - 程序员面试金典: 算法/程序员面试金典.md
+      - 力扣题解: 算法/力扣题解.md
   - 计算机系统与组成:
-    - 汇编语言(王爽): 计算机系统与组成/汇编语言(王爽).md
-    - 深入理解计算机系统: 计算机系统与组成/深入理解计算机系统.md
-    - 计算机组成与设计: 计算机系统与组成/计算机组成与设计.md
+      - 汇编语言(王爽): 计算机系统与组成/汇编语言(王爽).md
+      - 深入理解计算机系统: 计算机系统与组成/深入理解计算机系统.md
+      - 计算机组成与设计: 计算机系统与组成/计算机组成与设计.md
   - 操作系统:
-    - 操作系统导论: 操作系统/操作系统导论.md
-    - Linux内核: 操作系统/Linux内核.md
+      - 操作系统导论: 操作系统/操作系统导论.md
+      - Linux内核: 操作系统/Linux内核.md
   - 代码风格与编程技术:
-    - 大话设计模式: 代码风格与编程技术/大话设计模式.md
-    - Google 代码规范: 代码风格与编程技术/Google代码规范.md
+      - 设计模式: 代码风格与编程技术/设计模式.md
+      - 代码规范: 代码风格与编程技术/代码规范.md
+      - 软件工程: 代码风格与编程技术/软件工程.md
   - 计算机网络:
-    - 自顶向下方法: 计算机网络/自顶向下方法.md
-    - TCPIP详解: 计算机网络/TCPIP详解.md
+      - 自顶向下方法: 计算机网络/自顶向下方法.md
+      - TCPIP详解: 计算机网络/TCPIP详解.md
   - 数据库:
-    - SQL必知必会: 数据库/SQL必知必会.md
-    - Redis设计与实现: 数据库/Redis设计与实现.md
-    - MySQL技术内幕: 数据库/MySQL技术内幕.md
+      - SQL必知必会: 数据库/SQL必知必会.md
+      - Redis设计与实现: 数据库/Redis设计与实现.md
+      - MySQL技术内幕: 数据库/MySQL技术内幕.md
   - UNIX系统与网络编程:
-    - Linux高性能服务器编程: UNIX系统与网络编程/Linux高性能服务器编程.md
-    - Linux多线程服务端编程: UNIX系统与网络编程/Linux多线程服务端编程.md
-  - 通识编程语言:
-    - Rust程序设计: Rust/Rust.md
-    - Go: Go/Go.md
-    - Lua: Lua/Lua.md
-    - Haskell: Haskell/Haskell.md
+      - Linux高性能服务器编程: UNIX系统与网络编程/Linux高性能服务器编程.md
+      - Linux多线程服务端编程: UNIX系统与网络编程/Linux多线程服务端编程.md
   - 分布式:
-    - 数据密集型应用系统设计: 分布式/数据密集型应用系统设计.md
-    - 系统设计: 分布式/系统设计.md
+      - 分布式系统: 分布式/分布式系统.md
+      - 数据密集型应用系统设计: 分布式/数据密集型应用系统设计.md
+      - 系统设计: 分布式/系统设计.md
+  - 通识编程语言:
+      - Rust程序设计: Rust/Rust.md
+      - Go: Go/Go.md
+      - Lua: Lua/Lua.md
+      - Haskell: Haskell/Haskell.md
   - Python:
-    - 流畅的Python: Python/流畅的Python.md
-    - Python后端开发基本框架: Python/Python后端开发基本框架.md
-    - Python数据处理与计算框架: Python/Python数据处理与计算框架.md
+      - 流畅的Python: Python/流畅的Python.md
+      - Python后端开发基本框架: Python/Python后端开发基本框架.md
+      - Python数据处理与计算框架: Python/Python数据处理与计算框架.md
   - 面试题:
-    - C++: 面试题/C++.md
-    - Redis: 面试题/Redis.md
-    - MySQL: 面试题/MySQL.md
-    - PostgreSQL: 面试题/PostgreSQL.md
-    - 消息队列: 面试题/消息队列.md
-    - 分布式协调: 面试题/分布式协调.md
-    - 网关: 面试题/网关.md
-    - 其它: 面试题/其它.md
+      - C++: 面试题/C++.md
+      - Redis: 面试题/Redis.md
+      - MySQL: 面试题/MySQL.md
+      - PostgreSQL: 面试题/PostgreSQL.md
+      - 消息队列: 面试题/消息队列.md
+      - 分布式协调: 面试题/分布式协调.md
+      - 网关: 面试题/网关.md
+      - 其它: 面试题/其它.md
   - 其他:
-    - 计算机与人脑: 其他/计算机与人脑.md
-
+      - 计算机与人脑: 其他/计算机与人脑.md
 site_name: 海星笔记
 theme:
   name: material
@@ -139,9 +133,11 @@ repo_url: https://github.com/hxaxd/hxlog
 repo_name: 海星笔记
 
 markdown_extensions:
-  - pymdownx.arithmatex: # 数学
+  - pymdownx.arithmatex:
+      # 数学
       generic: true
-  - pymdownx.highlight: # 高亮依赖
+  - pymdownx.highlight:
+      # 高亮依赖
       anchor_linenums: true
   - pymdownx.superfences # 高亮
   - pymdownx.inlinehilite # 高亮增强

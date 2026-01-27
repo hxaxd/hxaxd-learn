@@ -120,8 +120,28 @@ add_compile_options ( hello PRIVATE "-Wall" )
 - 执行 `cmake .` 生成 Makefile
 - 执行 `make` 生成可执行文件
 
+## GCC/G++
+
+- `-g` 生成调试信息
+- `-O0/-O1/-O2/-O3/-Ofast` 优化等级
+- `-Wall` 打开大部分警告
+- `-Werror` 将警告视为错误
+- `-Wextra` 打开额外警告
+- `-Wpedantic` 打开标准兼容警告
+- `-fsanitize=address` 地址检测
+- `-fsanitize=undefined` 未定义行为检测
+- `-I dir` 添加头文件搜索路径
+
 ## GDB
 
+- 操作
+    - 单步进入: 执行一行代码, 遇到函数时进入函数
+    - 单步跳过: 执行一行代码, 遇到函数时直接执行完函数
+    - 跳出: 执行完当前函数并返回调用处
+    - 运行到某行
+    - 继续: 运行程序直到下一个断点或结束
+    - 设置下一行: 修改下一条要执行的代码行
+- 打印变量 & 打印堆栈
 - `ulimit -c unlimited` 开启核心转储
 - `gdb ./a.out` 调试可执行文件
 - `gdb ./core.12345` 调试核心转储文件, 12345 是进程号

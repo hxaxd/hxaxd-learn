@@ -7,7 +7,6 @@
 ## 帮助
 
 - 面对一个 command, 你首先要知道它是可执行文件 shell 内置命令还是别名 `type command`
-
 - 用 man 来查询帮助, 不是所有 shell 都提供 info/help, 用 apropos 去查找文档
 
 ```text
@@ -53,7 +52,7 @@ command1 | command2 # 管道 (前一个命令的输出作为后一个命令的�
 ```bash
 # 通配符
 # *任意
-#?只一个任意字符  
+# ?只一个任意字符  
 # [abc]任意其中一个
 # [^abc]任意不在其中
 # [0-9]

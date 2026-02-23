@@ -157,3 +157,9 @@ add_compile_options ( hello PRIVATE "-Wall" )
 ## strace
 
 ## ldd
+
+## C ABI
+
+- 把所有想要暴露给 C 的函数的声明用 `extern "C"` 包裹
+    - 不可使用 C++ 的特性 (如函数重载, 默认参数, 命名空间等)
+    - 返回值与参数类型必须是 C 兼容的类型

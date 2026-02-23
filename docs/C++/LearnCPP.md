@@ -43,6 +43,8 @@
 - 匿名命名空间用于给所有内部函数加上内部链接
 - 内联命名空间用于版本控制
     - 内联命名空间内的标识符可直接通过外部命名空间访问 (但不影响链接属性)
+- `FOO::foo` 默认认为是变量
+    - 如果是类型, 需要 `typename FOO::foo` 明确指出
 
 ### 存储类说明符: `static` `extern` `thread_local` `mutable`
 
@@ -75,6 +77,74 @@
 - 但是 `#if defined(FOO)` / `#ifdef` 会检测宏是否定义, 不会展开宏
     - 还有 `# if !defined(FOO)` / `#ifndef`
 - 但但是 `#if` 与 `#elif` 中的表达式会展开宏
+
+### module
+
+- 类似默认最佳实践的头文件 -> BMI (二进制模块接口)
+    - 仅一次编译
+    - 非 `export` 的符号不泄漏, 不受宏污染
+    - 导入顺序不重要
+- CMake 3.28+ 完整支持模块, 其推荐的模块文件扩展名为 `.cppm` (Clang)
+- 语法
+    - `export module Name;` 定义模块接口单元
+    - `export` 可导出函数 / 类型 / 变量, 否则为模块私有
+    - `import Name;` 导入模块, 导入的不是源代码, 而是编译器生成的 BMI (二进制模块接口), 其中包含编译优化所需的所有信息
+    - `module private;` 之后的代码定义模块实现单元, 实现隐藏细节的单文件模块
+
+#### 模块分区
+
+```C++
+// 文件 1
+export module A:B;
+
+import A:C; // 内部分区之间可以互相 import
+
+export void func() {
+    // ...
+}
+```
+
+```C++
+// 文件 2
+export module A:C;
+
+import A:B; // 内部分区之间可以互相 import
+
+export void func2() {
+    func();
+}
+```
+
+```C++
+// 文件 3
+export module A; // 主模块接口
+export import :B; // 导出导入, 将分区的内容重新暴露给外部用户
+export import :C;
+```
+
+```C++
+// 用户端
+import A; // 只需要导入主模块接口, 就能访问所有分区的内容
+```
+
+- 子模块 (A.B) 不是特殊机制, A 与 A.B 之间没有任何关系
+
+```cpp
+module; // 开启全局模块片段
+
+#include <iostream> // 这里的宏和符号属于全局作用域
+#include <vector>
+
+export module MyData; // 真正的模块定义从这里开始
+
+export void print_vec(const std::vector<int>& v) {
+    for (auto i : v) std::cout << i << " ";
+}
+```
+
+### 型别推导
+
+#### 模板参数推导
 
 ## 类型系统
 
@@ -276,10 +346,35 @@ int a{}; // 值初始化
 ## 类类型
 
 - 类类型都可以模板化
-- 类成员函数是隐式内联的
+- 类内部定义的成员函数是隐式内联的
 - `const` 成员函数不会修改对象状态, 可以在 `const` 对象上调用
 - 访问级别是基于类的, 不是基于对象的
     - 即使是 `private` 成员, 也可以在该类的其他对象上访问
+- 可以定义成员类型, 比如 STL 容器的迭代器类型
+- 静态成员变量本质上就是类作用域的全局变量
+    - 静态成员变量必须在类外定义
+    - 除非它是 `const` / `inline`, 可以在类内给出初始化器 (初始化器中放一个静态成员函数就可以初始化时实现逻辑)
+    - 但相应的, 得到可以使用类型推导的权利
+- 友元函数可以在类内定义
+    - 成员函数也可以是友元
+    - 运算符重载时常用
+
+### 引用限定符重载
+
+- 当调用成员函数的对象是隐式对象时, 它不一定是左值 / 右值
+- 一旦重载了引用限定符, 不允许给出无引用限定符的版本
+- `const` 的左值引用限定符可以由右值对象调用 (前提是没给出右值版本)
+    - 当然, 可以使用 `=delete` 删除不想要的重载
+
+```C++
+class My_class {
+public:
+    const Data& func() & {return data;} // 只能在左值对象上调用
+    Data func() && {return std::move(data);} // 只能在右值对象上调用, 通常移动语义
+    const Data& func() const & {return data;} // 只能在 const 左值对象上调用
+    Data func() const && {return data;} // 只能在 const 右值对象上调用, 少见
+};
+```
 
 ### 构造函数
 
@@ -291,6 +386,7 @@ int a{}; // 值初始化
     - 只要提供了一个构造函数, 编译器就不会合成默认构造函数
     - 只要没提供拷贝构造或赋值运算符, 编译器就会合成它们
     - 提供了拷贝构造或赋值运算符, 编译器就不会合成对应移动构造或移动赋值运算符 (析构也会)
+- 当包含 `const` 成员变量时, 赋值运算符默认被删除
 - `explicit`
     - 不能用于拷贝初始化 / 拷贝列表初始化
     - 不能用于隐式转换
@@ -313,10 +409,43 @@ int a{}; // 值初始化
     - 因为有可能某个函数抛出异常, 导致栈展开 (销毁局部变量), 触发析构函数时出现双重异常
     - 如果析构函数可能抛出异常, 应显式声明为 `noexcept(false)`, 并且在析构函数内处理所有异常
 
+### 继承
+
+- 继承类型用于改变可访问的基类成员的访问级别
+- 如何访问基类的被覆盖的成员函数
+    - 直接 `using Base_class::func;` 引入基类版本 (? 不是说覆盖了吗 -> 重载)
+    - 使用作用域解析运算符: `Base_class::func();`
+    - 对于非成员函数, 使用类型转换
+- `using` 声明引入基类的成员函数 -> 可以修改访问级别 (会引入所有重载版本)
+- `obj.Base_class::member` 指定访问基类的成员
+- 协变返回类型
+    - 派生类重写基类的虚函数时, 返回类型可以是基类返回类型的派生类
+    - 仅适用于指针与引用类型
+- 纯虚函数
+    - 声明时赋值为 `0`
+- `dynamic_cast` 用于类层次结构内的安全下行转换 (安全的 `static_cast`)
+    - 使用 RTTI (运行时类型信息), 空间开销大 (有虚函数的类才有 RTTI, 放在虚函数表中, `typeid` (返回 `type_info` 对象) 也需要 RTTI)
+    - 只能用于有虚函数的类, 并且必须是 `public` 继承的类
+    - 如果转换失败, 指针类型返回空指针, 引用类型抛出 `std::bad_cast` 异常
+
 ## 模板
 
 - `auto` 函数参数的函数实际上是模板函数, 每个参数都是独立的模板参数
 - 模板别名, `template<typename T> using My_type = ...;`
+- 完全特化不是隐式内联的
+- `extern template class My_class<int>;` 显式实例化声明, 防止在该翻译单元实例化
+
+### 变量模板
+
+```C++
+template<typename T>
+constexpr T pi = T(3.1415926);
+
+double circumference(double r) {
+    return 2 * pi<double> * r;
+}
+
+```
 
 ### 函数模板
 
@@ -329,6 +458,11 @@ int a{}; // 值初始化
 - `auto foo(T a, U b) -> std::common_type_t<T, U>` 使用 `std::common_type_t` 获取通用类型
 - 函数模板也可以重载
     - 选最特化的
+
+### 偏特化
+
+- 类模板可以偏特化, 函数模板不行
+    - `template<typename T> class My_class<T*> { ... };` 指针偏特化
 
 ### 模板参数
 
@@ -378,7 +512,7 @@ int a{}; // 值初始化
 
 ### Switch 语句
 
-- [[fallthrough]] 属性 + 空语句用于标记有意的贯穿行为, 避免编译器警告
+- `[[fallthrough]]` 属性 + 空语句用于标记有意的贯穿行为, 避免编译器警告
 - 可以在块中声明与定义变量, 作用域为该块, 但是不允许初始化
     - 解决方案: 使用复合语句
 
@@ -430,145 +564,154 @@ int a{}; // 值初始化
 - 对于不想要的重载, 可以删除它们: `void func(int) = delete;`
     - 使用模板 `func(T) = delete;` 删除所有其他类型的重载
 
-## 程序控制
+### 运算符重载
 
-- `std::abort()` 立即终止程序, 不进行清理
-- `std::atexit(clean())` 注册程序终止时调用的清理函数
-- `std::exit()` 终止程序, 调用已注册的清理函数 (最后注册的首先调用), 不调用局部对象的析构函数
-- `std::quick_exit()` 与 `std::at_quick_exit()` 终止程序, 不清理静态对象
-- `std::terminate()` 调用终止处理程序, 默认调用 `std::abort()`
-
-### 断言
-
-- `assert(condition)` 在调试模式下检查 `condition`, 失败时打印错误信息并调用 `std::abort()`
-- `static_assert(condition, "message")` 在编译时检查 `condition`, 失败时打印 `message`
-
-## 标准库
-
-### 字符串
-
-- `std::ssize()` 返回有符号整数类型, 用于表示容器大小
-- 字面量后缀
-    - `using namespace std::string_literals`, 导入 `std::string` 的字面量 (适用于类型推导)
-    - `"hello"s` 是 `std::string` 类型, 注意这是创建了一个新的临时字符串对象
-    - `"hello"sv` 是 `std::string_view` 类型
-- `std::string_view`
-    - 是不可变字符串视图, 不拥有字符串数据, 支持 `constexpr`
-    - 适用于传递只读字符串参数, 避免不必要的字符串拷贝
-    - 不会隐式转换为 `std::string`, 但可以显式转换
-    - 相较于 `const std::string&`, 可以接受字符串字面量和 C 风格字符串而不需创建临时 `std::string` 对象, 并且不会延长临时对象的生命周期
-    - 不要使用 `std::string` 字面量初始化 `std::string_view` 对象, 会创建临时 `std::string` 对象, 并立刻销毁, 导致悬空视图
-    - 修改原有字符串会导致视图悬空
-    - `std::string_view` 不一定以空字符结尾
+- 使用成员函数形式的运算符重载时, 左操作数必须是该类的对象
+    - `=` / `[]` / `()` / `->` 必须使用成员函数形式重载
+- 只需要 `==` 与 `<` 就可以表达所有比较运算符
+- 重载 `<=>` 可以自动生成除了 `==` 的所有比较运算符, 但如果使用默认的 `<=>` 生成器, 则 `==` 也会被自动生成
+    - 三路运算符的结果类型为 `std::strong_ordering` / `std::weak_ordering` / `std::partial_ordering`, 就是强序 / 弱序 / 偏序
+    - 类似差值, 再与零比较就能得到序
+- 通过一个 `int` 参数区分前置与后置 `++` / `--`
+    - 通常前置返回引用, 后置返回值 (需要保存旧值, 会有额外开销)
+- `operator int()` 重载类型转换运算符, 允许对象隐式转换为 `int`
+    - 可能导致意外的隐式转换, 可以使用 `explicit` 关键字禁止隐式转换
+    - 必须是非 `static` 成员函数, 没有参数, 一般是 `const` 成员函数
 
 ```C++
-std::string_view func(std::string_view sv) {
-    sv.remove_prefix(1); // 删除第一个字符
-    sv.remove_suffix(1); // 删除最后一个字符
-    return sv;
-}
-
-std::string_view sv {func("hello"s)}; // 错误: 悬空视图
-
-std::string s {func("hello"s)}; // 正确
-```
-
-### `std::bitset`
-
-```C++
-std::bitset<8> bits {}; // 8 位, 全部初始化为 0
-
-bits.set(3); // 将第 3 位设置为 1
-bits.reset(3); // 将第 3 位设置为 0
-bits.flip(2); // 翻转第 2 位
-bits.test(1); // 测试第 1 位是否为 1, 返回 bool
-bits.count(); // 返回为 1 的位数
-bits.size(); // 返回位数
-bits.to_string(); // 返回字符串表示
-
-constexpr std::uint8_t mask0{ 0b0000'0001 }; // 位掩码
-```
-
-### 随机数
-
-- `std::random_device` 用于生成非确定性随机数种子
-- `std::chrono::steady_clock` 亦可
-- `std::mt19937` Mersenne Twister 算法, 速度快, 周期长, 适合大多数用途
-- `std::uniform_int_distribution` 均匀整数分布
-
-```C++
-// 使用 steady_clock 为 Mersenne Twister 生成种子
-std::mt19937 mt{ static_cast<std::mt19937::result_type>(
-    std::chrono::steady_clock::now().time_since_epoch().count()
-    // std::random_device{}() // 也可以使用随机设备, 但有些实现并非非确定性
-    ) };
-
-// 创建可复用的随机数分布, 生成 1 到 6 之间的均匀整数
-std::uniform_int_distribution<int> die6{ 1, 6 }; // C++14 可写为 std::uniform_int_distribution<> die6{ 1, 6 };
-
-// 打印一堆随机数
-for (int count{ 1 }; count <= 40; ++count)
+// 类型推导 + 显示 this 指针 -> 一次生成 const 与非 const 版本
+auto&& operator[](this auto&& self, int index)
 {
-    std::cout << die6(mt) << '\t'; // 生成一次掷骰子结果
-
-    // 每打印 10 个数字换行
-    if (count % 10 == 0)
-        std::cout << '\n';
+    return self.m_list[index];
 }
 ```
 
-- 考虑 `std::seed_seq` 用于生成更高质量的随机数序列
+### Lambda 表达式
+
+- 基本语法 -> `[/* 捕获列表 */](/* 可选参数列表 */) /* 可选限定符 */ /* 可选返回类型 (用 -> type 表达) */ { /* 函数体 */ }`
+- 事实上是一个匿名类的对象, 捕获列表中的变量作为该类的成员变量, 重载 `operator()`
+    - 因此 Lambda 表达式中的 `static` 变量对于每个副本都是一致的
+- 空捕获列表的 Lambda 可赋值给函数指针, `std::function` 也可以
+    - 但最佳选择是 `auto`
+- Lambda 的参数列表中也可以使用 `auto`, 行为类似函数
+- C++ 17 开始, 能 `constexpr` 的 Lambda 表达式隐式为 `constexpr`
+- Lambda 捕获
+    - 捕获的变量相当于成员变量, 与 Lambda 表达式生命周期一致
+    - 可以直接使用静态存储期变量 + `constexpr` 变量
+    - 捕获默认是 `const` 的, 除非使用 `mutable` 关键字
+    - `[foo]` 表示按值捕获, 获得的是该变量的一个副本 (类型不一定相同, 比如数组退化为指针)
+    - `[&foo]` 表示按引用捕获, 获得的是该变量的一个引用
+    - `[=]` 表示按值捕获所有用到的但没显示捕获的变量
+    - `[&]` 表示按引用捕获所有用到的但没显示捕获的变量
+    - `[foo {foo1 + foo2}]` 可以定义一个 Lambda 内部使用的变量
+- 通过 `std::reference_wrapper` / `std::function` 抑制可变 Lmabda 表达式的复制导致的状态分裂
+
+### 参数包与折叠表达式
+
+- 参数包用以替代 C 语言的 `std::arg_list`
 
 ```C++
-std::random_device rd{};
-std::seed_seq ss{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() }; // 使用多个随机设备值初始化种子序列
+template<typename... Args> // Args 是一个模板参数包
+void func(Args... args){ // args 是一个函数参数包
 
-std::mt19937 mt{ ss }; // 使用种子序列初始化 Mersenne Twister
+    // 展开
+    func1(args...); // 展开参数包 -> func1(arg1, arg2, arg3, ...)
+    func2(&args...); // 展开参数包 -> func2(&arg1, &arg2, &arg3, ...)
+    func3(h(args)...); // 展开参数包 -> func3(h(arg1), h(arg2), h(arg3), ...)
 
-std::uniform_int_distribution die6{ 1, 6 };
-
-for (int count{ 1 }; count <= 40; ++count)
-{
- std::cout << die6(mt) << '\t';
- if (count % 10 == 0)
-  std::cout << '\n';
+    const size_t n = sizeof...(Args); // 获取参数包的大小
 }
 ```
 
-### `std::optional`
-
-- 有可能无值, 解引用前要检查
+- 无法预料到参数包中会有多少个参数, C++17 之前只能通过递归或逗号表达式技巧来处理参数包, 代码冗长且可读性差
 
 ```C++
-std::optional<int> divide(int a, int b) {
-    if (b == 0) {
-        return std::nullopt; // 返回空的 optional
-    }
-    return a / b; // 返回结果
+// 递归
+template<typename T, typename... Args>
+T sum(T first, Args... rest) {
+    return first + sum(rest...);
 }
 
-int main() {
-    auto result = divide(10, 2);
-    if (result) {
-        std::cout << "Result: " << *result << std::endl; // 解引用 optional 获取值
-        std::cout << "Result: " << result.value() << std::endl; // 或者使用 value() 方法获取值
-        std::cout << "Result: " << result.value_or(-1) << std::endl; // 或者使用 value_or() 提供默认值
-    } else {
-        std::cout << "Division by zero!" << std::endl;
-    }
-    return 0;
+// 逗号表达式技巧
+template<typename... Args>
+void print_all(Args... args) {
+    int dummy[] = { 0, (std::cout << args << " ", 0)... };
 }
 ```
 
-### `std::expected`
+#### 折叠表达式
 
-- 不可能无值, 但可能有错误
+- E 是一个表达式, 包含一个参数包展开的占位符 `...`, 展开针对参数包中的每个参数进行, 形成新的表达式
 
-### 工具
+| 类型 | 语法 | 展开逻辑 |
+| :--- | :--- | :--- |
+| **一元右折叠** (Unary Right) | `(E op ...)` | `(a op (b op c))` |
+| **一元左折叠** (Unary Left) | `(... op E)` | `((a op b) op c)` |
+| **二元右折叠** (Binary Right) | `(E op ... op Init)` | `(a op (b op (c op Init)))` |
+| **二元左折叠** (Binary Left) | `(Init op ... op E)` | `(((Init op a) op b) op c)` |
 
-- `std::numeric_limits<T>` 提供类型 `T` 的数值特性
-    - `std::numeric_limits<T>::max()` 返回类型 `T` 可表示的最大值
-    - `std::numeric_limits<T>::min()` 返回类型 `T` 可表示的最小正值 (对于整数类型, 是最小负值)
-    - `std::numeric_limits<T>::lowest()` 返回类型 `T` 可表示的最小值
-    - `std::numeric_limits<T>::is_signed` 如果类型 `T` 是有符号类型则为 true
-    - `std::numeric_limits<T>::is_integer` 如果类型 `T` 是整数类型则为 true
+- 加法没有默认值, 建议 `(0 + ... + args); // 空包返回 0`, 否则空包会导致编译错误
+- 经常结合完美转发使用
+- Lambda 捕获参数包的语法糖: `[...args = std::move(args)]` (C++20)
+- auto 参数包的语法糖: `void func(auto... args)` (C++20), 这实际上是一个函数模板, 每个参数都是独立的模板参数, 但无法直接访问这些模板参数, 只能通过 `decltype` 获取参数类型
+
+### 移动语义
+
+- 类型支持 + 用右值进行初始化或赋值时触发移动语义就会触发移动语义 (`std::move` 只是强制转换为右值)
+- `std::move` 之后对象进入有效但未指定状态, 只能销毁或赋值, 不应访问 (除非赋值后访问)
+    - 本质上是用 `static_cast` 将左值转换为右值, 但并不真的移动任何东西
+- `std::move_if_noexcept` 只有在移动构造函数声明为 `noexcept` 或者没有移动构造函数时才会返回右值, 否则返回左值
+    - 适用于容器的元素类型, 因为容器在扩容时会使用移动构造函数, 如果移动构造函数可能抛出异常, 则会退化为拷贝构造函数, 导致性能下降
+
+### 范围 `for` 语句
+
+- 适用于任何提供 `begin()` 和 `end()` 函数的类型 (迭代器需要支持 `!=` `++` 和 `*`)
+    - 全局的 `begin(container)` 和 `end(container)` 函数优先于成员函数
+- 最佳实践: `for (const auto& word : words`
+- 反向: `for (const auto& word : std::views::reverse(words))` C++ 20 Ranges
+
+## 异常
+
+- 异常处理机制
+    - `try` 块内的异常通过 `throw` 抛出
+    - 通过 `catch` 块捕获异常
+    - 会展开栈, 销毁所有局部对象
+    - 会按顺序检查 `catch` 块, 直到找到匹配的类型
+    - 可以有多个 `catch` 块, 按捕获类型匹配 (类型不会发生转换, 但是基类可以捕获派生类, `void*` 可以捕获任何指针类型)
+    - 未捕获的异常会调用 `std::terminate()` 终止程序 (此时栈不一定会展开)
+- `catch (...)` 捕获所有类型的异常
+- 自定义异常类型应使用 `const T&` 捕获, 以避免不必要的复制并保留多态 (基类型引用可以捕获派生类型的对象)
+- 异常对象需要是可复制的 (栈展开时会复制异常对象)
+- 只记录不解决异常
+    - 在 `catch` 块内记录异常信息, 然后重新抛出异常 (`throw;`)
+
+### 自定义异常类型
+
+- 继承自 `std::exception` (\<exception\>) 或 `std::runtime_error` (\<stdexcept\>)
+- 重写 `what()` 成员函数返回异常描述字符串 (注意 `noexcept`)
+
+### 函数 `try` 块
+
+- 构造函数的 `try` 块必须继续 `throw` 异常, 不允许 `return`, 到达结尾会隐式 `throw`
+- 析构函数块可以使用 `return` 等结束语句, 到达结尾会隐式 `throw`
+- 其它函数的 `try` 块可以使用 `return` 等结束语句, 到达结尾会隐式解决返回值为 `void` 的函数的异常, 对于非 `void` 函数未定义行为
+
+```C++
+class My_class {
+public:
+    My_class() try : member1(), member2() {
+        // 构造函数体
+    } catch (...) {
+        // 处理构造成员时抛出的异常
+    }
+};
+```
+
+### 异常规范
+
+- `noexcept` 规范
+    - `noexcept(true)` 表示函数不会抛出异常, 如果抛出异常会调用 `std::terminate()`
+    - `noexcept(false)` 表示函数可能抛出异常 -> 常用于模板根据条件选择是否可抛出异常
+- 编译器合成的构造函数和赋值运算符 + 比较运算符不抛出异常
+- 析构函数默认 `noexcept(true)`
+- 另外, `noexcept` 可以当运算符使用, 返回一个 `constexpr` 布尔值, 表示表达式是否为 `noexcept`

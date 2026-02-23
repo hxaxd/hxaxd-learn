@@ -11,7 +11,7 @@ ss -tuln # 查看监听端口
 
 curl -I/wget <url> # 下载
 
-ip # 用来显示和操作路由 网络设备 接口等
+ip # 用来显示和操作路由, 网络设备, 接口等
 ifconfig # 传统的网络配置工具, 用来显示和设置网络接口的参数
 dig # 查询 DNS
 
@@ -68,7 +68,8 @@ pstree -pu # PID/User
 
 top # 推荐用 glances 代替
 
-isof -u username dirname 看目录下文件的被使用情况
+isof -u username dirname # 看目录下文件的被使用情况
+isof -i :80 # 看端口被哪个进程占用
 
 nice -n 10 vim # 以 10 为 nice 值运行 vim
 renice -n 10 -p 12345 # 设置 PID 为 12345 的进程的 nice 值为 10

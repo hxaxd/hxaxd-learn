@@ -34,7 +34,6 @@ nav:
       - LearnCPP: C++/LearnCPP.md
       - C++Prime: C++/C++Prime.md
       - C++最佳实践: C++/C++最佳实践.md
-      - EffectiveModernC++: C++/EffectiveModernC++.md
       - 程序员的自我修养: C++/程序员的自我修养.md
       - 深度探索C++对象模型: C++/深度探索C++对象模型.md
       - STL: C++/STL.md

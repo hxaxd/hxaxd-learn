@@ -43,6 +43,47 @@ delete p; // 调用析构函数并释放空间
 ```
 
 - 内存分配与构造析构都是编译时确定的, 只有数组的长度可以在运行时确定 (分配的内存块前的块表存储了已分配的相关信息)
+- `new (std::nothrow)` 在分配失败时返回空指针而不是抛出异常
+- 删除一个空指针是安全的, 不会有任何效果
+
+## CRTP (奇异递归模板模式)
+
+```C++
+#include <cstdio>
+ 
+#ifndef __cpp_explicit_this_parameter // Traditional syntax
+ 
+template <class Derived>
+struct Base
+{
+    void name() { static_cast<Derived*>(this)->impl(); }
+protected:
+    Base() = default; // prohibits the creation of Base objects, which is UB
+};
+struct D1 : public Base<D1> { void impl() { std::puts("D1::impl()"); } };
+struct D2 : public Base<D2> { void impl() { std::puts("D2::impl()"); } };
+ 
+#else // C++23 deducing-this syntax
+ 
+struct Base { void name(this auto&& self) { self.impl(); } };
+struct D1 : public Base { void impl() { std::puts("D1::impl()"); } };
+struct D2 : public Base { void impl() { std::puts("D2::impl()"); } };
+ 
+#endif
+ 
+int main()
+{
+    D1 d1; d1.name();
+    D2 d2; d2.name();
+}
+```
+
+## 返回值优化
+
+- 挨个尝试
+    - RVO: 直接返回临时对象
+    - NRVO: 只返回一个局部对象, 且这个变量初始化后没有被修改过 + 没有地址相关的操作 (如取地址或绑定到引用)
+    - 移动语义
 
 ## 小问题
 
@@ -51,3 +92,8 @@ delete p; // 调用析构函数并释放空间
     - `delete[]` 也会有类似问题
 - 用枚举给 `std::bitset` 定义位名
 - 在 `#include` 后面 `using`
+- 用无作用域枚举索引容器
+    - 枚举器是隐式 `constexpr` 导致无法赋给变量
+    - 通过指定类型抑制隐式 `constexpr`
+- 切勿从构造函数或析构函数中调用虚函数
+    - 在构造函数或析构函数中调用虚函数时, 对象的动态类型是当前类, 而不是派生类

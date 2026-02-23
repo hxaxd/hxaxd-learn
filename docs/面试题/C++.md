@@ -18,36 +18,28 @@
 
 ## 类型系统
 
-### 三态比较符
-
 ### 内存对齐
 
 ### 栈上创建对象的过程
 
-### 值类型与引用类型以及移动语义
-
-### 虚函数与虚继承
-
-### RAII 与智能指针
-
 ### 可变性语义与其优化
 
-## 模板元编程
+## 完美转发与引用折叠
 
-### 特化和偏特化
+## 技术
 
-### 完美转发与引用折叠
+### 禁止栈 / 堆分配
 
-## 标准库的实现
+### 限制对象的数量
 
-### `std::vector`
+### 判断大小端
 
-### `std::map` 与 `std::set`
+```C++
+#include <iostream>
 
-### `std::unordered_map` 与 `std::unordered_set`
-
-### `std::multimap` 与 `std::multiset`
-
-### Lambda 表达式 / `std::function` / `std::bind`
-
-### 协程
+bool isLittleEndian() {
+    uint16_t num = 0x1; // 16-bit number with the least significant byte set to 1
+    char* bytePtr = reinterpret_cast<char*>(&num); // Interpret the address of num as a char pointer
+    return bytePtr[0] == 1; // Check if the first byte is 1 (little-endian)
+}
+```

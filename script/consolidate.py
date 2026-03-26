@@ -3,13 +3,13 @@
 Git提交历史聚合脚本 (快照版)
 功能：将历史按月聚合，每个月生成一个快照提交。
 优势：避免Cherry-pick产生的冲突，保证代码状态与当时完全一致。
-提交信息格式：第一行为 YYYY-MM-DD (该月最后一次提交的日期)
+提交信息格式：第一行为 YYYY-MM
 """
 
 import subprocess
 import sys
+import os
 from collections import defaultdict
-import datetime
 
 def run_command(cmd, check=True):
     """运行Shell命令"""
@@ -54,10 +54,39 @@ def group_by_month(commits):
         groups[month_key].append(commit)
     return groups
 
+def resolve_git_identity():
+    """解析提交身份：优先读git config，缺失时回退到最近一次提交作者。"""
+    name = run_command(["git", "config", "--get", "user.name"], check=False).stdout.strip()
+    email = run_command(["git", "config", "--get", "user.email"], check=False).stdout.strip()
+
+    if not name:
+        name = run_command(["git", "config", "--global", "--get", "user.name"], check=False).stdout.strip()
+    if not email:
+        email = run_command(["git", "config", "--global", "--get", "user.email"], check=False).stdout.strip()
+
+    # 兜底：尝试使用仓库最近一次提交作者
+    if not name or not email:
+        latest = run_command(["git", "log", "-1", "--format=%an|%ae"], check=False).stdout.strip()
+        if "|" in latest:
+            latest_name, latest_email = latest.split("|", 1)
+            if not name:
+                name = latest_name.strip()
+            if not email:
+                email = latest_email.strip()
+
+    if not name or not email:
+        print("错误：无法确定 Git 提交身份（user.name / user.email）。")
+        print("请先设置：")
+        print('  git config --global user.name "Your Name"')
+        print('  git config --global user.email "you@example.com"')
+        sys.exit(1)
+
+    return name, email
+
 def main():
     print("="*60)
     print("Git 历史聚合工具 (快照模式)")
-    print("目标：生成 YYYY-MM-DD 格式的月度快照")
+    print("目标：生成 YYYY-MM 格式的月度快照")
     print("="*60)
 
     # 1. 检查当前状态
@@ -71,6 +100,8 @@ def main():
     if not commits:
         print("没有找到提交记录。")
         return
+
+    author_name, author_email = resolve_git_identity()
 
     monthly_groups = group_by_month(commits)
     sorted_months = sorted(monthly_groups.keys())
@@ -104,8 +135,8 @@ def main():
         run_command(["git", "read-tree", "-u", "--reset", last_commit["hash"]])
 
         # 构建提交信息
-        # 第一行：YYYY-MM-DD
-        msg_lines = [last_date, ""]
+        # 第一行：YYYY-MM
+        msg_lines = [month, ""]
         msg_lines.append(f"包含 {len(month_commits)} 个原始提交的变更:")
         for c in month_commits:
             msg_lines.append(f"- {c['hash'][:7]}: {c['message']}")
@@ -114,7 +145,15 @@ def main():
 
         # 提交 (使用该月最后一次提交的原始时间，保持时间线大致正确)
         # 这里的 date 只是元数据，提交顺序是线性的
-        env = {"GIT_AUTHOR_DATE": last_commit["date_str"], "GIT_COMMITTER_DATE": last_commit["date_str"]}
+        env = {
+            **os.environ,
+            "GIT_AUTHOR_NAME": author_name,
+            "GIT_AUTHOR_EMAIL": author_email,
+            "GIT_COMMITTER_NAME": author_name,
+            "GIT_COMMITTER_EMAIL": author_email,
+            "GIT_AUTHOR_DATE": last_commit["date_str"],
+            "GIT_COMMITTER_DATE": last_commit["date_str"],
+        }
         
         # 调用 git commit
         # 注意：因为 read-tree 已经把暂存区准备好了，直接 commit 即可

@@ -71,8 +71,8 @@
 - [LearnCPP](C++/LearnCPP.md)
 - [C++Prime](C++/C++Prime.md)
 - [C++ 最佳实践](C++/C++最佳实践.md)
-- [程序员的自我修养](C++/程序员的自我修养.md)
-- [深度探索 C++ 对象模型](C++/深度探索C++对象模型.md)
+- [程序员的自我修养](C++/程序员的自我修养.md) TODO
+- [深度探索 C++ 对象模型](C++/深度探索C++对象模型.md) TODO
 - [STL](C++/STL.md)
 - [C++ 工具](C++/C++工具.md)
 
@@ -90,7 +90,7 @@
 - [编程珠玑](算法/编程珠玑.md)
 - [编程珠玑续](算法/编程珠玑续.md)
 - [编程之美](算法/编程之美.md)
-- [程序员面试金典](算法/程序员面试金典.md)
+- [程序员面试金典](算法/程序员面试金典.md) TODO
 - [力扣题解](算法/力扣题解.md)
 
 ### 计算机系统与组成
@@ -104,7 +104,7 @@
 > _**"Linux 内核是一座大教堂, 而不是一个集市" ---- Linus Torvalds**_
 
 - [操作系统导论](操作系统/操作系统导论.md)
-- [Linux 内核](操作系统/Linux内核.md)
+- [Linux 内核](操作系统/Linux内核.md) TODO
 
 ### 代码风格与编程技术
 
@@ -117,13 +117,13 @@
 ### 计算机网络
 
 - [自顶向下方法](计算机网络/自顶向下方法.md)
-- [TCPIP 详解](计算机网络/TCPIP详解.md)
+- [TCPIP 详解](计算机网络/TCPIP详解.md) TODO
 
 ### 数据库
 
 - [SQL 必知必会](数据库/SQL必知必会.md)
-- [Redis 设计与实现](数据库/Redis设计与实现.md)
-- [MySQL 技术内幕](数据库/MySQL技术内幕.md)
+- [Redis 设计与实现](数据库/Redis设计与实现.md) TODO
+- [MySQL 技术内幕](数据库/MySQL技术内幕.md) TODO
 
 ### UNIX 系统与网络编程
 
@@ -136,24 +136,26 @@
 
 > _**"CAP 定理告诉我们, 一致性 可用性和分区容错性在分布式系统中最多只能同时满足两个" ---- Eric Brewer**_
 
-- [分布式系统](分布式/分布式系统.md)
+- [分布式系统](分布式/分布式系统.md) TODO
 - [数据密集型应用系统设计](分布式/数据密集型应用系统设计.md)
 - [系统设计](分布式/系统设计.md)
 
-### 通识编程语言
+### 通识编程语言 TODO
 
 - [Rust](Rust/Rust.md)
 - [Go](Go/Go.md)
 - [Haskell](Haskell/Haskell.md)
 - [Lua](Lua/Lua.md)
 
-### Python
+### Python TODO
 
 > _**"人生苦短, 我用 Python" ---- Bruce Eckel**_
 
 - [流畅的 Python](Python/流畅的Python.md)
 - [Python 后端开发框架](Python/Python后端开发基本框架.md)
 - [Python 数据处理与计算框架](Python/Python数据处理与计算框架.md)
+
+###
 
 ### 面试题
 

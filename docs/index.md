@@ -35,24 +35,40 @@
 - [电子技术](理论基础/电子技术.md)
 - [计算理论与编译原理](理论基础/计算理论与编译原理.md)
 
-### 工具
+### 开发工具与工程实践
 
-- [Markdown](工具/Markdown.md)
-- [基本图形开发环境配置](工具/基本图形开发环境配置.md)
-- [Git 基本使用](工具/Git基本使用.md)
-- [Linux 基础](工具/Linux基础.md)
-- [标记语言与序列化](工具/标记语言与序列化.md)
-- [Shell 基础](工具/Shell基础.md)
-- [Shell 文本处理](工具/Shell文本处理.md)
-- [Linux 系统与网络管理](工具/Linux系统与网络管理.md)
-- [Shell 编程](工具/Shell编程.md)
-- [终端开发环境配置](工具/终端开发环境配置.md)
-- [Tex 基础](工具/Tex基础.md)
-- [Nginx](工具/Nginx.md)
-- [前端开发常识](工具/前端开发常识.md)
-- [容器常识](工具/容器常识.md)
-- [WEB 开发常识](工具/WEB开发常识.md)
-- [AI 工具](工具/AI工具.md)
+#### 开发环境与协作
+
+- [开发环境](工具/开发环境与协作/开发环境.md)
+- [终端开发环境](工具/开发环境与协作/终端开发环境.md)
+- [Git](工具/开发环境与协作/Git.md)
+
+#### Linux 与 Shell
+
+- [Linux 基础](工具/Linux与Shell/Linux基础.md)
+- [Shell 基础](工具/Linux与Shell/Shell基础.md)
+- [Shell 文本处理](工具/Linux与Shell/Shell文本处理.md)
+- [Shell 编程](工具/Linux与Shell/Shell编程.md)
+- [Linux 系统与网络管理](工具/Linux与Shell/Linux系统与网络管理.md)
+- [远程开发与集群](工具/Linux与Shell/远程开发与集群.md) TODO
+
+#### 文档与数据格式
+
+- [Markdown](工具/文档与数据格式/Markdown.md)
+- [TeX 基础](工具/文档与数据格式/TeX.md)
+- [标记语言与序列化](工具/文档与数据格式/标记语言与序列化.md)
+
+#### Web 开发与部署
+
+- [前端开发基础](工具/Web开发与部署/前端开发.md)
+- [Web 开发工具](工具/Web开发与部署/Web开发工具.md)
+- [容器与编排](工具/Web开发与部署/容器与编排.md)
+- [Web 服务与反向代理](工具/Web开发与部署/Web服务与反向代理.md)
+
+#### 工程效率与质量
+
+- [工程自动化与质量](工具/工程效率与质量/工程自动化与质量.md) TODO
+- [调试与可观测性](工具/工程效率与质量/调试与可观测性.md) TODO
 
 ### C 语言
 
@@ -71,6 +87,8 @@
 - [LearnCPP](C++/LearnCPP.md)
 - [C++Prime](C++/C++Prime.md)
 - [C++ 最佳实践](C++/C++最佳实践.md)
+- [C++ 并发编程](C++/C++并发编程.md) TODO
+- [C++ 性能优化指南](C++/C++性能优化指南.md) TODO
 - [程序员的自我修养](C++/程序员的自我修养.md) TODO
 - [深度探索 C++ 对象模型](C++/深度探索C++对象模型.md) TODO
 - [STL](C++/STL.md)
@@ -121,6 +139,7 @@
 
 ### 数据库
 
+- [数据库系统概念](数据库/数据库系统概念.md) TODO
 - [SQL 必知必会](数据库/SQL必知必会.md)
 - [Redis 设计与实现](数据库/Redis设计与实现.md) TODO
 - [MySQL 技术内幕](数据库/MySQL技术内幕.md) TODO
@@ -140,6 +159,10 @@
 - [数据密集型应用系统设计](分布式/数据密集型应用系统设计.md)
 - [系统设计](分布式/系统设计.md)
 
+### 数据工程与大数据
+
+- [数据工程与大数据](数据工程与大数据/数据工程与大数据.md)
+
 ### 通识编程语言 TODO
 
 - [Rust](Rust/Rust.md)
@@ -155,6 +178,31 @@
 - [Python 后端开发框架](Python/Python后端开发基本框架.md)
 - [Python 数据处理与计算框架](Python/Python数据处理与计算框架.md)
 
+### 人工智能与机器学习
+
+- [机器学习](人工智能与机器学习/机器学习.md)
+- [深度学习](人工智能与机器学习/深度学习.md)
+- [卷积神经网络](人工智能与机器学习/卷积神经网络.md)
+
+### 并行计算与 AI 系统
+
+- [并行计算与 AI 系统](并行计算与AI系统/并行计算与AI系统.md)
+
+### Agent
+
+- [Agent 总览](Agent/agent.md)
+- [AI 工具](Agent/AI工具.md)
+- [RAG](Agent/RAG.md)
+- [记忆](Agent/memory.md)
+- [MCP](Agent/MCP.md)
+- [Skills](Agent/Skills.md)
+- [Spec 与 Test](Agent/spec&test.md)
+- [评测](Agent/benchmark.md)
+- [Codex](Agent/Codex.md)
+- [Claude Code](Agent/claudecode.md)
+- [OpenClaw](Agent/openclaw.md)
+- [Agent 项目列表](Agent/list.md)
+
 ### 面试题
 
 - [C++ 面试题](面试题/C++.md)
@@ -169,3 +217,4 @@
 ### 其它
 
 - [计算机与人脑](其它/计算机与人脑.md)
+- [PlaneSegNet](其它/PlaneSegNet.md)

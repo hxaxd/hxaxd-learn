@@ -11,4 +11,4 @@
 
 ## KaTex
 
-- 见[Tex](Tex基础.md)
+- 见 [TeX](TeX.md)

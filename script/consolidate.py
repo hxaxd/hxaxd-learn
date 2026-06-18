@@ -6,10 +6,26 @@ Git提交历史聚合脚本 (快照版)
 提交信息格式：第一行为 YYYY-MM
 """
 
+import argparse
+import os
 import subprocess
 import sys
-import os
 from collections import defaultdict
+
+TARGET_BRANCH = "consolidated-history-clean"
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="将 Git 历史按月聚合为快照提交。"
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="只显示将执行的操作，不切换分支、不修改工作区、不创建提交。",
+    )
+    return parser.parse_args()
+
 
 def run_command(cmd, check=True):
     """运行Shell命令"""
@@ -54,6 +70,62 @@ def group_by_month(commits):
         groups[month_key].append(commit)
     return groups
 
+
+def get_current_branch():
+    """返回当前分支名；如果处于 detached HEAD，则返回 HEAD。"""
+    result = run_command(
+        ["git", "branch", "--show-current"],
+        check=False,
+    )
+    return result.stdout.strip() or "HEAD"
+
+
+def branch_exists(branch):
+    """检查本地分支是否存在。"""
+    result = run_command(
+        ["git", "show-ref", "--verify", "--quiet", f"refs/heads/{branch}"],
+        check=False,
+    )
+    return result.returncode == 0
+
+
+def print_plan(commits, monthly_groups, current_branch):
+    """打印即将执行的操作摘要。"""
+    sorted_months = sorted(monthly_groups.keys())
+    print(f"当前分支: {current_branch}")
+    print(f"目标分支: {TARGET_BRANCH}")
+    print(f"原始提交数: {len(commits)}")
+    print(f"将生成的月度快照数: {len(sorted_months)}")
+    print(
+        "目标分支处理: "
+        + ("删除并重建" if branch_exists(TARGET_BRANCH) else "新建")
+    )
+    print("\n月度快照:")
+    for month in sorted_months:
+        month_commits = monthly_groups[month]
+        last_commit = month_commits[-1]
+        print(
+            f"- {month}: {len(month_commits)} 个提交, "
+            f"快照点 {last_commit['hash'][:7]}"
+        )
+
+
+def confirm_execution():
+    """要求输入完整确认短语后才执行破坏性操作。"""
+    expected = f"REBUILD {TARGET_BRANCH}"
+    print("\n警告: 接下来会切换到孤儿分支, 重写工作区并重建目标分支。")
+    print("源分支不会被删除, 但未提交的工作区修改会使脚本拒绝运行。")
+    print(f"请输入以下内容确认执行:\n{expected}")
+    try:
+        response = input("> ").strip()
+    except EOFError:
+        response = ""
+
+    if response != expected:
+        print("确认内容不匹配, 已取消。")
+        sys.exit(1)
+
+
 def resolve_git_identity():
     """解析提交身份：优先读git config，缺失时回退到最近一次提交作者。"""
     name = run_command(["git", "config", "--get", "user.name"], check=False).stdout.strip()
@@ -84,16 +156,12 @@ def resolve_git_identity():
     return name, email
 
 def main():
+    args = parse_args()
+
     print("="*60)
     print("Git 历史聚合工具 (快照模式)")
     print("目标：生成 YYYY-MM 格式的月度快照")
     print("="*60)
-
-    # 1. 检查当前状态
-    status = run_command(["git", "status", "--porcelain"], check=False)
-    if status.stdout.strip():
-        print("错误：工作区不干净，请先提交或暂存更改。")
-        sys.exit(1)
 
     print("正在读取提交历史...")
     commits = get_commits()
@@ -101,15 +169,31 @@ def main():
         print("没有找到提交记录。")
         return
 
-    author_name, author_email = resolve_git_identity()
-
     monthly_groups = group_by_month(commits)
     sorted_months = sorted(monthly_groups.keys())
-    
-    print(f"检测到 {len(commits)} 个提交，跨越 {len(sorted_months)} 个月份。")
+    current_branch = get_current_branch()
+
+    print_plan(commits, monthly_groups, current_branch)
+
+    if args.dry_run:
+        print("\nDry run 完成, 未执行任何 Git 修改。")
+        return
+
+    # 1. 检查当前状态
+    status = run_command(["git", "status", "--porcelain"], check=False)
+    if status.stdout.strip():
+        print("错误：工作区不干净，请先提交或暂存更改。")
+        sys.exit(1)
+
+    if current_branch == TARGET_BRANCH:
+        print(f"错误：当前已经位于目标分支 {TARGET_BRANCH}，请先切回源分支。")
+        sys.exit(1)
+
+    author_name, author_email = resolve_git_identity()
+    confirm_execution()
 
     # 2. 创建一个新的孤儿分支（不继承旧历史，从零开始）
-    new_branch = "consolidated-history-clean"
+    new_branch = TARGET_BRANCH
     print(f"\n正在创建新分支: {new_branch} ...")
     
     # 检查分支是否存在，存在则删除

@@ -123,8 +123,6 @@ nav:
       - PostgreSQL: 面试题/PostgreSQL.md
       - 消息队列: 面试题/消息队列.md
       - 分布式协调: 面试题/分布式协调.md
-      - 网关: 面试题/网关.md
-      - 其它: 面试题/其它.md
   - 其它:
       - 计算机与人脑: 其它/计算机与人脑.md
       - PlaneSegNet: 其它/PlaneSegNet.md

@@ -190,18 +190,13 @@
 
 ### Agent
 
-- [Agent 总览](Agent/agent.md)
-- [AI 工具](Agent/AI工具.md)
-- [RAG](Agent/RAG.md)
-- [记忆](Agent/memory.md)
-- [MCP](Agent/MCP.md)
-- [Skills](Agent/Skills.md)
-- [Spec 与 Test](Agent/spec&test.md)
-- [评测](Agent/benchmark.md)
-- [Codex](Agent/Codex.md)
-- [Claude Code](Agent/claudecode.md)
-- [OpenClaw](Agent/openclaw.md)
-- [Agent 项目列表](Agent/list.md)
+- [Harness 总论](Agent/Harness/Agent.md)
+- [Context](Agent/Harness/Context.md)
+- [Runtime](Agent/Harness/Runtime.md)
+- [Evolution](Agent/Harness/Evolution.md)
+- [Spec 与 Test](Agent/SPEC&TEST.md)
+- [Human](Agent/Human.md)
+- [多智能体](Agent/多智能体.md)
 
 ### 面试题
 

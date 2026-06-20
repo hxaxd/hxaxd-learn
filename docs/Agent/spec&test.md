@@ -2,6 +2,8 @@
 
 ## openspec
 
+## spec-kit
+
 ## superpowers skills
 
 - 入口 -> 定义基本约束 + 流程

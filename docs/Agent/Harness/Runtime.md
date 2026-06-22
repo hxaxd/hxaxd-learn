@@ -1,5 +1,8 @@
 # Runtime
 
+- Runtime 是 Action 与环境状态转变的接口, 也负责将环境状态转换为 Observation
+- Runtime 可以承载调用, 调度, 重试和状态持久化等确定性机制, 但这里只关注其中会影响 Agent 智能表现的部分
+
 ## 确定性机制
 
 ### Hooks
@@ -35,6 +38,21 @@
 ## 可观测性与评估机制
 
 ### 轨迹感知
+
+### 在线 Evaluation
+
+- 在线 Evaluation 发生在 Agent 的认知循环中
+    - 依据 Objective 判断当前状态, Action 或结果
+    - 将评价结果作为 Feedback 返回 Context
+    - Feedback 会影响 Agent 后续的 Belief, Plan 和 Action
+- Evaluation 与 Observation 不同
+    - Observation 描述环境中发生了什么
+    - Evaluation 判断发生的事情相对于 Objective 是否正确
+
+### Harness Evaluation
+
+- Harness Evaluation 用于判断 Harness 中的 Knowledge, Cognitive Control 与 Runtime 是否有效
+- Evaluation 的结果可以为 Evolution 提供修改 Harness 的依据
 
 ### 指标
 

@@ -1,15 +1,5 @@
 # Context
 
-- 结构
-    - system: base_isntructions
-    - developer: 权限与沙箱规则
-    - user: AGENTS.md
-        - 用户的 AGENT.md
-        - Skills
-        - 环境信息
-    - developer: collaboration_mode
-    - turn flag 中间夹杂着 user Prompt 和 ReAct, 直到结束
-
 ## Workflow
 
 - Workflow 决定使用 Cognitive Control 的流程

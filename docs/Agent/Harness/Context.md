@@ -1,5 +1,43 @@
 # Context
 
+## Knowledge 与 Belief
+
+- Knowledge 是当前 Context 中提供给模型的信息, 不代表其一定客观为真
+    - 可以包括事实, Observation, Feedback, 假设, 预测和相互冲突的信息
+    - 应尽可能保留来源, 时间, 可验证性和不确定性, 避免模型把所有信息视为同等可信
+- Belief 是模型根据当前 Knowledge 形成的对任务与环境的认知状态
+    - 新的 Knowledge 会使 Belief 在交互中自然更新
+    - 这种更新属于 Agent 当前的认知过程, 不属于 Harness 的 Evolution
+- Reasoning 是模型对 Knowledge 的变换, 以产生判断, 预测, 解释或行动依据
+    - 通常用于降低与 Objective 相关的不确定性
+    - 探索时也可以先生成多个假设, 再通过 Action 获取 Observation 进行排除
+
+## Objective
+
+- Objective 描述对环境状态, 行动轨迹或最终结果的偏好
+    - Goal: 希望达到的状态
+    - Constraint: 不可接受的状态或行为
+    - Completion Criteria: 判断 Objective 已完成所需的证据
+- Planning 根据 Objective, 当前 Belief 与 Action 的可能后果组织未来行动
+- 对于开放式 Agent, Objective 还可以包括 Motivation
+    - 主动生成下一目标
+    - 在探索与利用之间进行选择
+    - 根据能力边界形成 Curriculum
+
+## Observation 与 Feedback
+
+- Observation 是 Runtime 从环境中取得并提供给模型的 Knowledge
+    - 描述环境中发生了什么
+    - Observation 本身不判断结果是否满足 Objective
+    - 模型对 Observation 的解释属于 Reasoning
+- Evaluation 是依据 Objective 判断状态, Action 或结果好坏的过程
+- Feedback 是 Evaluation 产生并提供给模型的 Knowledge
+    - 可以来自环境, 测试, 人类, Critic 或模型自身
+    - 用于修正 Belief, Plan 和后续 Action
+- Observation 与 Feedback 需要分开
+    - 命令退出码和文件内容是 Observation
+    - 测试是否满足需求和人类是否接受结果是 Feedback
+
 ## Workflow
 
 - Workflow 决定使用 Cognitive Control 的流程

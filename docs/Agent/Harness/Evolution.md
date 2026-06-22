@@ -1,5 +1,15 @@
 # Evolution
 
+- Evolution 专指 Harness 根据交互经验对自身进行持久化修改的机制
+    - Agent 在当前 Context 中对 Belief, Plan 和行动倾向的更新不是 Evolution
+    - Model 权重的训练与更新也不属于 Harness Evolution
+- Harness Evolution 的对象
+    - 改变未来提供给模型的 Knowledge, 包括 Memory 和 Skill
+    - 改变未来使用的 Cognitive Control, 包括 Workflow
+    - 改变 Runtime, 包括工具, 安全机制, Hooks 和可观测性与评估机制
+- Evaluation 为 Harness Evolution 提供选择信号
+    - 只有能够区分有效与无效经验, Harness 才能决定沉淀, 修改或遗忘什么
+
 ## Memory
 
 - 广义的 Memory, 包括环境信息, 用户信息与沉淀经验

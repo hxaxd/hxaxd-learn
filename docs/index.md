@@ -50,7 +50,7 @@
 - [Shell 文本处理](工具/Linux与Shell/Shell文本处理.md)
 - [Shell 编程](工具/Linux与Shell/Shell编程.md)
 - [Linux 系统与网络管理](工具/Linux与Shell/Linux系统与网络管理.md)
-- [远程开发与集群](工具/Linux与Shell/远程开发与集群.md) TODO
+- [远程开发与集群](工具/Linux与Shell/远程开发与集群.md)
 
 #### 文档与数据格式
 
@@ -64,11 +64,6 @@
 - [Web 开发工具](工具/Web开发与部署/Web开发工具.md)
 - [容器与编排](工具/Web开发与部署/容器与编排.md)
 - [Web 服务与反向代理](工具/Web开发与部署/Web服务与反向代理.md)
-
-#### 工程效率与质量
-
-- [工程自动化与质量](工具/工程效率与质量/工程自动化与质量.md) TODO
-- [调试与可观测性](工具/工程效率与质量/调试与可观测性.md) TODO
 
 ### C 语言
 
@@ -87,8 +82,7 @@
 - [LearnCPP](C++/LearnCPP.md)
 - [C++Prime](C++/C++Prime.md)
 - [C++ 最佳实践](C++/C++最佳实践.md)
-- [C++ 并发编程](C++/C++并发编程.md) TODO
-- [C++ 性能优化指南](C++/C++性能优化指南.md) TODO
+- [C++ 并发编程](C++/C++并发编程.md)
 - [程序员的自我修养](C++/程序员的自我修养.md) TODO
 - [深度探索 C++ 对象模型](C++/深度探索C++对象模型.md) TODO
 - [STL](C++/STL.md)
@@ -108,7 +102,6 @@
 - [编程珠玑](算法/编程珠玑.md)
 - [编程珠玑续](算法/编程珠玑续.md)
 - [编程之美](算法/编程之美.md)
-- [程序员面试金典](算法/程序员面试金典.md) TODO
 - [力扣题解](算法/力扣题解.md)
 
 ### 计算机系统与组成
@@ -139,10 +132,10 @@
 
 ### 数据库
 
-- [数据库系统概念](数据库/数据库系统概念.md) TODO
+- [数据库系统概念](数据库/数据库系统概念.md)
 - [SQL 必知必会](数据库/SQL必知必会.md)
-- [Redis 设计与实现](数据库/Redis设计与实现.md) TODO
-- [MySQL 技术内幕](数据库/MySQL技术内幕.md) TODO
+- [Redis 设计与实现](数据库/Redis设计与实现.md)
+- [MySQL 技术内幕](数据库/MySQL技术内幕.md)
 
 ### UNIX 系统与网络编程
 
@@ -155,7 +148,7 @@
 
 > _**"CAP 定理告诉我们, 一致性 可用性和分区容错性在分布式系统中最多只能同时满足两个" ---- Eric Brewer**_
 
-- [分布式系统](分布式/分布式系统.md) TODO
+- [分布式系统](分布式/分布式系统.md)
 - [数据密集型应用系统设计](分布式/数据密集型应用系统设计.md)
 - [系统设计](分布式/系统设计.md)
 
@@ -163,18 +156,17 @@
 
 - [数据工程与大数据](数据工程与大数据/数据工程与大数据.md)
 
-### 通识编程语言 TODO
+### 通识编程语言
 
 - [Rust](Rust/Rust.md)
 - [Go](Go/Go.md)
-- [Haskell](Haskell/Haskell.md)
 - [Lua](Lua/Lua.md)
 
-### Python TODO
+### Python
 
 > _**"人生苦短, 我用 Python" ---- Bruce Eckel**_
 
-- [流畅的 Python](Python/流畅的Python.md)
+- [流畅的 Python](Python/流畅的Python.md) TODO
 - [Python 后端开发框架](Python/Python后端开发基本框架.md)
 - [Python 数据处理与计算框架](Python/Python数据处理与计算框架.md)
 
@@ -194,7 +186,8 @@
 - [Context](Agent/Harness/Context.md)
 - [Runtime](Agent/Harness/Runtime.md)
 - [Evolution](Agent/Harness/Evolution.md)
-- [Spec 与 Test](Agent/SPEC&TEST.md)
+- [Environment](Agent/Environment.md)
+- [Model](Agent/Model.md)
 - [Human](Agent/Human.md)
 - [多智能体](Agent/多智能体.md)
 

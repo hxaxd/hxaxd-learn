@@ -28,9 +28,6 @@ nav:
           - Web开发工具: 工具/Web开发与部署/Web开发工具.md
           - 容器与编排: 工具/Web开发与部署/容器与编排.md
           - Web服务与反向代理: 工具/Web开发与部署/Web服务与反向代理.md
-      - 工程效率与质量:
-          - 工程自动化与质量: 工具/工程效率与质量/工程自动化与质量.md
-          - 调试与可观测性: 工具/工程效率与质量/调试与可观测性.md
   - C语言:
       - CPrimePlus: C/CPrimePlus.md
       - C和指针: C/C和指针.md
@@ -42,7 +39,6 @@ nav:
       - C++Prime: C++/C++Prime.md
       - C++最佳实践: C++/C++最佳实践.md
       - C++并发编程: C++/C++并发编程.md
-      - C++性能优化指南: C++/C++性能优化指南.md
       - 程序员的自我修养: C++/程序员的自我修养.md
       - 深度探索C++对象模型: C++/深度探索C++对象模型.md
       - STL: C++/STL.md
@@ -58,7 +54,6 @@ nav:
       - 编程珠玑: 算法/编程珠玑.md
       - 编程珠玑续: 算法/编程珠玑续.md
       - 编程之美: 算法/编程之美.md
-      - 程序员面试金典: 算法/程序员面试金典.md
       - 力扣题解: 算法/力扣题解.md
   - 计算机系统与组成:
       - 汇编语言(王爽): 计算机系统与组成/汇编语言(王爽).md
@@ -92,7 +87,6 @@ nav:
       - Rust程序设计: Rust/Rust.md
       - Go: Go/Go.md
       - Lua: Lua/Lua.md
-      - Haskell: Haskell/Haskell.md
   - Python:
       - 流畅的Python: Python/流畅的Python.md
       - Python后端开发基本框架: Python/Python后端开发基本框架.md
@@ -108,7 +102,8 @@ nav:
       - Context: Agent/Harness/Context.md
       - Runtime: Agent/Harness/Runtime.md
       - Evolution: Agent/Harness/Evolution.md
-      - Spec与Test: Agent/SPEC&TEST.md
+      - Environment: Agent/Environment.md
+      - Model: Agent/Model.md
       - Human: Agent/Human.md
       - 多智能体: Agent/多智能体.md
   - 面试题:

@@ -43,6 +43,10 @@
 - Workflow 决定使用 Cognitive Control 的流程
 - 也包括对 Context 的直接操作
 
+### Branch
+
+- 分支
+
 ### React
 
 - 思考-行动-思考-结束
@@ -87,7 +91,21 @@
 - Observe: 检查结果与状态
 - Repeat: 决定下一步继续 (以及如何继续) 或结束
 
+### checkpoint
+
+- 在运行中写结构化的 checkpoint 文件, 以便检查历史记忆
+
+### Loop / Goal
+
 ## Action
+
+### 浏览器
+
+#### 标注
+
+### Computer Use
+
+#### 回放 -> Skills
 
 ### MCP
 

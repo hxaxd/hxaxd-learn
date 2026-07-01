@@ -36,7 +36,6 @@ nav:
       - C语言重点总结: C/C语言重点总结.md
   - C++语言:
       - LearnCPP: C++/LearnCPP.md
-      - C++Prime: C++/C++Prime.md
       - C++最佳实践: C++/C++最佳实践.md
       - C++并发编程: C++/C++并发编程.md
       - 程序员的自我修养: C++/程序员的自我修养.md
@@ -74,11 +73,13 @@ nav:
       - SQL必知必会: 数据库/SQL必知必会.md
       - Redis设计与实现: 数据库/Redis设计与实现.md
       - MySQL技术内幕: 数据库/MySQL技术内幕.md
+      - 其他数据库: 数据库/其他数据库.md
   - UNIX系统与网络编程:
       - Linux高性能服务器编程: UNIX系统与网络编程/Linux高性能服务器编程.md
       - Linux多线程服务端编程: UNIX系统与网络编程/Linux多线程服务端编程.md
   - 分布式:
       - 分布式系统: 分布式/分布式系统.md
+      - 消息队列: 分布式/消息队列.md
       - 数据密集型应用系统设计: 分布式/数据密集型应用系统设计.md
       - 系统设计: 分布式/系统设计.md
   - 数据工程与大数据:
@@ -107,13 +108,6 @@ nav:
       - Model: Agent/Model.md
       - Human: Agent/Human.md
       - 多智能体: Agent/多智能体.md
-  - 面试题:
-      - C++: 面试题/C++.md
-      - Redis: 面试题/Redis.md
-      - MySQL: 面试题/MySQL.md
-      - PostgreSQL: 面试题/PostgreSQL.md
-      - 消息队列: 面试题/消息队列.md
-      - 分布式协调: 面试题/分布式协调.md
   - 其它:
       - 计算机与人脑: 其它/计算机与人脑.md
       - PlaneSegNet: 其它/PlaneSegNet.md

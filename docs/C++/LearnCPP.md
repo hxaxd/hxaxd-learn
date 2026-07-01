@@ -163,6 +163,11 @@ export void print_vec(const std::vector<int>& v) {
     - `int8_t` `int16_t` `int32_t` `int64_t`
     - `uint8_t` `uint16_t` `uint32_t` `uint64_t`
     - 注意 `int8_t` 与 `uint8_t` 可能被定义为 `char` 类型
+- 字符分类函数 (`cctype`)
+    - `std::isspace` / `std::isdigit` / `std::isalpha` 等函数通常接收 `int`, 但合法值应为 `EOF` 或可由 `unsigned char` 表示的值
+    - 对可能为负的 `char` 直接调用可能出问题, 更稳妥的写法是先转换为 `unsigned char`
+    - `std::isspace(static_cast<unsigned char>(ch))`
+
 - 大小与环绕
     - `std::size_t` 是某个无符号整数类型, 最好通过 `<cstddef>` 引入
     - `sizeof` 运算符返回该类型, 但你不需要显式引入
@@ -550,6 +555,9 @@ double circumference(double r) {
     - 忽略值参数上的 `const`
     - 包括 `...` 参数
 - 对于成员函数, 还区分 `const`, `volatile` 以及引用限定符
+- 名字查找先于重载决议
+    - 局部作用域中的同名声明会隐藏外层所有同名重载, 而不是只隐藏签名相同的那一个
+    - 类继承中的同名成员函数也类似, 可用 `using Base::func` 引入基类重载集
 - 重载决议
     - 寻找最佳匹配
         - 精确匹配: 无转换, 左值转右值, 限定符转换, 非引用到引用

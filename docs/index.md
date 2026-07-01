@@ -161,12 +161,13 @@
 - [Rust](Rust/Rust.md)
 - [Go](Go/Go.md)
 - [Lua](Lua/Lua.md)
+- [JS&TS](JS&TS/JS&TS.md)
 
 ### Python
 
 > _**"人生苦短, 我用 Python" ---- Bruce Eckel**_
 
-- [流畅的 Python](Python/流畅的Python.md) TODO
+- [流畅的 Python](Python/流畅的Python.md)
 - [Python 后端开发框架](Python/Python后端开发基本框架.md)
 - [Python 数据处理与计算框架](Python/Python数据处理与计算框架.md)
 

@@ -87,6 +87,7 @@ nav:
       - Rust程序设计: Rust/Rust.md
       - Go: Go/Go.md
       - Lua: Lua/Lua.md
+      - JS&TS: JS&TS/JS&TS.md
   - Python:
       - 流畅的Python: Python/流畅的Python.md
       - Python后端开发基本框架: Python/Python后端开发基本框架.md

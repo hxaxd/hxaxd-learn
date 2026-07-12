@@ -1,0 +1,366 @@
+{
+    // ========== 1. 界面与视觉体验 (UI & Visuals) ==========
+    "workbench.colorTheme": "One Dark Pro Darker",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "python.createEnvironment.trigger": "off",
+    "workbench.navigationControl.enabled": false,
+    "chat.commandCenter.enabled": false,
+    // 字体配置 (Monaspace 连字优化)
+    "editor.fontFamily": "\"Monaspace Radon Var\", \"新宋体\", monospace",
+    "editor.fontSize": 14,
+    "editor.fontLigatures": "'calt', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08'",
+    // 动画与流畅度
+    "editor.smoothScrolling": true,
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorBlinking": "expand",
+    "workbench.list.smoothScrolling": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.cursorStyle": "line",
+    // 代码阅读辅助
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.renderWhitespace": "selection", // 仅在选中时显示空格，保持界面整洁
+    // ========== 2. 文件与编辑器核心 (Core Editor) ==========
+    "files.autoSave": "onFocusChange",
+    "files.associations": {
+        "*.md": "markdown",
+        "*.css": "css",
+        "*.json": "jsonc" // 允许 JSON 写注释
+    },
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.formatOnSave": true, // 全局开启保存格式化
+    // ========== 3. Python 开发环境 (最佳实践) ==========
+    // 禁用 Pylance 原生诊断，避免与 BasedPyright 重复报错 (节省内存)
+    "python.analysis.diagnosticMode": "openFilesOnly",
+    "python.analysis.typeCheckingMode": "off",
+    // BasedPyright 配置
+    "basedpyright.analysis.typeCheckingMode": "standard",
+    "basedpyright.disableLanguageServices": false,
+    "[python]": {
+        // 使用 Ruff 进行极速格式化
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        // 保存时自动修复错误并整理 Import
+        "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit"
+        }
+    },
+    // ========== 4. C/C++ 开发环境 (Clangd) ==========
+    "clangd.arguments": [
+        "--background-index", // 后台建立索引
+        "--clang-tidy", // 开启静态检查
+        "--header-insertion=iwyu", // 自动补充头文件
+        "--completion-style=detailed",
+        "--compile-commands-dir=${workspaceFolder}"
+    ],
+    // 避免与微软官方插件冲突
+    "C_Cpp.intelliSenseEngine": "disabled",
+    // ========== 5. Web 前端开发 (Prettier & Volar) ==========
+    "[javascript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    // ========== 6. Markdown 专项配置 ==========
+    "markdown-preview-enhanced.codeBlockTheme": "one-dark.css",
+    "markdown-preview-enhanced.enableScriptExecution": true,
+    "markdown-preview-enhanced.previewTheme": "one-dark.css",
+    "markdown-preview-enhanced.revealjsTheme": "night.css",
+    "markdownlint.run": "onSave",
+    "markdownlint.config": {
+        "MD007": {
+            "indent": 4
+        }, // 列表缩进
+        "MD025": {
+            "front_matter_title": ""
+        } // 允许在 front matter 中写标题
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {
+            "comments": "off",
+            "strings": "off",
+            "other": "off"
+        }
+    },
+    // ========== 7. LaTeX 配置 ==========
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.view.pdf.viewer": "tab", // 在标签页查看 PDF
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex -> bibtex -> xelatex*2",
+            "tools": [
+                "xelatex",
+                "bibtex",
+                "xelatex",
+                "xelatex"
+            ]
+        },
+        {
+            "name": "pdflatex -> bibtex -> pdflatex*2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        }
+    ],
+    // ========== 8. Git & DevOps 配置 ==========
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    // GitLens 优化配置 (替代被删除的 Git History)
+    "gitlens.views.fileHistory.enabled": true,
+    "gitlens.codeLens.enabled": true, // 行间显示作者信息
+    "gitlens.currentLine.enabled": true, // 行末显示提交信息
+    "[dockercompose]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    // ========== 9. 效率插件增强 (ErrorLens, TodoTree) ==========
+    // Error Lens: 让报错更显眼
+    "errorLens.fontStyleItalic": true,
+    "errorLens.gutterIconsEnabled": true,
+    // Todo Tree: 更好的标签管理
+    "todo-tree.tree.showScanModeButton": false,
+    "todo-tree.ripgrep.ripgrep": "C:\\Users\\hxaxd\\AppData\\Local\\Microsoft\\WinGet\\Links\\rg.exe",
+    "todo-tree.highlights.defaultHighlight": {
+        "type": "text",
+        "opacity": 50,
+        "icon": "alert",
+        "iconColour": "#e06c75" // 红色
+    },
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+            "icon": "check",
+            "iconColour": "#98c379"
+        }, // 绿色
+        "FIXME": {
+            "icon": "flame",
+            "iconColour": "#e06c75"
+        } // 红色
+    },
+    // ========== 10. 终端配置 ==========
+    "terminal.explorerKind": "external",
+    "terminal.external.osxExec": "zsh",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.defaultProfile.linux": "bash", // WSL 备用
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash",
+            "icon": "terminal-git-bash"
+        },
+        "Windows PowerShell": {
+            "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        }
+    },
+    // ========== 11. 拼写检查 (User Words) ==========
+    "cSpell.userWords": [
+        "Alacritty",
+        "certfile",
+        "cout",
+        "CSAPP",
+        "endef",
+        "endl",
+        "fastapi",
+        "ffmpegthumbnailer",
+        "Futex",
+        "lazygit",
+        "lazyvim",
+        "MAKEFILES",
+        "Meslo",
+        "MLFQ",
+        "Monaspace",
+        "Navicat",
+        "nullptr",
+        "nums",
+        "nvim",
+        "ohmyzsh",
+        "popq",
+        "powerlevel",
+        "pushq",
+        "Pydantic",
+        "shiftwidth",
+        "sqlalchemy",
+        "Uvicorn",
+        "VPATH",
+        "wezterm",
+        "yazi"
+    ],
+    // ========== 12. AI 与外部集成 ==========
+    "claudeCodeChat.wsl.enabled": false,
+    "claudeCodeChat.wsl.distro": "Ubuntu",
+    "claudeCodeChat.wsl.nodePath": "/usr/bin/node",
+    "claudeCodeChat.wsl.claudePath": "/usr/local/bin/claude",
+    // ========== Rust (Rust Analyzer) ==========
+    // 强制使用 clippy 进行检查（比默认 check 更严格，更符合 Rust 最佳实践）
+    "rust-analyzer.check.command": "clippy",
+    // 保存时运行检查
+    "rust-analyzer.checkOnSave": true,
+    // 启用过程宏支持（不仅限于 build.rs）
+    "rust-analyzer.procMacro.enable": true,
+    // 配合 CodeLLDB 进行调试
+    "rust-analyzer.debug.engine": "vadimcn.vscode-lldb",
+    // ========== Go (Golang) ==========
+    "[go]": {
+        "editor.defaultFormatter": "golang.go",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit" // 保存自动整理 import
+        }
+    },
+    "gopls": {
+        "usePlaceholders": true, // 补全时自动带参数占位符
+        "ui.semanticTokens": true // 更好的语法高亮
+    },
+    // 让 CMake 自动生成 compile_commands.json
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+    "cmake.configureOnOpen": true,
+    "basedpyright.analysis.inlayHints.variableTypes": true, // 显示变量类型推断提示（类似 Java/C++ IDE）
+    "basedpyright.analysis.inlayHints.functionReturnTypes": true, // 显示函数返回类型提示
+    // ========== 优化：Better Comments (自定义配色) ==========
+    "better-comments.tags": [
+        {
+            "tag": "!",
+            "color": "#ff6b6b",
+            "backgroundColor": "transparent"
+        }, // 红
+        {
+            "tag": "?",
+            "color": "#61afef",
+            "backgroundColor": "transparent"
+        }, // 蓝
+        {
+            "tag": "*",
+            "color": "#98c379",
+            "backgroundColor": "transparent"
+        }, // 绿
+        {
+            "tag": "todo",
+            "color": "#e5c07b",
+            "backgroundColor": "transparent"
+        } // 黄
+    ],
+    "material-icon-theme.files.associations": {},
+    "terminal.integrated.fontFamily": "Monaspace Radon NF",
+    "terminal.integrated.fontLigatures.enabled": true,
+    "window.newWindowProfile": "默认",
+    "cSpell.diagnosticLevel": "Hint",
+    "editor.tabCompletion": "on",
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false,
+        "cpp": false
+    },
+    "github.copilot.chat.alternateGptPrompt.enabled": true,
+    "github.copilot.chat.alternateGeminiModelFPrompt.enabled": true,
+    "github.copilot.nextEditSuggestions.enabled": false,
+    "editor.minimap.enabled": false,
+    "chat.mcp.gallery.enabled": true,
+    "terminal.external.windowsExec": "pwsh",
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "keep",
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultFormatter": "redhat.vscode-yaml",
+        "editor.defaultColorDecorators": "never",
+        "editor.detectIndentation": false,
+        "editor.quickSuggestions": {
+            "strings": true,
+            "other": true,
+            "comments": false
+        }
+    },
+    "docker.extension.enableComposeLanguageServer": false,
+    "chat.viewSessions.orientation": "stacked",
+    "chatgpt.localeOverride": "zh-CN",
+    "chatgpt.followUpQueueMode": "queue",
+    "claudeCode.preferredLocation": "panel",
+    "markdown-preview-enhanced.enablePreviewZenMode": true,
+    "vs-kubernetes": {
+        "vs-kubernetes.knownKubeconfigs": [
+            "c:\\Users\\hxaxd\\.kube\\config"
+        ],
+        "vs-kubernetes.kubeconfig": "c:\\Users\\hxaxd\\.kube\\config",
+        "vscode-kubernetes.helm-path-windows": "C:\\Users\\hxaxd\\.vs-kubernetes\\tools\\helm\\windows-amd64\\helm.exe"
+    },
+    "docker.extension.dockerEngineAvailabilityPrompt": false,
+    "yaml.disableSchemaDetection": [
+        "**/.github/workflows/*.yml",
+        "**/.github/workflows/*.yaml",
+        "**/.gitea/workflows/*.yml",
+        "**/.gitea/workflows/*.yaml",
+        "**/.forgejo/workflows/*.yml",
+        "**/.forgejo/workflows/*.yaml"
+    ],
+}

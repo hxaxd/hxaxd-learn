@@ -46,7 +46,8 @@ config.line_height = 1.2
 
 -- ==================== 2. 实用功能配置 ====================
 
-config.default_prog = { 'wsl' }
+-- 使用 PATH 中的 pwsh.exe，随 PowerShell 7 更新自动采用当前版本。
+config.default_prog = { 'pwsh.exe', '-NoLogo' }
 config.window_close_confirmation = 'NeverPrompt'
 config.scrollback_lines = 5000
 config.send_composed_key_when_left_alt_is_pressed = false

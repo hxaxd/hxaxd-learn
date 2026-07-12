@@ -125,6 +125,12 @@
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
+            },
+            {
+                "guid": "{34a13805-9b56-5e89-9234-f02de44bd971}",
+                "hidden": false,
+                "name": "PowerShell 7 (x86)",
+                "source": "Windows.Terminal.PowershellCore"
             }
         ]
     },

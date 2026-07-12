@@ -2,252 +2,96 @@
 
 ## 参考资料
 
-- [Jupyter 官方文档](https://docs.jupyter.org/)
-- [JupyterLab 官方文档](https://jupyterlab.readthedocs.io/)
-- [NumPy 官方文档](https://numpy.org/doc/stable/)
-- [pandas 官方文档](https://pandas.pydata.org/docs/)
-- [Matplotlib 官方文档](https://matplotlib.org/stable/)
-- [seaborn 官方文档](https://seaborn.pydata.org/)
-- [SciPy 官方文档](https://docs.scipy.org/doc/scipy/)
-- [OpenCV Python 官方教程](https://docs.opencv.org/)
-- [Pillow 官方文档](https://pillow.readthedocs.io/)
-- [scikit-learn 官方文档](https://scikit-learn.org/stable/)
-- [PyTorch 官方文档](https://docs.pytorch.org/)
-- [Polars 官方文档](https://docs.pola.rs/)
-- [Dask 官方文档](https://docs.dask.org/)
-- [DuckDB Python 官方文档](https://duckdb.org/docs/clients/python/overview.html)
-- [Numba 官方文档](https://numba.pydata.org/)
+- Codex
 
-## 生态地图
+## Jupyter
 
-数据处理不是一个库解决所有问题, 而是按数据形态和计算方式分层:
-
-- `NumPy`: 多维同类型数组, 是大部分科学计算库的底座
-- `pandas`: 带行列标签的表格数据, 适合清洗, 聚合, 连接, 时间序列
-- `SciPy`: 基于 NumPy 的科学计算算法库, 如优化, 统计, 稀疏矩阵, 信号处理
-- `Matplotlib`: 底层绘图库, 控制力强
-- `seaborn`: 基于 Matplotlib 的统计图接口, 更适合 EDA
-- `Pillow`: 图片文件读写和基础图像处理, 偏工程处理
-- `OpenCV`: 图像和视频处理, 偏计算机视觉算法
-- `scikit-learn`: 传统机器学习统一接口, 重点是特征工程, 训练, 评估, Pipeline
-- `PyTorch`: 张量计算, 自动求导, 深度学习训练
-- `Jupyter`: 交互式实验环境, 不是计算框架本身
-
-常见数据对象:
-
-| 对象 | 主要库 | 适合什么 | 注意点 |
-| --- | --- | --- | --- |
-| `ndarray` | NumPy | 数值矩阵, 图像数组, 向量化计算 | 同一个数组通常只有一个 `dtype` |
-| `Series` / `DataFrame` | pandas | 表格, 标签索引, 缺失值, 聚合连接 | 索引对齐会影响结果 |
-| sparse matrix | SciPy | 大量零元素的矩阵 | 不要轻易转成 dense |
-| `Image` | Pillow | 图片文件对象 | 读写格式和颜色模式清晰 |
-| `Tensor` | PyTorch | GPU 张量, 自动求导 | 设备, dtype, batch 维度要统一 |
-| estimator | scikit-learn | 传统机器学习模型 | 避免数据泄漏, 用 Pipeline |
-
-性能模型的优先级:
-
-- NumPy 要懂底层: `dtype`, `shape`, `strides`, view/copy, broadcasting, contiguous memory
-- pandas 要懂表模型: `Index` 对齐, 列类型, groupby/merge 的代价, `apply` 的边界
-- scikit-learn 要懂流程: 训练集/测试集隔离, Pipeline, 交叉验证
-- PyTorch 要懂训练闭环: Tensor, autograd, `Module`, loss, optimizer, `DataLoader`
-- SciPy/绘图/图像算法通常先懂接口和边界, 不必一开始深挖每个算法实现
-
-## jupyter
-
-Jupyter 的基本模型:
-
-- Notebook 是文档, 由 Markdown 单元格和代码单元格组成
+- Notebook 由 Markdown 单元格和代码单元格组成
 - Kernel 是真正执行代码的进程
 - 单元格运行顺序不一定等于文件从上到下顺序
 - 变量存在 Kernel 内存里, 重启 Kernel 后变量会消失
 
 ```python
-x = 1
+# 隐藏状态
 x += 1
-x
+x # 每运行一次, x 都会加 1
 ```
 
-上面单元格多运行几次, `x` 会不断变化. 所以 Notebook 最大的问题不是语法, 而是隐藏状态.
-
-常用命令:
-
-```bash
-uv run jupyter lab
-uv run jupyter notebook
-uv run python -m ipykernel install --user --name data-demo
-```
-
-建议:
-
-- 做实验时可以乱跑单元格, 但提交前执行一次 `Restart Kernel and Run All`
-- 复杂函数写到 `.py` 文件, Notebook 只负责调用和展示
-- 数据清洗步骤要保留输入, 输出和关键中间结果
-- 需要版本管理时, 大型输出尽量清掉, 避免 `.ipynb` diff 失控
-
-```python
-# Notebook 里适合写这种轻量入口
-from pathlib import Path
-
-import pandas as pd
-
-DATA_DIR = Path("../data/raw")
-df = pd.read_csv(DATA_DIR / "sales.csv")
-df.head()
-```
-
-## numpy
-
-NumPy 是 Python 数值计算的底座. 它的核心不是“数组语法更短”, 而是:
+## NumPy
 
 - 数据放在连续或规则跳跃的内存块里
 - 元素类型固定, 不需要每个元素都是 Python 对象
-- 大量运算进入 C/Fortran 层循环
+- 大量运算进入 C 层循环
 - 用 `shape` / `strides` 解释同一块内存
 
 ### ndarray 模型
 
-一个 `ndarray` 至少要理解四个东西:
-
 - `dtype`: 每个元素是什么类型, 占多少字节
+    - `np.float64`: 默认浮点
+    - `np.float32`
+    - `np.int64`: 默认整数
+    - `np.bool_`: 1 字节
+    - `np.object_`: 8 字节, 存的是 Python 对象引用
+    - `np.str_`: 8 字节, 存的是 Python 字符串引用
 - `shape`: 每个维度有多长
+    - `arr.reshape((2, 3))` : 2 行 3 列
 - `strides`: 沿某个维度走一步, 内存地址跳多少字节
 - `data`: 底层数据缓冲区
-
-```python
-import numpy as np
-
-a = np.array(
-    [[1, 2, 3],
-     [4, 5, 6]],
-    dtype=np.int32,
-)
-
-print(a.dtype)    # int32, 每个元素 4 字节
-print(a.shape)    # (2, 3), 2 行 3 列
-print(a.ndim)     # 2, 二维
-print(a.strides)  # 常见为 (12, 4): 下一行跳 12 字节, 下一列跳 4 字节
-```
-
-为什么这重要:
-
-```python
-python_list = [1, 2, 3]
-numpy_array = np.array([1, 2, 3], dtype=np.int64)
-```
-
-Python list 存的是一组对象引用, 每个整数还是 Python 对象. NumPy 数组存的是紧凑的原始数值块. 所以对大量数值做同一种操作时, NumPy 可以更快, 也更省内存.
 
 ### 创建数组
 
 ```python
 import numpy as np
 
-np.array([1, 2, 3])                 # 从 Python 数据创建
-np.zeros((2, 3), dtype=np.float32)  # 全 0
-np.ones((2, 3))                     # 全 1
-np.arange(0, 10, 2)                 # 类似 range, 生成 [0, 2, 4, 6, 8]
-np.linspace(0, 1, 5)                # 在 0 到 1 之间均匀取 5 个点
-np.eye(3)                           # 3x3 单位矩阵
+np.array([1, 2, 3]) # 从 Python 数据创建
+np.zeros((2, 3), dtype=np.float32) # 全 0
+np.ones((2, 3)) # 全 1
+np.arange(0, 10, 2) # 类似 range, 生成 [0, 2, 4, 6, 8]
+np.linspace(0, 1, 5) # 在 0 到 1 之间均匀取 5 个点
+np.eye(3) # 3x3 单位矩阵
+
+
+print(a.size) # 元素总数 12
+print(a.itemsize) # 单个元素字节数
+print(a.nbytes) # 总字节数
+print(a.T) # 转置视图
 ```
 
-常见属性:
-
-```python
-a = np.arange(12).reshape(3, 4)
-
-print(a)
-print(a.size)       # 元素总数 12
-print(a.itemsize)   # 单个元素字节数
-print(a.nbytes)     # 总字节数
-print(a.T)          # 转置视图
-```
-
-### dtype
-
-`dtype` 会直接影响内存, 精度和速度.
-
-```python
-a = np.array([1, 2, 3], dtype=np.int64)
-b = np.array([1, 2, 3], dtype=np.int8)
-
-print(a.nbytes)  # 24
-print(b.nbytes)  # 3
-```
-
-常见选择:
-
-- `float64`: 默认浮点, 精度高, 内存大
-- `float32`: 深度学习, 图像, 大矩阵常用
-- `int64`: 默认整数, 计数和索引常见
-- `bool`: mask
-- `object`: 尽量避免, 这会退化成装 Python 对象
-
-```python
-bad = np.array([1, "2", object()], dtype=object)
-# object 数组通常不能发挥 NumPy 的核心性能优势
-```
-
-### 索引, 切片, view/copy
-
-切片通常返回 view, 也就是共享底层数据.
+### 切片
 
 ```python
 a = np.arange(10)
-b = a[2:6]
+b1 = a[2:6]
+b2 = a[[2, 4, 6]]
 
-b[0] = 99
-print(a)  # a 也会变, 因为 b 是 view
+b1[0] = 99
+print(a) # a 也会变, 因为 b 是视图
+
+
+b2[0] = 99
+print(a) # a 不变, 因为 b 是副本
+
+b3 = a.T # 转置视图, 不复制数据, 不连续
+# 如果被转置的数组太复杂, 可能自动复制数据, 变成连续数组
+np.ascontiguousarray(b) # 转为连续
 ```
 
-高级索引通常返回 copy.
-
-```python
-a = np.arange(10)
-b = a[[2, 4, 6]]
-
-b[0] = 99
-print(a)  # a 不变, 因为 b 是 copy
-```
-
-判断是否共享内存:
-
-```python
-a = np.arange(10)
-view = a[1:5]
-copy = a[[1, 3, 5]]
-
-print(np.shares_memory(a, view))  # True
-print(np.shares_memory(a, copy))  # False
-```
-
-工程上要注意:
-
-- 对 view 修改会影响原数组
-- 对 copy 修改不会影响原数组
-- 大数组上的意外 copy 会造成内存暴涨
-
-### 布尔 mask
+### 掩码
 
 ```python
 a = np.array([1, 5, 10, 20])
 mask = a >= 10
 
-print(mask)       # [False False  True  True]
-print(a[mask])    # [10 20]
-print(a[a >= 10]) # 常用简写
-```
+print(mask) # [False False True True]
+print(a[mask]) # [10 20]
 
-修改符合条件的元素:
-
-```python
-a = np.array([1, 5, 10, 20])
 a[a >= 10] = 0
-print(a)  # [1 5 0 0]
+print(a) # [1 5 0 0]
 ```
 
-### broadcasting
+### 广播
 
-Broadcasting 是 NumPy 自动扩展形状的规则. 它不是简单复制数据, 而是按规则解释较小数组.
+- Broadcasting 是自动扩展形状的规则
 
 ```python
 a = np.array(
@@ -276,7 +120,7 @@ b.shape =    (3,)
 x = np.ones((3, 1))
 y = np.arange(4)
 
-print((x + y).shape)  # (3, 4)
+print((x + y).shape) # (3, 4)
 ```
 
 典型用途: 对每列标准化.
@@ -297,14 +141,14 @@ print(z)
 
 ### ufunc 与向量化
 
-`ufunc` 是逐元素函数, 如 `np.add`, `np.sqrt`, `np.exp`. 它把循环放到底层执行.
+- 逐元素函数, 如 `np.add` (逐元素相加) , `np.sqrt` (逐元素开方) , `np.exp` (逐元素指数) . 它把循环放到底层执行.
 
 ```python
 a = np.arange(5)
 
-print(a + 1)        # np.add(a, 1)
-print(np.sqrt(a))   # 逐元素开方
-print(np.exp(a))    # 逐元素指数
+print(a + 1) # np.add(a, 1)
+print(np.sqrt(a)) # 逐元素开方
+print(np.exp(a)) # 逐元素指数
 ```
 
 不要为了“Python 写法直观”在大数组上手写循环:
@@ -312,7 +156,7 @@ print(np.exp(a))    # 逐元素指数
 ```python
 a = np.arange(1_000_000, dtype=np.float64)
 
-out = a * 2 + 1  # 底层批量计算
+out = a * 2 + 1 # 底层批量计算
 ```
 
 但向量化也不是无限好. 这句会产生中间数组:
@@ -332,9 +176,9 @@ np.add(out, 1, out=out)
 np.divide(out, 3, out=out)
 ```
 
-### axis
+### axis (轴)
 
-`axis` 表示沿哪个维度压缩.
+`axis` (轴) 表示沿哪个维度压缩.
 
 ```python
 a = np.array(
@@ -342,16 +186,16 @@ a = np.array(
      [4, 5, 6]],
 )
 
-print(a.sum())        # 所有元素求和: 21
-print(a.sum(axis=0))  # 压掉行维度, 得到每列和: [5 7 9]
-print(a.sum(axis=1))  # 压掉列维度, 得到每行和: [6 15]
+print(a.sum()) # 所有元素求和: 21
+print(a.sum(axis=0)) # 压掉行维度, 得到每列和: [5 7 9]
+print(a.sum(axis=1)) # 压掉列维度, 得到每行和: [6 15]
 ```
 
 记法:
 
 ```text
-axis=0: 沿着行方向往下聚合, 结果按列留下
-axis=1: 沿着列方向往右聚合, 结果按行留下
+axis=0 (第 0 轴) : 沿着行方向往下聚合, 结果按列留下
+axis=1 (第 1 轴) : 沿着列方向往右聚合, 结果按行留下
 ```
 
 保留维度:
@@ -360,7 +204,7 @@ axis=1: 沿着列方向往右聚合, 结果按行留下
 a = np.arange(6).reshape(2, 3)
 row_sum = a.sum(axis=1, keepdims=True)
 
-print(row_sum.shape)  # (2, 1), 方便后续 broadcasting
+print(row_sum.shape) # (2, 1), 方便后续 broadcasting (广播) 
 ```
 
 ### 线性代数
@@ -371,9 +215,9 @@ import numpy as np
 x = np.array([[1, 2], [3, 4]])
 y = np.array([[10], [20]])
 
-print(x @ y)                  # 矩阵乘法
-print(np.linalg.inv(x))       # 逆矩阵
-print(np.linalg.solve(x, y))  # 解线性方程 x * a = y
+print(x @ y) # 矩阵乘法
+print(np.linalg.inv(x)) # 逆矩阵
+print(np.linalg.solve(x, y)) # 解线性方程 x * a = y
 ```
 
 一般不要手写求逆再乘:
@@ -388,50 +232,23 @@ coef = np.linalg.solve(x, y)
 
 ### 随机数
 
-新代码优先用 `default_rng`.
-
 ```python
 rng = np.random.default_rng(seed=42)
 
-x = rng.normal(loc=0, scale=1, size=(3, 2))
-idx = rng.choice([0, 1, 2, 3], size=2, replace=False)
+x = rng.normal(loc=0, scale=1, size=(3, 2)) # 在正态分布上采样
+idx = rng.choice([0, 1, 2, 3], size=2, replace=False) # 随机采样, 不放回
 
 print(x)
 print(idx)
 ```
 
-### 性能边界
+## pandas (表格数据处理库)
 
-优先检查:
+pandas (表格数据处理库) 的核心是带标签的一维/二维数据:
 
-- 是否用了 `object` dtype
-- 是否在 Python 循环里逐元素操作
-- 是否频繁产生大临时数组
-- 是否发生了不必要 copy
-- 数组是否连续, 是否需要 `np.ascontiguousarray`
-- 是否可以先减少数据量再计算
-
-```python
-a = np.arange(12).reshape(3, 4)
-b = a.T
-
-print(a.flags["C_CONTIGUOUS"])  # True
-print(b.flags["C_CONTIGUOUS"])  # False, 转置通常只是改变 strides
-
-c = np.ascontiguousarray(b)     # 必要时复制成连续内存
-```
-
-## pandas
-
-pandas 的核心是带标签的一维/二维数据:
-
-- `Series`: 一列数据 + 一个 `Index`
-- `DataFrame`: 多列 `Series` 组成的表
-- `Index`: 行标签, 会参与对齐
-
-NumPy 更像矩阵, pandas 更像表.
-
-### Series, DataFrame, Index
+- `Series` (带标签的一维数据) : 一列数据 + 一个 `Index` (索引)
+- `DataFrame` (带标签的二维表格) : 多列 `Series` (一维数据) 组成的表
+- `Index` (索引) : 行标签, 会参与对齐
 
 ```python
 import pandas as pd
@@ -451,7 +268,7 @@ print(df.head())
 print(df.dtypes)
 ```
 
-索引对齐是 pandas 很重要的模型:
+索引对齐是 pandas (表格数据处理库) 很重要的模型:
 
 ```python
 a = pd.Series([1, 2], index=["x", "y"])
@@ -479,13 +296,6 @@ df.to_csv("data/sales_clean.csv", index=False)
 df.to_parquet("data/sales_clean.parquet", index=False)
 ```
 
-常见格式:
-
-- CSV: 通用, 慢, 类型信息弱
-- Excel: 适合业务交互, 不适合大规模流水线
-- Parquet: 列式存储, 保留类型更好, 适合分析数据
-- JSON: 接口常见, 表格分析前常要规范化
-
 ```python
 df = pd.read_csv(
     "data/sales.csv",
@@ -509,11 +319,11 @@ df.isna().sum()
 ### 选择数据
 
 ```python
-df["name"]              # 一列, Series
-df[["name", "score"]]   # 多列, DataFrame
+df["name"] # 一列, Series (带标签的一维数据) 
+df[["name", "score"]] # 多列, DataFrame (带标签的二维表格) 
 
-df.loc[0, "name"]       # 按标签
-df.iloc[0, 0]           # 按位置
+df.loc[0, "name"] # 按标签
+df.iloc[0, 0] # 按位置
 ```
 
 布尔筛选:
@@ -538,7 +348,7 @@ df = df.assign(
 )
 ```
 
-尽量优先用列运算, 少用逐行 `apply`.
+尽量优先用列运算, 少用逐行 `apply` (逐行应用函数) .
 
 ```python
 # 推荐
@@ -558,18 +368,18 @@ df.fillna({"score": 0})
 
 pandas 有多种缺失值表示:
 
-- `np.nan`: 传统浮点缺失值
-- `None`: Python 空值
-- `pd.NA`: pandas nullable dtype 的缺失值
+- `np.nan` (非数值) : 传统浮点缺失值
+- `None` (空值) : Python (编程语言) 空值
+- `pd.NA` (缺失值标记) : pandas (表格数据处理库) nullable (可空) dtype (数据类型) 的缺失值
 
-如果整数列有缺失值, 可以使用 nullable integer:
+如果整数列有缺失值, 可以使用 nullable integer (可空整数) :
 
 ```python
 s = pd.Series([1, None, 3], dtype="Int64")
 print(s)
 ```
 
-### dtype
+### dtype (数据类型)
 
 ```python
 df = pd.DataFrame(
@@ -585,18 +395,18 @@ print(df.dtypes)
 
 常见建议:
 
-- 类别少的字符串列可以转 `category`
-- 日期列用 `datetime64`
-- 布尔缺失可以用 nullable boolean
-- 避免无意义的 `object` 列
+- 类别少的字符串列可以转 `category` (分类类型)
+- 日期列用 `datetime64` (日期时间类型)
+- 布尔缺失可以用 nullable boolean (可空布尔类型)
+- 避免无意义的 `object` (对象类型) 列
 
-### groupby
+### groupby (分组计算)
 
-`groupby` 是 split-apply-combine:
+`groupby` (分组计算) 是 split (拆分) -apply (应用) -combine (合并) :
 
-- split: 按键拆分数据
-- apply: 对每组计算
-- combine: 合并结果
+- split (拆分) : 按键拆分数据
+- apply (应用) : 对每组计算
+- combine (合并) : 合并结果
 
 ```python
 sales = pd.DataFrame(
@@ -637,9 +447,9 @@ sales["region_total"] = sales.groupby("region")["amount"].transform("sum")
 sales["ratio"] = sales["amount"] / sales["region_total"]
 ```
 
-`agg` 会把每组压缩成更少的行, `transform` 会保持原行数.
+`agg` (聚合) 会把每组压缩成更少的行, `transform` (变换) 会保持原行数.
 
-### merge, join, concat
+### merge (连接) , join (连接) , concat (拼接)
 
 ```python
 orders = pd.DataFrame(
@@ -656,12 +466,12 @@ print(df)
 
 常见连接方式:
 
-- `left`: 保留左表全部行
-- `inner`: 只保留两边匹配的行
-- `outer`: 两边都保留
-- `right`: 保留右表全部行
+- `left` (左连接) : 保留左表全部行
+- `inner` (内连接) : 只保留两边匹配的行
+- `outer` (外连接) : 两边都保留
+- `right` (右连接) : 保留右表全部行
 
-建议用 `validate` 检查关系:
+建议用 `validate` (关系校验) 检查关系:
 
 ```python
 orders.merge(users, on="user_id", how="left", validate="many_to_one")
@@ -689,10 +499,10 @@ weekly = df.resample("W").sum()
 
 常用:
 
-- `pd.to_datetime(...)`: 转日期
-- `.dt.year`, `.dt.month`, `.dt.day`: 日期字段
-- `set_index("date")`: 设置时间索引
-- `resample("D" / "W" / "M")`: 按时间重采样
+- `pd.to_datetime(...)` (转为日期时间) : 转日期
+- `.dt.year`, `.dt.month`, `.dt.day` (日期字段) : 取出日期字段
+- `set_index("date")` (设置索引) : 设置时间索引
+- `resample("D" / "W" / "M")` (重采样) : 按时间重采样
 
 ### 透视表
 
@@ -730,13 +540,13 @@ long = wide.melt(
 
 优先规则:
 
-- 列运算优于 `apply(axis=1)`
-- `groupby.agg` / `transform` 优于手写循环
-- 减少不必要的 `object` dtype
-- 读文件时用 `usecols`, `dtype`, `parse_dates`
-- 大表优先 Parquet
-- 先过滤再 join/groupby
-- 单机内存不够时考虑 Polars, DuckDB, Dask, Spark
+- 列运算优于 `apply(axis=1)` (逐行应用函数)
+- `groupby.agg` (分组聚合) / `transform` (变换) 优于手写循环
+- 减少不必要的 `object` (对象类型) dtype (数据类型)
+- 读文件时用 `usecols` (仅读取指定列) , `dtype` (数据类型) , `parse_dates` (解析日期)
+- 大表优先 Parquet (列式存储文件)
+- 先过滤再 join (连接) /groupby (分组计算)
+- 单机内存不够时考虑 Polars (高性能表格库) , DuckDB (嵌入式分析数据库) , Dask (并行计算库) , Spark (分布式计算引擎)
 
 ```python
 # 分块读取大 CSV
@@ -747,15 +557,12 @@ for chunk in chunks:
     total += chunk["amount"].sum()
 ```
 
-## matplotlib
-
-Matplotlib 的核心模型:
+## Matplotlib
 
 - `Figure`: 整张图
 - `Axes`: 一块具体绘图区域, 通常就是一个子图
 - `pyplot`: 便捷状态机接口
-
-新代码建议优先用面向对象写法:
+- 多子图时, `plt.subplots()` 会返回 `Figure` 和 `Axes` 数组
 
 ```python
 import matplotlib.pyplot as plt
@@ -764,488 +571,239 @@ import numpy as np
 x = np.linspace(0, 2 * np.pi, 100)
 y = np.sin(x)
 
-fig, ax = plt.subplots(figsize=(6, 4))
-ax.plot(x, y, label="sin(x)")
+fig, ax = plt.subplots(figsize=(6, 4)) # 创建 Figure 和 Axes
+ax.plot(x, y, label="sin(x)") # 绘制曲线
 ax.set_title("Sine Wave")
 ax.set_xlabel("x")
 ax.set_ylabel("y")
-ax.legend()
-fig.tight_layout()
+ax.legend() # 根据 label 创建并显示 legend
+fig.tight_layout() # 自动调整 layout
 plt.show()
+
+fig.savefig("outputs/figures/sine.png", dpi=200, bbox_inches="tight") # 保存
 ```
 
-多个子图:
+### seaborn
 
-```python
-fig, axes = plt.subplots(1, 2, figsize=(8, 3))
-
-axes[0].plot(x, np.sin(x))
-axes[0].set_title("sin")
-
-axes[1].plot(x, np.cos(x))
-axes[1].set_title("cos")
-
-fig.tight_layout()
-```
-
-保存图片:
-
-```python
-fig.savefig("outputs/figures/sine.png", dpi=200, bbox_inches="tight")
-```
-
-常见图:
-
-```python
-fig, ax = plt.subplots()
-
-ax.scatter([1, 2, 3], [2, 4, 3])
-ax.bar(["A", "B", "C"], [10, 20, 15])
-ax.hist(np.random.default_rng(42).normal(size=1000), bins=30)
-```
-
-选择建议:
-
-- 要控制每个细节: Matplotlib
-- 要快速看统计关系: seaborn
-- 要交互式网页图: Plotly, Bokeh, Altair
-
-## seaborn
-
-seaborn 是统计可视化接口, 建在 Matplotlib 之上. 它更偏 EDA:
-
+- 统计可视化接口, 建在 Matplotlib 之上
 - 用 DataFrame 长表直接画图
 - 自动处理颜色, 分组, 置信区间等统计展示
 - 图好看, 但底层仍可以拿到 Matplotlib 对象继续调
 
-```python
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-df = pd.DataFrame(
-    {
-        "day": ["Mon", "Mon", "Tue", "Tue", "Wed", "Wed"],
-        "group": ["A", "B", "A", "B", "A", "B"],
-        "value": [10, 12, 15, 13, 18, 17],
-    }
-)
-
-ax = sns.lineplot(data=df, x="day", y="value", hue="group", marker="o")
-ax.set_title("Daily Value")
-plt.show()
-```
-
-常见图:
-
-```python
-sns.scatterplot(data=df, x="x", y="y", hue="group")
-sns.lineplot(data=df, x="date", y="value", hue="group")
-sns.histplot(data=df, x="value", hue="group", kde=True)
-sns.boxplot(data=df, x="group", y="value")
-sns.heatmap(corr, annot=True, cmap="coolwarm")
-```
-
-figure-level 接口会自己创建整张图:
-
-```python
-sns.relplot(data=df, x="day", y="value", hue="group", kind="line")
-sns.catplot(data=df, x="group", y="value", kind="box")
-sns.displot(data=df, x="value", kde=True)
-```
-
-使用建议:
-
-- seaborn 假设数据整理成长表更舒服
-- 分组维度多时用 `hue`, `row`, `col`
-- 最终论文级细节可以回到 Matplotlib 调整
-
-## scipy
-
-SciPy 是科学计算算法库. 它通常接收 NumPy 数组, 返回 NumPy 数组或专用结果对象.
-
-常用模块:
+## SciPy
 
 | 模块 | 用途 |
 | --- | --- |
-| `scipy.linalg` | 线性代数, 比 `numpy.linalg` 更完整 |
+| `scipy.linalg` | 线性代数 |
 | `scipy.optimize` | 优化, 方程求解, 最小二乘 |
 | `scipy.stats` | 概率分布, 统计检验 |
 | `scipy.sparse` | 稀疏矩阵 |
 | `scipy.sparse.linalg` | 稀疏线性代数 |
 | `scipy.signal` | 信号处理 |
 | `scipy.fft` | 快速傅里叶变换 |
-| `scipy.integrate` | 数值积分, ODE |
+| `scipy.integrate` | 数值积分, 常微分方程 |
 | `scipy.interpolate` | 插值 |
 
-这里不需要一开始掌握每个算法怎么实现, 重点是知道:
+- 稠密矩阵和稀疏矩阵不能混着乱用
+- 压缩行稀疏矩阵有三个一维数组
+    - `data`: 非零元素
+    - `indices`: 非零元素对应的列索引
+    - `indptr`: 每行非零元素在 `data` 中的起止位置
 
-- 输入数据形状是什么
-- 返回结果对象里有什么
-- 算法对数据规模和条件有什么限制
-- dense 和 sparse 不能混着乱用
+### OpenCV
 
-### optimize
-
-```python
-import numpy as np
-from scipy.optimize import minimize
-
-
-def loss(x):
-    # 最小值在 x=[1, -2]
-    return (x[0] - 1) ** 2 + (x[1] + 2) ** 2
-
-
-result = minimize(loss, x0=np.array([0.0, 0.0]))
-
-print(result.x)       # 最优参数
-print(result.fun)     # 最小损失
-print(result.success) # 是否收敛
-```
-
-### stats
+- 将图像视作矩阵, 提供算子
 
 ```python
-from scipy import stats
-
-x = [1.2, 1.5, 1.7, 1.4]
-y = [2.0, 2.2, 1.9, 2.4]
-
-result = stats.ttest_ind(x, y)
-
-print(result.statistic)
-print(result.pvalue)
+image.shape == (height, width, channels)
+image.dtype == np.uint8
 ```
 
-统计检验不要只背 API. 至少要确认:
-
-- 样本是否独立
-- 分布假设是否合理
-- p-value 回答的是什么问题
-- 多重检验是否需要修正
-
-### sparse
-
-稀疏矩阵适合大部分元素为 0 的场景, 如文本特征, 图结构, 推荐系统.
+- channels 中的顺序默认是 BGR
+    - BGR: OpenCV 默认
+    - RGB: Pillow 默认
+    - RGBA: A 表示透明度
+    - GRAY: 单通道灰度图
+    - HSV: 颜色易于分离
+    - LAB: 更符合人眼感知的颜色空间
+    - YUV: 视频常用
 
 ```python
-import numpy as np
-from scipy import sparse
-
-row = np.array([0, 0, 1, 2])
-col = np.array([0, 2, 2, 1])
-data = np.array([1.0, 2.0, 3.0, 4.0])
-
-mat = sparse.coo_matrix((data, (row, col)), shape=(3, 3)).tocsr()
-
-print(mat)
-print(mat.toarray())  # 小矩阵调试可以转 dense, 大矩阵不要这么做
+rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 ```
 
-## opencv
-
-OpenCV 主要处理图像和视频, Python 里通常导入为 `cv2`.
-
-基本模型:
-
-- 图片读进来是 NumPy 数组
-- 灰度图形状通常是 `(height, width)`
-- 彩色图形状通常是 `(height, width, channels)`
-- OpenCV 默认颜色顺序是 BGR, 不是 RGB
+- shape 中是 (H, W, C), 但很多几何 API 用 (W, H)
+    - 本质是矩阵语义与几何语义的区别
 
 ```python
-import cv2
+h, w = image.shape[:2]
+resized = cv2.resize(image, (new_w, new_h)) # 注意 resize 的 size 是 (width, height)
 
-img = cv2.imread("data/image.jpg")
-
-print(type(img))   # numpy.ndarray
-print(img.shape)   # (height, width, 3)
-print(img.dtype)   # 常见 uint8
+point = (x, y) # 用 (x, y) 表示点
+pixel = image[y, x] # 用 (y, x) 访问像素
 ```
 
-颜色转换:
+#### 数据运算
+
+- OpenCV 的数据类型和数值范围
+    - uint8: 0~255
+    - uint16: 0~65535
+    - float32: 通常约定为 0~1 (颜色转换中是的), 但不一定
 
 ```python
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+image.astype(np.float32) # 转为 float32, 但数值范围仍然是 0~255
+
+image.astype(np.float32) / 255.0 # 归一化到 0~1
 ```
 
-如果用 Matplotlib 显示 OpenCV 读入的彩色图, 要先 BGR 转 RGB.
+- OpenCV 的加法和 NumPy 的加法不同
+    - NumPy 的无符号整数加法是模运算, 会溢出回绕
+    - OpenCV 的加法是饱和运算, 会饱和到最大值
+
+#### 插值
+
+- 所有变换都会将原始坐标映射到输出坐标, 但输出坐标通常不是整数
+    - INTER_NEAREST: 最近邻插值, 直接取最近的像素
+    - INTER_LINEAR: 双线性插值, 根据四个邻居加权平均
+    - INTER_CUBIC: 双三次插值, 根据 16 个邻居加权平均
+    - INTER_AREA: 面积重采样, 适合缩小图像
+    - INTER_LANCZOS4: Lanczos 插值, 根据 8 个邻居加权平均
 
 ```python
-import matplotlib.pyplot as plt
-
-plt.imshow(rgb)
-plt.axis("off")
+mask = cv2.resize(mask, size, interpolation=cv2.INTER_NEAREST)
+# mask 不可以线性插值, 否则类别 0 和类别 2 之间可能被插值出类别 1
 ```
 
-常见操作:
+#### 卷积
+
+- 用一个局部邻域或 kernel 检查每个像素
+    - kernel: 卷积核
+    - kernel size: 卷积核大小
+    - anchor: 锚点, 卷积核中心点
+    - stride: 步幅, 卷积核移动的步长
+    - padding: 填充, 卷积核超出边界时的处理
+    - output depth: 输出通道数
+- 图像边缘没有足够邻居, 所以必须决定边界之外是什么 (borderType)
+    - `cv2.BORDER_CONSTANT`: 常数填充, 用指定值填充
+    - `cv2.BORDER_REPLICATE`: 复制边缘像素
+    - `cv2.BORDER_REFLECT`: 镜像填充, 反射
+    - `cv2.BORDER_WRAP`: 循环填充, 从另一边取
+
+#### 处理能力
+
+- 颜色空间转换
+- 几何变换
+- 图像滤波
+    - 均值滤波
+    - 高斯滤波: 近的像素权重大, 远的像素权重小
+    - 中值滤波: 取邻域中值, 去除椒盐噪声
+    - 双边滤波: 高斯 + 亮度差值越小权重越大, 保边缘
+- 阈值 / 掩码
+- 形态学
+    - 腐蚀: 让前景变小, 去除噪点
+    - 膨胀: 让前景变大, 填充空洞
+    - 开运算: 先腐蚀再膨胀, 去除小物体
+    - 闭运算: 先膨胀再腐蚀, 填充小孔洞
+- 边缘检测: 找颜色变化明显的地方
+- 仿射与透视变换:
+    - 仿射变换: 保持平行线, 但不保持角度和长度
+    - 透视变换: 可以改变平行线, 适合透视校正
+- 其它
+    - 特征点
+    - 光流
+    - 模板匹配
+    - 深度恢复
+    - PnP: 通过已知 3D 点和对应的 2D 点, 求解相机位姿
+    - 单应矩阵: 通过已知 4 个点的对应关系, 求解透视变换矩阵
+    - 相机标定: 通过已知的棋盘格图像, 求解相机内参和畸变参数
+
+### Pillow
+
+- 模式表达颜色空间 / 通道数 / 位深
+    - 默认 RGB
+- `size` 是 `(width, height)`
+- `PIL.Image.Image`
+- `Image.open()` 是惰性解码, 只有访问像素或调用 `load()` 时才真正解码
+    - `image = image.convert("RGB")` 会返回新对象, 原始文件不需要保持打开
+
+#### `mode`
+
+- `1` 二值图
+- `L` 8 位灰度图
+- `P` 调色板图
+    - `P` 模式的像素值是调色板索引
+- `RGB` 三通道彩色图
+- `RGBA` RGB + Alpha
+- `CMYK` 印刷颜色
+- `I` 32 位整数
+- `F` 32 位浮点
+
+#### 操作
 
 ```python
-resized = cv2.resize(img, (224, 224))
-blurred = cv2.GaussianBlur(img, (5, 5), 0)
-edges = cv2.Canny(gray, threshold1=50, threshold2=150)
+# 返回新对象
+image.resize(...) # 调整图像尺寸
+image.crop(...) # 裁剪指定区域
+image.rotate(...) # 旋转图像
+image.convert(...) # 转换图像模式
+image.transpose(...) # 翻转或旋转图像
 
-_, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+# 原地修改
+image.paste(...) # 将另一张图像或颜色粘贴到指定区域
+image.thumbnail(...) # 按比例生成缩略图, 不超过指定尺寸
+image.putpixel(...) # 修改指定坐标处的单个像素
 ```
 
-保存:
+#### Alpha 影响操作行为
 
 ```python
-cv2.imwrite("outputs/edges.png", edges)
+Image.blend(...) # 使用全局固定比例混合两张图
+Image.composite(...) # 使用 Mask 决定每个位置选哪张图
+Image.alpha_composite(...) # 按照两张 RGBA 图像自身的 Alpha 做合成
+image.paste(..., mask=...) # 把内容写进目标图, 可以提供 Mask
 ```
 
-什么时候用 OpenCV:
+#### EXIF Orientation
 
-- 传统图像处理, 视频帧处理, 轮廓, 阈值, 几何变换
-- 需要和 NumPy 高效配合
-- 需要摄像头或视频流
-
-什么时候用 Pillow:
-
-- 简单打开, 裁剪, 缩放, 转格式
-- Web 后端处理上传图片
-- 处理 EXIF, mode, 文件格式细节
-
-## pillow
-
-Pillow 是 PIL 的维护版本, 更偏图片文件和基础变换.
+- 旋转是个麻烦事, 许多图像格式用 EXIF Orientation 标签声明显示时旋转, 但底层像素数据没有旋转
 
 ```python
-from PIL import Image
+from PIL import ImageOps
 
-img = Image.open("data/image.jpg")
-
-print(img.size)  # (width, height)
-print(img.mode)  # RGB, RGBA, L 等
+image = ImageOps.exif_transpose(image) # 根据 EXIF Orientation 实际旋转或翻转像素
 ```
 
-基础操作:
+#### 模型预处理
 
 ```python
-img = Image.open("data/image.jpg").convert("RGB")
+image = Image.open(path) # 打开文件
+image = ImageOps.exif_transpose(image) # 根据 EXIF Orientation 实际旋转或翻转像素
+image = image.convert("RGB") # 转为 RGB 模式
+image = image.resize((width, height)) # 调整图像尺寸
 
-small = img.resize((224, 224))
-crop = img.crop((0, 0, 200, 200))
-gray = img.convert("L")
-
-small.save("outputs/image_224.jpg", quality=90)
+array = np.asarray(image) # 三通道, 8 位无符号整数
+tensor = torch.from_numpy(array) # 转为张量, 维度顺序仍为 (W, H, C)
+tensor = tensor.permute(2, 0, 1) # 调整为 (C, H, W) 顺序
+tensor = tensor.float() / 255.0 # 归一化到 [0, 1] 范围
+tensor = tensor.unsqueeze(0) # 增加 batch 维度, 变为 (1, C, H, W)
 ```
-
-保持比例缩略:
-
-```python
-img = Image.open("data/image.jpg").convert("RGB")
-img.thumbnail((512, 512))
-img.save("outputs/thumb.jpg")
-```
-
-和 NumPy 转换:
-
-```python
-import numpy as np
-from PIL import Image
-
-img = Image.open("data/image.jpg").convert("RGB")
-arr = np.asarray(img)
-
-print(arr.shape)  # (height, width, 3), RGB
-
-img2 = Image.fromarray(arr)
-```
-
-注意:
-
-- Pillow 的尺寸是 `(width, height)`
-- NumPy/OpenCV 图像形状是 `(height, width, channel)`
-- Pillow 通常是 RGB, OpenCV 通常是 BGR
 
 ## scikit-learn
 
-scikit-learn 的核心不是某个算法, 而是一套统一接口.
+TODO
 
-基本对象:
+## PyTorch
 
-- estimator: 有 `fit(...)`, 如 `LogisticRegression`
-- predictor: 有 `predict(...)`
-- transformer: 有 `fit(...)` 和 `transform(...)`, 如 `StandardScaler`
-- pipeline: 把预处理和模型串起来
+PyTorch (深度学习框架) 的核心模型:
 
-### 最小训练流程
+- `Tensor` (张量) : 类似 NumPy (数值计算库) 数组, 但可以放到 GPU (图形处理器)
+- autograd (自动求导) : 根据 Tensor (张量) 运算自动构建计算图, 反向传播求梯度
+- `nn.Module` (神经网络模块) : 模型层和参数的容器
+- loss (损失) : 衡量预测和目标差距
+- optimizer (优化器) : 根据梯度更新参数
+- `Dataset` (数据集) / `DataLoader` (数据加载器) : 数据集和批量加载
 
-```python
-from sklearn.datasets import load_iris
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
-
-X, y = load_iris(return_X_y=True)
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42,
-    stratify=y,
-)
-
-model = LogisticRegression(max_iter=1000)
-model.fit(X_train, y_train)
-
-pred = model.predict(X_test)
-print(accuracy_score(y_test, pred))
-```
-
-### fit, transform, predict
-
-```python
-from sklearn.preprocessing import StandardScaler
-
-scaler = StandardScaler()
-
-scaler.fit(X_train)              # 只在训练集上学习均值和方差
-X_train_scaled = scaler.transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-```
-
-不要对全量数据先 `fit_transform`, 再切训练/测试. 这会让测试集信息泄漏到训练过程.
-
-### Pipeline
-
-Pipeline 把“预处理”和“模型”绑定成一个整体, 防止训练和预测不一致.
-
-```python
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-
-pipe = Pipeline(
-    steps=[
-        ("scale", StandardScaler()),
-        ("model", LogisticRegression(max_iter=1000)),
-    ]
-)
-
-pipe.fit(X_train, y_train)
-pred = pipe.predict(X_test)
-```
-
-对表格数据, 常见做法是 `ColumnTransformer`.
-
-```python
-import pandas as pd
-from sklearn.compose import ColumnTransformer
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
-
-df = pd.DataFrame(
-    {
-        "age": [18, 20, None, 30],
-        "city": ["bj", "sh", "bj", "gz"],
-        "label": [0, 1, 0, 1],
-    }
-)
-
-X = df[["age", "city"]]
-y = df["label"]
-
-preprocess = ColumnTransformer(
-    transformers=[
-        (
-            "num",
-            Pipeline(
-                steps=[
-                    ("impute", SimpleImputer(strategy="median")),
-                    ("scale", StandardScaler()),
-                ]
-            ),
-            ["age"],
-        ),
-        (
-            "cat",
-            OneHotEncoder(handle_unknown="ignore"),
-            ["city"],
-        ),
-    ]
-)
-
-model = Pipeline(
-    steps=[
-        ("preprocess", preprocess),
-        ("clf", RandomForestClassifier(random_state=42)),
-    ]
-)
-
-model.fit(X, y)
-```
-
-### 交叉验证和调参
-
-```python
-from sklearn.model_selection import cross_val_score, GridSearchCV
-
-scores = cross_val_score(pipe, X, y, cv=5, scoring="accuracy")
-print(scores.mean())
-
-params = {
-    "model__C": [0.1, 1.0, 10.0],
-}
-
-search = GridSearchCV(pipe, params, cv=5, scoring="accuracy")
-search.fit(X, y)
-
-print(search.best_params_)
-print(search.best_score_)
-```
-
-`model__C` 里的双下划线表示 Pipeline 中 `model` 这个步骤的参数 `C`.
-
-### 评估
-
-```python
-from sklearn.metrics import classification_report, confusion_matrix
-
-pred = pipe.predict(X_test)
-
-print(confusion_matrix(y_test, pred))
-print(classification_report(y_test, pred))
-```
-
-回归常用:
-
-```python
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-```
-
-分类常用:
-
-```python
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-```
-
-### 常见坑
-
-- 数据泄漏: 在切分前对全量数据做标准化, 缺失值填充, 特征选择
-- 指标选错: 类别极不平衡时只看 accuracy 可能误导
-- 随机性不可复现: 不设 `random_state`
-- 训练/线上预处理不一致: 没有用 Pipeline
-- 把深度学习问题硬塞进 scikit-learn: scikit-learn 不是 mini-batch GPU 训练框架
-
-## torch
-
-PyTorch 的核心模型:
-
-- `Tensor`: 类似 NumPy 数组, 但可以放到 GPU
-- autograd: 根据 Tensor 运算自动构建计算图, 反向传播求梯度
-- `nn.Module`: 模型层和参数的容器
-- loss: 衡量预测和目标差距
-- optimizer: 根据梯度更新参数
-- `Dataset` / `DataLoader`: 数据集和批量加载
-
-### Tensor
+### Tensor (张量)
 
 ```python
 import torch
@@ -1257,15 +815,15 @@ print(x.dtype)
 print(x.device)
 ```
 
-设备:
+device (设备) :
 
 ```python
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cuda" if torch.cuda.is_available() else "cpu" # cuda (英伟达 GPU 计算平台) / cpu (中央处理器) 
 
 x = x.to(device)
 ```
 
-NumPy 转 Tensor:
+NumPy (数值计算库) 转 Tensor (张量) :
 
 ```python
 import numpy as np
@@ -1277,7 +835,7 @@ t = torch.from_numpy(arr)
 print(t)
 ```
 
-### autograd
+### autograd (自动求导)
 
 ```python
 import torch
@@ -1287,20 +845,20 @@ y = x ** 2 + 3 * x
 
 y.backward()
 
-print(x.grad)  # dy/dx = 2x + 3, x=2 时为 7
+print(x.grad) # dy/dx = 2x + 3, x=2 时为 7
 ```
 
 训练时一般流程:
 
 ```python
-optimizer.zero_grad()  # 清空上一轮梯度
-loss.backward()        # 反向传播, 计算梯度
-optimizer.step()       # 用梯度更新参数
+optimizer.zero_grad() # 清空上一轮梯度
+loss.backward() # 反向传播, 计算梯度
+optimizer.step() # 用梯度更新参数
 ```
 
 如果忘了 `zero_grad()`, 梯度会累积.
 
-### nn.Module
+### nn.Module (神经网络模块)
 
 ```python
 import torch
@@ -1320,10 +878,10 @@ model = LinearModel()
 x = torch.randn(4, 2)
 y = model(x)
 
-print(y.shape)  # (4, 1)
+print(y.shape) # (4, 1)
 ```
 
-### Dataset 和 DataLoader
+### Dataset (数据集) 和 DataLoader (数据加载器)
 
 ```python
 import torch
@@ -1365,7 +923,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cuda" if torch.cuda.is_available() else "cpu" # cuda (英伟达 GPU 计算平台) / cpu (中央处理器) 
 
 X = torch.randn(1000, 2)
 y = (X[:, 0] * 2 + X[:, 1] * -1 > 0).float().unsqueeze(1)
@@ -1414,174 +972,17 @@ with torch.no_grad():
 print(pred)
 ```
 
-### PyTorch 性能边界
+### PyTorch (深度学习框架) 性能边界
 
 优先检查:
 
-- 数据和模型是否在同一个 device
-- dtype 是否匹配, 常见训练用 `float32`
-- batch size 是否过小导致 GPU 吃不满
-- `DataLoader` 是否成为瓶颈
-- 推理时是否用了 `model.eval()` 和 `torch.no_grad()`
-- 是否频繁 CPU/GPU 来回拷贝
+- 数据和模型是否在同一个 device (设备)
+- dtype (数据类型) 是否匹配, 常见训练用 `float32` (32 位浮点数)
+- batch size (批量大小) 是否过小导致 GPU (图形处理器) 吃不满
+- `DataLoader` (数据加载器) 是否成为瓶颈
+- 推理时是否用了 `model.eval()` (切换评估模式) 和 `torch.no_grad()` (关闭梯度计算)
+- 是否频繁 CPU (中央处理器) /GPU (图形处理器) 来回拷贝
 
 ```python
-# 不要在训练循环里频繁 .cpu().numpy(), 这会打断 GPU 流水线
+# 不要在训练循环里频繁 .cpu().numpy(), 这会打断 GPU (图形处理器) 流水线
 ```
-
-## 常见扩展
-
-### Polars
-
-Polars 是高性能 DataFrame 库, 核心用 Rust 实现, 支持 eager 和 lazy.
-
-```python
-import polars as pl
-
-df = pl.DataFrame(
-    {
-        "region": ["east", "east", "west"],
-        "amount": [10, 20, 30],
-    }
-)
-
-out = (
-    df.lazy()
-    .filter(pl.col("amount") >= 20)
-    .group_by("region")
-    .agg(pl.col("amount").sum().alias("total"))
-    .collect()
-)
-
-print(out)
-```
-
-适合:
-
-- 单机大表
-- 想要更快的 DataFrame 计算
-- 可以接受和 pandas 不完全一样的 API
-
-### DuckDB
-
-DuckDB 是嵌入式分析数据库, 适合在本地直接用 SQL 查 CSV, Parquet, pandas, Arrow, Polars.
-
-```python
-import duckdb
-import pandas as pd
-
-df = pd.DataFrame({"region": ["east", "west"], "amount": [10, 20]})
-
-result = duckdb.sql(
-    """
-    select region, sum(amount) as total
-    from df
-    group by region
-    """
-).df()
-
-print(result)
-```
-
-适合:
-
-- 很多数据在 Parquet/CSV 里
-- 你更习惯 SQL
-- 单机分析, 不想搭数据库服务
-
-### Dask
-
-Dask 把 NumPy/pandas 风格计算拆成任务图, 可以本机多进程或分布式执行.
-
-```python
-import dask.dataframe as dd
-
-df = dd.read_csv("data/*.csv")
-result = df.groupby("region")["amount"].sum().compute()
-```
-
-适合:
-
-- 数据比内存大, 但仍希望用类似 pandas 的接口
-- 需要并行处理多个文件
-- 已经理解 pandas, 但需要扩展到更大数据
-
-注意:
-
-- Dask 是懒执行, 最后 `.compute()` 才真正计算
-- 不是所有 pandas 操作都能高效迁移
-- 任务切得太碎会有调度开销
-
-### Numba
-
-Numba 是 JIT 编译器, 适合把部分 NumPy + Python 循环编译成机器码.
-
-```python
-import numpy as np
-from numba import njit
-
-
-@njit
-def sum_square(x):
-    total = 0.0
-    for i in range(x.shape[0]):
-        total += x[i] * x[i]
-    return total
-
-
-x = np.arange(1_000_000, dtype=np.float64)
-print(sum_square(x))
-```
-
-适合:
-
-- NumPy 很难向量化的循环
-- 数值计算热点明确
-- 数据结构比较简单
-
-不适合:
-
-- 大量 Python 对象, 字符串, 复杂 pandas 操作
-- 业务逻辑频繁变化, 编译收益不明显
-
-## 选型
-
-按问题选工具:
-
-| 问题 | 首选 |
-| --- | --- |
-| 数值数组, 矩阵, 图像像素 | NumPy |
-| 表格清洗, 聚合, join | pandas |
-| 表格很大, 单机性能不够 | Polars / DuckDB |
-| 数据超过内存, 多文件并行 | Dask |
-| 数值优化, 统计检验, 稀疏矩阵 | SciPy |
-| 传统机器学习 | scikit-learn |
-| 深度学习, GPU, 自动求导 | PyTorch |
-| 基础画图和精细控制 | Matplotlib |
-| 快速统计图 | seaborn |
-| 图片文件处理 | Pillow |
-| 图像/视频算法 | OpenCV |
-
-按性能问题排查:
-
-```text
-慢在 Python 循环逐元素计算 -> NumPy 向量化或 Numba
-慢在 pandas apply(axis=1) -> 列运算 / groupby / merge
-慢在 CSV 读取 -> usecols / dtype / Parquet / DuckDB
-慢在单机内存 -> Polars / Dask / Spark
-慢在模型训练 -> batch, device, DataLoader, mixed precision
-慢在图像处理 -> OpenCV / 批处理 / 减少格式转换
-```
-
-## 工程检查清单
-
-- 数据是否有明确 schema: 列名, dtype, 缺失值规则
-- 原始数据是否只读保存
-- 清洗逻辑是否可以从头重跑
-- 随机过程是否固定 seed
-- 训练/测试是否严格隔离
-- 预处理是否放进 Pipeline
-- 大文件是否避免提交到 Git
-- 图表是否保存到固定输出目录
-- 模型和数据版本是否能对应
-- 性能瓶颈是否用采样和 profiling 证明过

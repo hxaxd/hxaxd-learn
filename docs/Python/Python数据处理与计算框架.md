@@ -640,10 +640,260 @@ tensor = tensor.unsqueeze(0) # 增加 batch 维度, 变为 (1, C, H, W)
 
 ## scikit-learn
 
-TODO
+- 面向传统机器学习的统一接口
+- 输入通常是 NumPy 数组, pandas DataFrame 或 SciPy 稀疏矩阵
+    - `X`: 特征矩阵, `shape == (n_samples, n_features)`
+    - `y`: 目标, 通常 `shape == (n_samples,)`
+- 核心对象都遵循 Estimator 接口
+    - `Estimator.fit(X, y)`: 从数据学习状态并返回自身
+    - `Transformer.transform(X)`: 使用已学习的状态转换数据
+    - `Predictor.predict(X)`: 使用已学习的状态预测结果
+    - `Pipeline`: 将多个 Transformer 和最后一个 Predictor 组合成一个 Estimator
+- 构造参数描述训练前就确定的超参数, `fit()` 学到的公开属性以 `_` 结尾
+    - `model.get_params()`: 读取超参数
+    - `model.coef_`: 读取训练得到的参数
+- 再次调用 `fit()` 通常会覆盖原有状态, 增量训练需要模型支持 `partial_fit()`
+- `Pipeline` 会在每个训练折内单独拟合预处理步骤, 避免测试数据泄漏到训练过程
+- 组合对象使用 `步骤名__参数名` 访问内部参数
+- `score()` 的含义由模型决定, 分类器和回归器的默认分数不是同一种指标
+
+### 完整工作流
+
+```python
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+X, y = load_iris(return_X_y=True) # X 是特征矩阵, y 是类别
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y, # 保持训练集和测试集的类别比例
+)
+
+pipeline = Pipeline(
+    [
+        ("scale", StandardScaler()), # 只用训练数据学习均值和标准差
+        ("model", LogisticRegression(max_iter=1000)), # 使用转换后的特征训练分类器
+    ]
+)
+
+search = GridSearchCV(
+    pipeline,
+    param_grid={"model__C": [0.1, 1.0, 10.0]}, # 搜索 Pipeline 内部模型的参数
+    cv=5,
+    scoring="accuracy",
+)
+search.fit(X_train, y_train) # 交叉验证搜索参数, 再用最佳参数重训
+
+y_pred = search.predict(X_test)
+print(search.best_params_) # 最佳超参数
+print(accuracy_score(y_test, y_pred)) # 独立测试集准确率
+```
+
+### 处理能力
+
+- 数据预处理: 缺失值填充, 编码, 缩放, 特征组合
+- 监督学习: 分类, 回归, 概率校准
+- 无监督学习: 聚类, 降维, 异常检测
+- 特征工程: 特征选择, 特征提取
+- 模型选择: 数据集切分, 交叉验证, 超参数搜索
+- 模型评估: 指标, 学习曲线, 混淆矩阵, 模型检查
+- 核心定位是单机内存中的中小规模数据, 部分算法可用 `n_jobs=-1` 使用全部本机 CPU
 
 ## PyTorch
 
-TODO
+- 用 Tensor 表达数据, 用自动求导计算梯度, 用 Module 组织可训练计算
+
+### Tensor
+
+- `Tensor`: 同一类型的多维数组
+    - `shape`: 每个维度的长度
+    - `dtype`: 元素类型
+    - `device`: 数据位于 CPU 或哪块加速设备
+    - `stride`: 沿每个维度移动一步跨过多少个元素
+    - `requires_grad`: 是否记录相关运算以便求梯度
+- `permute()` 和部分切片只创建视图, 可能得到不连续的 Tensor
+- `view()` 要求形状与 stride 兼容, `reshape()` 必要时会复制数据
+- `torch.from_numpy()` 与 NumPy 数组共享 CPU 内存
+- Tensor 转 NumPy 时常见写法是 `tensor.detach().cpu().numpy()`
+- 名称以 `_` 结尾的操作通常原地修改 Tensor, 可能破坏自动求导需要的中间值
+
+### 自动求导
+
+- 对 `requires_grad=True` 的 Tensor 执行运算时动态建立计算图
+- `loss.backward()` 从结果反向计算所有叶子 Tensor 的梯度
+- 梯度累加到 Parameter 的 `.grad` 中, 不会在下一轮自动清零
+- `detach()` 返回不再参与当前计算图的 Tensor
+- `torch.no_grad()` 和 `torch.inference_mode()` 在作用域内关闭梯度记录
+
+### Module
+
+- `nn.Module`: 模型或可复用计算单元, 多个 Module 组成树
+- `nn.Parameter`: 被 Module 注册的可训练 Tensor
+- `register_buffer()`: 注册不训练但需要随模型移动和保存的 Tensor
+- 将 Module 或 Parameter 赋给实例属性后会被自动注册
+    - `model.parameters()` 递归找到所有 Parameter
+    - `model.to(device)` 递归移动所有 Parameter 和 buffer
+    - `model.state_dict()` 保存所有 Parameter 和持久 buffer
+- 在 `forward()` 中定义计算, 使用 `model(x)` 调用, 这样 hooks 才会执行
+- `model.train()` 和 `model.eval()` 只切换 Dropout 和 BatchNorm 等层的行为, 不控制梯度记录
+
+### 数据
+
+- `Dataset`: 定义样本数量以及如何读取一个样本
+- `DataLoader`: 对 Dataset 做批处理, 打乱, 采样和多进程加载
+- 每次迭代 DataLoader 通常得到一批 `(inputs, targets)`
+
+### 训练与推理
+
+```python
+import torch
+from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+X = torch.tensor(
+    [[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]],
+    dtype=torch.float32,
+)
+y = torch.tensor([0, 1, 1, 0], dtype=torch.long)
+
+dataset = TensorDataset(X, y) # 每个样本由特征和类别组成
+loader = DataLoader(dataset, batch_size=4, shuffle=True) # 生成训练批次
+
+
+class Classifier(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(2, 8),
+            nn.ReLU(),
+            nn.Linear(8, 2),
+        )
+
+    def forward(self, inputs):
+        return self.network(inputs) # 返回每个类别的原始 logits
+
+
+model = Classifier().to(device)
+loss_fn = nn.CrossEntropyLoss() # 接收 logits 和 long 类型的类别索引
+optimizer = torch.optim.AdamW(model.parameters(), lr=0.01)
+
+model.train() # 切换到训练行为
+for _ in range(100):
+    for inputs, targets in loader:
+        inputs = inputs.to(device)
+        targets = targets.to(device)
+
+        optimizer.zero_grad(set_to_none=True) # 清除上一轮累积的梯度
+        logits = model(inputs) # 前向计算并建立计算图
+        loss = loss_fn(logits, targets) # 将预测与目标压缩为标量损失
+        loss.backward() # 反向计算每个 Parameter 的梯度
+        optimizer.step() # 根据梯度更新 Parameter
+
+model.eval() # 切换到推理行为
+with torch.inference_mode(): # 不建立计算图
+    logits = model(X.to(device))
+    probabilities = logits.softmax(dim=1)
+    predictions = probabilities.argmax(dim=1)
+
+torch.save(model.state_dict(), "model.pt") # 只保存模型状态, 加载时需要先创建相同结构
+print(predictions.cpu())
+```
+
+### 处理能力
+
+- CPU 和多种加速设备上的张量计算
+- 自动求导, 神经网络层, 损失函数和优化器
+- 图像, 文本, 音频等模型的训练与推理
+- 自动混合精度, 模型编译, 导出和量化
+- 数据并行, 模型并行和多机分布式训练
+- 自定义 Module, 算子和自动求导规则
 
 ## Ray
+
+- 将普通 Python 函数和类变成可跨进程与跨机器调度的分布式计算
+- Driver 提交工作, Worker 执行工作, 调度器按资源和依赖安排执行位置
+
+### 核心对象
+
+- Task: 无状态远程函数调用
+- Actor: 有状态的专用 Worker, 同一个普通 Actor 的方法默认串行执行
+- `ObjectRef`: 远程对象的引用, 类似尚未完成的 Future
+- 分布式对象存储保存远程对象, `ObjectRef` 只保存引用
+- `@ray.remote` 将函数变成 RemoteFunction, 将类变成 ActorClass
+- `.remote()` 异步提交调用并立即返回 `ObjectRef` 或 ActorHandle
+- `ray.get()` 阻塞等待结果, `ray.wait()` 只等待一部分结果就绪
+- 将 `ObjectRef` 作为顶层参数传给另一个 Task 时, Ray 会建立依赖并在执行前自动取出值
+
+```python
+import ray
+
+ray.init() # 启动本地 Ray Runtime 或连接现有集群
+
+
+@ray.remote(num_cpus=1)
+def square(x):
+    return x * x
+
+
+@ray.remote
+def add(x, y):
+    return x + y
+
+
+left_ref = square.remote(3) # 异步提交, 返回 ObjectRef
+right_ref = square.remote(4)
+sum_ref = add.remote(left_ref, right_ref) # 建立 square 到 add 的数据依赖
+print(ray.get(sum_ref)) # 只在真正需要值时阻塞
+
+refs = [square.remote(i) for i in range(10)] # 先提交全部 Task 才能并行
+ready, remaining = ray.wait(refs, num_returns=2) # 先处理最早完成的两个结果
+print(ray.get(ready))
+print(ray.get(remaining))
+```
+
+### Actor
+
+```python
+@ray.remote(num_cpus=1)
+class Counter:
+    def __init__(self):
+        self.value = 0 # 状态保存在 Actor 进程内
+
+    def add(self, amount):
+        self.value += amount
+        return self.value
+
+
+counter = Counter.remote() # 创建 Actor 并返回 ActorHandle
+refs = [counter.add.remote(1) for _ in range(10)] # 同一 Actor 默认按顺序修改状态
+print(ray.get(refs[-1])) # 10
+```
+
+### 资源与执行
+
+- `num_cpus`, `num_gpus` 和自定义资源描述调度需求
+- Ray 资源是逻辑资源, 用于准入和放置, 不是对物理资源的硬隔离
+- `.options()` 可以为单次 Task 或 Actor 创建覆盖资源, 重试和调度配置
+- 连续对每次 `.remote()` 立即 `ray.get()` 会把并行代码重新变成串行代码
+- Task 过小会让调度和序列化开销超过计算本身, 应把细碎工作批量化
+- Task 重试, Actor 重启和对象重建提供可配置的故障恢复
+- Runtime Environment 声明远端 Worker 需要的包, 文件和环境变量
+
+### 处理能力
+
+- Ray Core: 通用分布式 Task, Actor, 对象存储和资源调度
+- Ray Data: 分布式数据处理, 流式读取和批量推理
+- Ray Train: 多机模型训练
+- Ray Tune: 超参数搜索和实验调度
+- Ray Serve: 在线模型与 Python 服务部署
+- RLlib: 分布式强化学习
+- Dashboard 和 State API: 查看任务, 资源, 日志和集群状态

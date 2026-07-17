@@ -1,12 +1,35 @@
 # Human
 
-## SPEC
+## 意图
 
-### openspec
+- Goal: 目标状态
+- Constraint: 不可接受的状态或行为
+- Completion Criteria: 判断目标已完成所需的证据
 
-### spec-kit
+### Spec 表达目标状态
 
-### superpowers skills
+- openspec
+- spec-kit
+
+## 交互
+
+- 缺乏在长任务当中不断的显示进度与状态, 使人类进行引导澄清
+- 模型主动提问意愿不高
+
+## 反馈
+
+- 缺乏反馈转化机制 -> 重新做 / 记住
+
+## superpowers skills
+
+### 原理
+
+- 用 SPEC 交代意图
+- 主动要求澄清 / 批准
+- 零上下文计划
+- 自动对抗式审查
+
+### 流程
 
 - 入口 -> 定义基本约束 + 流程
 - 头脑风暴 -> 架构

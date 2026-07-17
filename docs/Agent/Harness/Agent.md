@@ -9,12 +9,19 @@
     - 模型是否拥有足够的对环境的对交互方式的知识为主要优化方向, 称之为 Context Engineering
 - 直至今天, 长程任务的数据融于模型后训练过程, 模型倾向变成高度可定制的能力, 围绕该能力集的完整设计标准, 称之为 Harness Engineering
 
-## 概念
+## 组成
+
+### Model
+
+- 模型决定可被激活的能力上限
+- API 协议与服务决定调用方式和成本控制
+
+### Harness
 
 - Harness 是模型与环境交互的中介, 建立在环境的可解析性与模型的先验能力之上
 - Harness 负责维护若干个模型状态 (Context), 也负责与环境的接口 (Runtime), 以及 Harness 自身的进化 (Evolution)
 
-### Context
+#### Context
 
 - Knowledge 是 Context 中关于环境和任务的信息
     - Knowledge 表示提供给模型的信息, 不代表其一定客观为真, 其中可以包括事实, 观察, 假设, 预测和相互冲突的信息
@@ -42,14 +49,14 @@
     - Feedback 可以来自环境, 测试, 人类, Critic 或模型自身, 不一定由 Action 直接返回
     - 模型倾向于高估 Observation 与 Feedback 的可信度, 因此需要保留其来源与可验证性
 
-### Runtime
+#### Runtime
 
 - Runtime 是 Action 与环境状态转变的接口, 也负责将环境状态转换为 Observation
     - 安全机制
     - 可观测性与评估机制
     - Hooks
 
-### Evolution
+#### Evolution
 
 - Evolution 专指 Harness 根据交互经验对自身进行持久化修改的机制
     - 不包括 Agent 在当前 Context 中自然发生的认知更新
@@ -57,3 +64,26 @@
     - 提供 Knowledge, 包括 MEMORY 和 SKILL
     - 调整 Cognitive Control, 包括 WORKFLOW
     - 优化 Runtime, 包括安全机制和可观测性与评估机制
+
+### Environment
+
+- 同一个智能体在不同环境中的表现可能完全不同, 因此环境条件不能被当成 Harness 的内部能力
+- 状态 + 可观测性 + 可执行动作 + 状态转移
+
+### Human
+
+- 意图 + 交互 + 反馈
+
+## 设施
+
+### Retrieval
+
+- 检索负责按需取得外部事实, 不等于当前上下文也不等于跨交互记忆
+
+### Multi-Agent
+
+- 增加智能体数量会引入通信, 分工和一致性问题, 这些问题无法由单智能体循环解释
+
+### Cloud Agent
+
+- 大规模托管会引入隔离, 伸缩和平台治理, 这些属于部署系统而不是单次 Harness 运行

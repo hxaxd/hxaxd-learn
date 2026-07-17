@@ -188,10 +188,12 @@
 - [Context](Agent/Harness/Context.md)
 - [Runtime](Agent/Harness/Runtime.md)
 - [Evolution](Agent/Harness/Evolution.md)
-- [Environment](Agent/Environment.md)
 - [Model](Agent/Model.md)
+- [Environment](Agent/Environment.md)
 - [Human](Agent/Human.md)
+- [Retrieval](Agent/Retrieval.md)
 - [多智能体](Agent/多智能体.md)
+- [Cloud Agent](<Agent/Cloud Agent.md>)
 
 ### 其它
 

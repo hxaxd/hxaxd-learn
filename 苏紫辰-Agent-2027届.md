@@ -46,7 +46,7 @@
 * 担任课题组技术支持，负责算力集群的**基础设施维护**与**环境配置**，为高水平期刊论文提供实验数据支撑。
     * **中科院一区 TOP，第五作者：<https://www.sciencedirect.com/science/article/pii/S2589721725000947>**
 * 保持对计算机底层原理的深度探索，精读《CSAPP》《OSTEP》等 10+ 本经典书籍，构建个人计算机技术知识体系。
-    * **学习笔记：<https://github.com/hxaxd/hxlog>**
+    * **学习笔记：<https://github.com/hxaxd/hxaxd-learn>**
 
 ## 获奖经历
 

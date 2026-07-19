@@ -145,8 +145,8 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/hxaxd/
 
-repo_url: https://github.com/hxaxd/hxlog
-repo_name: 海星笔记
+repo_url: https://github.com/hxaxd/hxaxd-learn
+repo_name: hxaxd-learn
 
 markdown_extensions:
   - pymdownx.arithmatex:

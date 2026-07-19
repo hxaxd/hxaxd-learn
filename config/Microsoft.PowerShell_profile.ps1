@@ -18,7 +18,7 @@ if (Get-Module -ListAvailable -Name Terminal-Icons) {
   Import-Module -Name Terminal-Icons -ErrorAction SilentlyContinue
 }
 
-$ompConfig = 'C:\Users\hxaxd\learn\hxlog\config\powerlevel10k_rainbow.omp.json'
+$ompConfig = 'C:\Users\hxaxd\learn\hxaxd-learn\config\powerlevel10k_rainbow.omp.json'
 if ((Get-Command oh-my-posh -ErrorAction SilentlyContinue) -and (Test-Path -LiteralPath $ompConfig)) {
   oh-my-posh init pwsh --config $ompConfig | Invoke-Expression
 }

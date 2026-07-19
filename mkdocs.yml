@@ -111,6 +111,7 @@ nav:
       - 多智能体: Agent/多智能体.md
       - Cloud Agent: Agent/Cloud Agent.md
   - 其它:
+      - 论文写作: 论文写作/论文写作.md
       - 计算机与人脑: 其它/计算机与人脑.md
       - PlaneSegNet: 其它/PlaneSegNet.md
 site_name: 海星笔记

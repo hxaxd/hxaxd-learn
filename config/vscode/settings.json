@@ -363,4 +363,6 @@
         "**/.forgejo/workflows/*.yml",
         "**/.forgejo/workflows/*.yaml"
     ],
+    "chatgpt.composerEnterBehavior": "cmdIfMultiline",
+    "kimi.yoloMode": true,
 }

@@ -29,7 +29,7 @@
 
 - `a.out` assembler output 但事实是链接器的输出
 - UNIX 系统常见 ELF 文件格式, 其中以 segment (段) 划分, 一个 segment 包含多个 section (把 UNIX 的段与 x86 架构的段区分开)
-- `a.out` 包含 text, data, bss 段(记录没初始化的变量)
+- `a.out` 包含 text, data, bss 段 (记录没初始化的变量)
     - gcc 编译的程序, 就是这三部分
     - text (指令与字符串常量)
     - data (初始化的全局变量)

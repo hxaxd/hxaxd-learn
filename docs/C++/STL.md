@@ -14,7 +14,7 @@
 - `std::terminate()` 调用终止处理程序, 默认调用 `std::abort()`
 - `std::unreachable()` 告诉编译器该代码路径不可达, 允许编译器进行优化
 - `std::stacktrace::current()` 获取当前堆栈跟踪信息, 需要 C++23 支持
-- `std::stacktrace_entry` 获取每一层堆栈信息, 包括函数名、文件名、行号等
+- `std::stacktrace_entry` 获取每一层堆栈信息, 包括函数名, 文件名, 行号等
 
 ### 断言
 
@@ -220,7 +220,7 @@ if (myMap.insert_or_assign("four", 4).second); // 插入或更新键值对, 返�
 
 ### `std::unordered_set` 与 `std::unordered_map`
 
-- 基于哈希表实现, 提供平均常数时间复杂度的查找、插入和删除操作
+- 基于哈希表实现, 提供平均常数时间复杂度的查找, 插入和删除操作
 - 需要提供哈希函数和相等比较函数, 默认使用 `std::hash` 和 `std::equal_to`
 
 ### `std::deque`
@@ -293,7 +293,7 @@ constexpr std::uint8_t mask0{ 0b0000'0001 }; // 位掩码
     - 注意输出范围必须至少与输入范围一样大, 否则会导致未定义行为
 - `std::copy` / `std::copy_if` / `std::copy_n` / `std::copy_backward` 将元素从一个范围复制到另一个范围
     - `std::copy_backward` 从后往前复制, 适用于输出范围与输入范围重叠且输出起点在输入起点之后的情况
-- `std::move` / `std::move_backward` 将元素移动(move语义)到另一个范围
+- `std::move` / `std::move_backward` 将元素移动 (move 语义) 到另一个范围
 - `std::fill` / `std::fill_n` 将给定值赋值给范围内的所有元素
 - `std::generate` / `std::generate_n` 使用生成器函数的返回值赋值给范围内的元素
 - `std::replace` / `std::replace_if` / `std::replace_copy` 将范围内满足条件的元素替换为新值

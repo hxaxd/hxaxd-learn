@@ -1,4 +1,3 @@
-
 # Ensure WinGet command links are available even when the terminal host
 # inherited an older PATH before package changes were made.
 $wingetLinks = Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Links'

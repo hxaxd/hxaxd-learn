@@ -98,7 +98,7 @@ firewall-cmd --reload # 重启防火墙 ( 修改配置后要重启防火墙 )
 
 ### Caddy
 
-- 与 Nginx 相比, Caddy 的最大优势在于其开箱即用的自动化特性, 尤其是自动配置和管理 SSL 证书(通过 Let's Encrypt)
+- 与 Nginx 相比, Caddy 的最大优势在于其开箱即用的自动化特性, 尤其是自动配置和管理 SSL 证书 (通过 Let's Encrypt)
 - Caddy 采用单进程架构, 通过内置的 Go runtime 实现高并发处理能力, 无需手动配置 worker 进程
 
 #### 配置示例

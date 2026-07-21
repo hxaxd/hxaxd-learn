@@ -3,3 +3,5 @@
 CLAUDE.md
 temp.md
 site/*
+__pycache__/
+*.py[cod]

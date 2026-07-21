@@ -122,11 +122,11 @@ name='abc\&LANG'->abc&LANG
 - `echo "It is a test" > myfile` 重定向
 - `echo 反引 date 反引` 显示命令结果
 
-#### `printf`(可移植)
+#### `printf` (可移植)
 
 - `printf "%-10s %-8s %-4s\n" 姓名 性别 体重 kg` 格式化输出, 可以指定宽度, 类型, 并且随意使用转义字符
 
-#### `test`(可移植)
+#### `test` (可移植)
 
 - `test 布尔/字符串/文件测试运算式` 返回真值
 

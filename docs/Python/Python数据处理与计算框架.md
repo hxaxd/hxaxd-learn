@@ -34,7 +34,7 @@ x # 每运行一次, x 都会加 1
     - `np.object_`: 8 字节, 存的是 Python 对象引用
     - `np.str_`: 存定长 Unicode 字符
 - `shape`: 每个维度有多长
-    - `arr.reshape((2, 3))` : 2 行 3 列
+    - `arr.reshape((2, 3))`: 2 行 3 列
 - `strides`: 沿某个维度走一步, 内存地址跳多少字节
 - `data`: 底层数据缓冲区
 
@@ -179,7 +179,7 @@ print(idx)
 
 ## pandas
 
-- `Series` : 一列数据 +  `Index`
+- `Series`: 一列数据 +  `Index`
 - `DataFrame`: `Series` 组成的表
 - `Index`: 行标签, 会参与对齐
 

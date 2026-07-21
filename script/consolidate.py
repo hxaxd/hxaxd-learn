@@ -1,261 +1,319 @@
 #!/usr/bin/env python3
-"""
-Git提交历史聚合脚本 (快照版)
-功能：将历史按月聚合，每个月生成一个快照提交。
-优势：避免Cherry-pick产生的冲突，保证代码状态与当时完全一致。
-提交信息格式：第一行为 YYYY-MM
-"""
+"""将 Git 历史按月聚合为不触碰工作区的快照提交。"""
+
+from __future__ import annotations
 
 import argparse
 import os
 import subprocess
 import sys
 from collections import defaultdict
+from dataclasses import dataclass
+from typing import Mapping, Sequence
 
-TARGET_BRANCH = "consolidated-history-clean"
+
+DEFAULT_TARGET_BRANCH = "consolidated-history-clean"
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description="将 Git 历史按月聚合为快照提交。"
-    )
+class CommandError(RuntimeError):
+    """Git 命令执行失败。"""
+
+
+def configure_standard_streams() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8", errors="replace")
+
+
+@dataclass(frozen=True)
+class Commit:
+    hash: str
+    date_str: str
+    message: str
+
+
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="将 Git 历史按月聚合为快照提交。")
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="只显示将执行的操作，不切换分支、不修改工作区、不创建提交。",
+        help="只显示计划，不创建提交对象、不更新分支。",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--yes",
+        action="store_true",
+        help="跳过确认提示，适合非交互运行。",
+    )
+    parser.add_argument(
+        "--source",
+        default="HEAD",
+        help="要聚合的源修订，默认为 HEAD。",
+    )
+    parser.add_argument(
+        "--target-branch",
+        default=DEFAULT_TARGET_BRANCH,
+        help=f"目标分支，默认为 {DEFAULT_TARGET_BRANCH}。",
+    )
+    return parser.parse_args(argv)
 
 
-def run_command(cmd, check=True):
-    """运行Shell命令"""
+def run_command(
+    cmd: Sequence[str],
+    *,
+    check: bool = True,
+    input_text: str | None = None,
+    env: Mapping[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
     try:
-        # shell=False 更安全，但需要传入列表
-        result = subprocess.run(cmd, capture_output=True, text=True, check=check)
-        return result
-    except subprocess.CalledProcessError as e:
-        print(f"命令执行失败: {' '.join(cmd)}")
-        print(f"错误信息: {e.stderr}")
-        sys.exit(1)
+        return subprocess.run(
+            list(cmd),
+            input=input_text,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=check,
+            env=env,
+        )
+    except subprocess.CalledProcessError as exc:
+        command = " ".join(cmd)
+        details = (exc.stderr or exc.stdout or "").strip()
+        raise CommandError(f"命令执行失败: {command}\n{details}") from exc
 
-def get_commits():
-    """获取所有提交，按时间正序排列 (旧 -> 新)"""
-    # %H: Hash, %ai: ISO Date, %s: Subject
-    cmd = ["git", "log", "--reverse", "--format=%H|%ai|%s"]
-    result = run_command(cmd)
-    
-    commits = []
-    for line in result.stdout.strip().split("\n"):
-        if "|" in line:
-            parts = line.split("|", 2)
-            if len(parts) == 3:
-                commits.append({
-                    "hash": parts[0],
-                    "date_str": parts[1], # e.g., 2023-01-01 12:00:00 +0800
-                    "message": parts[2]
-                })
+
+def ensure_git_repository() -> None:
+    result = run_command(["git", "rev-parse", "--git-dir"], check=False)
+    if result.returncode != 0:
+        raise CommandError("当前目录不是 Git 仓库。")
+
+
+def validate_branch_name(branch: str) -> None:
+    result = run_command(["git", "check-ref-format", "--branch", branch], check=False)
+    if result.returncode != 0:
+        raise CommandError(f"目标分支名无效: {branch}")
+
+
+def get_commits(revision: str = "HEAD") -> list[Commit]:
+    result = run_command(
+        ["git", "log", "--reverse", "--format=%H%x00%aI%x00%s", revision]
+    )
+    commits: list[Commit] = []
+    for line in result.stdout.splitlines():
+        if not line:
+            continue
+        parts = line.split("\0", 2)
+        if len(parts) != 3:
+            raise CommandError("无法解析 git log 输出。")
+        commits.append(Commit(hash=parts[0], date_str=parts[1], message=parts[2]))
     return commits
 
-def parse_date(date_str):
-    """解析Git日期字符串，返回 YYYY-MM-DD"""
-    # 提取空格前的日期部分
-    return date_str.split(" ")[0]
 
-def group_by_month(commits):
-    """按月份分组提交"""
-    groups = defaultdict(list)
+def parse_date(date_str: str) -> str:
+    """从 ISO 8601 Git 日期中提取 YYYY-MM-DD。"""
+    return date_str[:10]
+
+
+def group_by_month(commits: Sequence[Commit]) -> dict[str, list[Commit]]:
+    groups: dict[str, list[Commit]] = defaultdict(list)
     for commit in commits:
-        date = parse_date(commit["date_str"])
-        month_key = date[:7] # YYYY-MM
-        groups[month_key].append(commit)
+        groups[parse_date(commit.date_str)[:7]].append(commit)
     return groups
 
 
-def get_current_branch():
-    """返回当前分支名；如果处于 detached HEAD，则返回 HEAD。"""
-    result = run_command(
-        ["git", "branch", "--show-current"],
-        check=False,
-    )
+def get_current_branch() -> str:
+    result = run_command(["git", "branch", "--show-current"], check=False)
     return result.stdout.strip() or "HEAD"
 
 
-def branch_exists(branch):
-    """检查本地分支是否存在。"""
+def get_branch_tip(branch: str) -> str | None:
     result = run_command(
-        ["git", "show-ref", "--verify", "--quiet", f"refs/heads/{branch}"],
+        ["git", "rev-parse", "--verify", f"refs/heads/{branch}"],
         check=False,
     )
-    return result.returncode == 0
+    return result.stdout.strip() if result.returncode == 0 else None
 
 
-def print_plan(commits, monthly_groups, current_branch):
-    """打印即将执行的操作摘要。"""
-    sorted_months = sorted(monthly_groups.keys())
+def branch_is_checked_out(branch: str) -> bool:
+    result = run_command(["git", "worktree", "list", "--porcelain"])
+    expected = f"branch refs/heads/{branch}"
+    return expected in result.stdout.splitlines()
+
+
+def resolve_git_identity(revision: str) -> tuple[str, str]:
+    name = run_command(["git", "config", "--get", "user.name"], check=False).stdout.strip()
+    email = run_command(["git", "config", "--get", "user.email"], check=False).stdout.strip()
+
+    if not name or not email:
+        latest = run_command(
+            ["git", "log", "-1", "--format=%an%x00%ae", revision],
+            check=False,
+        ).stdout.strip()
+        if "\0" in latest:
+            fallback_name, fallback_email = latest.split("\0", 1)
+            name = name or fallback_name.strip()
+            email = email or fallback_email.strip()
+
+    if not name or not email:
+        raise CommandError(
+            "无法确定 Git 提交身份。请设置 user.name 和 user.email。"
+        )
+    return name, email
+
+
+def print_plan(
+    commits: Sequence[Commit],
+    monthly_groups: Mapping[str, Sequence[Commit]],
+    current_branch: str,
+    source: str,
+    target_branch: str,
+) -> None:
     print(f"当前分支: {current_branch}")
-    print(f"目标分支: {TARGET_BRANCH}")
+    print(f"源修订: {source}")
+    print(f"目标分支: {target_branch}")
     print(f"原始提交数: {len(commits)}")
-    print(f"将生成的月度快照数: {len(sorted_months)}")
-    print(
-        "目标分支处理: "
-        + ("删除并重建" if branch_exists(TARGET_BRANCH) else "新建")
-    )
+    print(f"将生成的月度快照数: {len(monthly_groups)}")
+    print("目标分支处理: " + ("原子更新" if get_branch_tip(target_branch) else "新建"))
+    print("工作区处理: 不切换分支、不修改索引和文件")
     print("\n月度快照:")
-    for month in sorted_months:
+    for month in sorted(monthly_groups):
         month_commits = monthly_groups[month]
         last_commit = month_commits[-1]
         print(
             f"- {month}: {len(month_commits)} 个提交, "
-            f"快照点 {last_commit['hash'][:7]}"
+            f"快照点 {last_commit.hash[:7]}"
         )
 
 
-def confirm_execution():
-    """要求输入完整确认短语后才执行破坏性操作。"""
-    expected = f"REBUILD {TARGET_BRANCH}"
-    print("\n警告: 接下来会切换到孤儿分支, 重写工作区并重建目标分支。")
-    print("源分支不会被删除, 但未提交的工作区修改会使脚本拒绝运行。")
+def confirm_execution(target_branch: str) -> None:
+    expected = f"REBUILD {target_branch}"
+    print("\n警告: 即将重建目标分支引用；源分支和工作区不会被修改。")
     print(f"请输入以下内容确认执行:\n{expected}")
     try:
         response = input("> ").strip()
     except EOFError:
         response = ""
-
     if response != expected:
-        print("确认内容不匹配, 已取消。")
-        sys.exit(1)
+        raise CommandError("确认内容不匹配，已取消。")
 
 
-def resolve_git_identity():
-    """解析提交身份：优先读git config，缺失时回退到最近一次提交作者。"""
-    name = run_command(["git", "config", "--get", "user.name"], check=False).stdout.strip()
-    email = run_command(["git", "config", "--get", "user.email"], check=False).stdout.strip()
+def snapshot_message(month: str, commits: Sequence[Commit]) -> str:
+    lines = [month, "", f"包含 {len(commits)} 个原始提交的变更:"]
+    lines.extend(f"- {commit.hash[:7]}: {commit.message}" for commit in commits)
+    return "\n".join(lines) + "\n"
 
-    if not name:
-        name = run_command(["git", "config", "--global", "--get", "user.name"], check=False).stdout.strip()
-    if not email:
-        email = run_command(["git", "config", "--global", "--get", "user.email"], check=False).stdout.strip()
 
-    # 兜底：尝试使用仓库最近一次提交作者
-    if not name or not email:
-        latest = run_command(["git", "log", "-1", "--format=%an|%ae"], check=False).stdout.strip()
-        if "|" in latest:
-            latest_name, latest_email = latest.split("|", 1)
-            if not name:
-                name = latest_name.strip()
-            if not email:
-                email = latest_email.strip()
+def create_snapshot_commit(
+    month: str,
+    commits: Sequence[Commit],
+    parent: str | None,
+    author_name: str,
+    author_email: str,
+) -> str:
+    last_commit = commits[-1]
+    tree = run_command(
+        ["git", "rev-parse", f"{last_commit.hash}^{{tree}}"]
+    ).stdout.strip()
+    command = ["git", "commit-tree", tree]
+    if parent:
+        command.extend(["-p", parent])
+    env = {
+        **os.environ,
+        "GIT_AUTHOR_NAME": author_name,
+        "GIT_AUTHOR_EMAIL": author_email,
+        "GIT_COMMITTER_NAME": author_name,
+        "GIT_COMMITTER_EMAIL": author_email,
+        "GIT_AUTHOR_DATE": last_commit.date_str,
+        "GIT_COMMITTER_DATE": last_commit.date_str,
+    }
+    return run_command(
+        command,
+        input_text=snapshot_message(month, commits),
+        env=env,
+    ).stdout.strip()
 
-    if not name or not email:
-        print("错误：无法确定 Git 提交身份（user.name / user.email）。")
-        print("请先设置：")
-        print('  git config --global user.name "Your Name"')
-        print('  git config --global user.email "you@example.com"')
-        sys.exit(1)
 
-    return name, email
-
-def main():
-    args = parse_args()
-
-    print("="*60)
-    print("Git 历史聚合工具 (快照模式)")
-    print("目标：生成 YYYY-MM 格式的月度快照")
-    print("="*60)
-
-    print("正在读取提交历史...")
-    commits = get_commits()
-    if not commits:
-        print("没有找到提交记录。")
-        return
-
-    monthly_groups = group_by_month(commits)
-    sorted_months = sorted(monthly_groups.keys())
-    current_branch = get_current_branch()
-
-    print_plan(commits, monthly_groups, current_branch)
-
-    if args.dry_run:
-        print("\nDry run 完成, 未执行任何 Git 修改。")
-        return
-
-    # 1. 检查当前状态
-    status = run_command(["git", "status", "--porcelain"], check=False)
-    if status.stdout.strip():
-        print("错误：工作区不干净，请先提交或暂存更改。")
-        sys.exit(1)
-
-    if current_branch == TARGET_BRANCH:
-        print(f"错误：当前已经位于目标分支 {TARGET_BRANCH}，请先切回源分支。")
-        sys.exit(1)
-
-    author_name, author_email = resolve_git_identity()
-    confirm_execution()
-
-    # 2. 创建一个新的孤儿分支（不继承旧历史，从零开始）
-    new_branch = TARGET_BRANCH
-    print(f"\n正在创建新分支: {new_branch} ...")
-    
-    # 检查分支是否存在，存在则删除
-    run_command(["git", "branch", "-D", new_branch], check=False)
-    # 创建孤儿分支 (没有任何历史记录的空分支)
-    run_command(["git", "checkout", "--orphan", new_branch])
-    # 清空暂存区和工作区（确保从零开始）
-    run_command(["git", "rm", "-rf", "."])
-
-    print("开始构建月度快照...")
-    
-    for month in sorted_months:
-        month_commits = monthly_groups[month]
-        # 取该月最后一个提交作为“快照点”
-        last_commit = month_commits[-1]
-        last_date = parse_date(last_commit["date_str"])
-        
-        print(f"处理 {month} -> 使用快照点: {last_date} ({last_commit['hash'][:7]})")
-
-        # 核心逻辑：使用 read-tree 强制将工作区和暂存区变为目标提交的状态
-        # -u: 更新工作区文件
-        # --reset: 强制重置
-        run_command(["git", "read-tree", "-u", "--reset", last_commit["hash"]])
-
-        # 构建提交信息
-        # 第一行：YYYY-MM
-        msg_lines = [month, ""]
-        msg_lines.append(f"包含 {len(month_commits)} 个原始提交的变更:")
-        for c in month_commits:
-            msg_lines.append(f"- {c['hash'][:7]}: {c['message']}")
-        
-        full_message = "\n".join(msg_lines)
-
-        # 提交 (使用该月最后一次提交的原始时间，保持时间线大致正确)
-        # 这里的 date 只是元数据，提交顺序是线性的
-        env = {
-            **os.environ,
-            "GIT_AUTHOR_NAME": author_name,
-            "GIT_AUTHOR_EMAIL": author_email,
-            "GIT_COMMITTER_NAME": author_name,
-            "GIT_COMMITTER_EMAIL": author_email,
-            "GIT_AUTHOR_DATE": last_commit["date_str"],
-            "GIT_COMMITTER_DATE": last_commit["date_str"],
-        }
-        
-        # 调用 git commit
-        # 注意：因为 read-tree 已经把暂存区准备好了，直接 commit 即可
-        subprocess.run(
-            ["git", "commit", "-m", full_message],
-            env=env, # 注入时间环境变量
-            check=True,
-            stdout=subprocess.DEVNULL # 减少噪音
+def build_snapshot_history(
+    monthly_groups: Mapping[str, Sequence[Commit]],
+    author_name: str,
+    author_email: str,
+) -> str:
+    parent = None
+    for month in sorted(monthly_groups):
+        commits = monthly_groups[month]
+        last_commit = commits[-1]
+        print(
+            f"构建 {month}: {parse_date(last_commit.date_str)} "
+            f"({last_commit.hash[:7]})"
         )
+        parent = create_snapshot_commit(
+            month, commits, parent, author_name, author_email
+        )
+    if parent is None:
+        raise CommandError("没有可生成的月度快照。")
+    return parent
 
-    print("\n" + "="*60)
-    print("聚合完成！")
-    print("="*60)
-    print(f"当前所在分支: {new_branch}")
-    print("\n请检查历史记录:")
-    print("git log --oneline --graph --stat | head -n 20")
-    print("\n如果满意，可以使用以下命令强制推送到远程（请谨慎）：")
-    print(f"git push -f origin {new_branch}:main")
+
+def update_target_branch(branch: str, new_tip: str, old_tip: str | None) -> None:
+    ref = f"refs/heads/{branch}"
+    command = [
+        "git",
+        "update-ref",
+        "-m",
+        "rebuild monthly snapshot history",
+        ref,
+        new_tip,
+        old_tip or "",
+    ]
+    run_command(command)
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    configure_standard_streams()
+    args = parse_args(argv)
+    try:
+        ensure_git_repository()
+        validate_branch_name(args.target_branch)
+        commits = get_commits(args.source)
+        if not commits:
+            raise CommandError("没有找到提交记录。")
+        monthly_groups = group_by_month(commits)
+        current_branch = get_current_branch()
+        print_plan(
+            commits,
+            monthly_groups,
+            current_branch,
+            args.source,
+            args.target_branch,
+        )
+        if args.dry_run:
+            print("\nDry run 完成，未执行任何 Git 修改。")
+            return 0
+
+        if branch_is_checked_out(args.target_branch):
+            raise CommandError(
+                f"目标分支 {args.target_branch} 正在某个工作树中使用，拒绝更新。"
+            )
+        if not args.yes:
+            confirm_execution(args.target_branch)
+
+        author_name, author_email = resolve_git_identity(args.source)
+        old_tip = get_branch_tip(args.target_branch)
+        new_tip = build_snapshot_history(monthly_groups, author_name, author_email)
+        update_target_branch(args.target_branch, new_tip, old_tip)
+    except CommandError as exc:
+        print(f"错误: {exc}", file=sys.stderr)
+        return 1
+
+    print("\n聚合完成。")
+    print(f"当前分支仍为: {get_current_branch()}")
+    print(f"检查结果: git log --oneline --graph --stat {args.target_branch}")
+    print(
+        "如需发布，请谨慎执行: "
+        f"git push --force-with-lease origin {args.target_branch}:main"
+    )
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

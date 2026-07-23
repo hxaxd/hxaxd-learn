@@ -138,6 +138,7 @@ config.keys = {
 }
 
 -- ==================== 4. 渲染引擎优化 ====================
-config.front_end = "WebGpu" 
+config.front_end = "WebGpu"
+config.webgpu_power_preference = "HighPerformance"
 
 return config

@@ -5,6 +5,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Remove transient Windows fnm session paths imported by WSL.
+path=(${path:#*/fnm_multishells/*})
+export PATH
+
 # ==================== 1. Oh My Zsh 核心 ====================
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -121,6 +125,8 @@ fi
 if _has_command fnm; then
   eval "$(fnm env --use-on-cd)"
 fi
+
+. "$HOME/.local/bin/env"
 
 # ==================== 修复 sudo 插件 Esc Esc 冲突 ====================
 

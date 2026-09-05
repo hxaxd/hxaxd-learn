@@ -9,8 +9,6 @@ local config = wezterm.config_builder()
 config.color_scheme = "Tokyo Night"
 
 -- 窗口背景
-config.window_background_opacity = 0.85
-config.macos_window_background_blur = 30
 config.background = {
   {
     source = {
@@ -138,7 +136,6 @@ config.keys = {
 }
 
 -- ==================== 4. 渲染引擎优化 ====================
-config.front_end = "WebGpu"
-config.webgpu_power_preference = "HighPerformance"
+config.front_end = "OpenGL"
 
 return config

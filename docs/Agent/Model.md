@@ -44,7 +44,6 @@
 
 - 消息是结构化的, 会被序列化为文本
     - system: 可以打点限制稳定前缀
-    - developer
     - user
     - assistant
     - tool_result

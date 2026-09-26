@@ -106,7 +106,7 @@
 - [C++ 最佳实践](C++/C++最佳实践.md)
 - [C++ 标准库](C++/C++标准库.md)
 - [C++ 工具](C++/C++工具.md)
-- [程序员的自我修养](C++/程序员的自我修养.md) TODO
+- [程序员的自我修养](C++/程序员的自我修养.md)
 - [Rust](Rust/Rust.md)
 
 #### 硬件与体系结构
@@ -144,7 +144,7 @@
 - [分布式系统](分布式/分布式系统.md)
 - [数据密集型应用系统设计](分布式/数据密集型应用系统设计.md)
 - [系统设计](分布式/系统设计.md)
-- [Go](Go/Go.md) TODO
+- [Go](Go/Go.md)
 
 #### 数据工程与大数据
 
@@ -166,22 +166,23 @@
 - [深度学习](人工智能与机器学习/深度学习.md)
 - [卷积神经网络](人工智能与机器学习/卷积神经网络.md)
 
-#### 机器学习系统 (MLSys)
+#### 机器学习系统
 
 - [并行计算与 AI 系统](并行计算与AI系统/并行计算与AI系统.md)
 
 ### 人工智能
 
-#### Agent 核心体系 (Harness)
+#### 大语言模型
+
+- [大语言模型](大语言模型/大语言模型.md)
+
+#### Agent
 
 - [深入理解 Agent](Agent/深入理解Agent.md)
 - [Harness 总论](Agent/Harness/Agent.md)
 - [Context](Agent/Harness/Context.md)
 - [Runtime](Agent/Harness/Runtime.md)
 - [Evolution](Agent/Harness/Evolution.md)
-
-#### 交互与多智能体
-
 - [Model](Agent/Model.md)
 - [Environment](Agent/Environment.md)
 - [Human](Agent/Human.md)

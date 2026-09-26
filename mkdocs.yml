@@ -86,16 +86,17 @@ nav:
           - 机器学习: 人工智能与机器学习/机器学习.md
           - 深度学习: 人工智能与机器学习/深度学习.md
           - 卷积神经网络: 人工智能与机器学习/卷积神经网络.md
-      - 机器学习系统(MLSys):
+      - 机器学习系统:
           - 并行计算与AI系统: 并行计算与AI系统/并行计算与AI系统.md
   - 人工智能:
-      - Agent核心体系(Harness):
+      - 大语言模型:
+          - 大语言模型: 大语言模型/大语言模型.md
+      - Agent:
           - 深入理解Agent: Agent/深入理解Agent.md
           - Harness总论: Agent/Harness/Agent.md
           - Context: Agent/Harness/Context.md
           - Runtime: Agent/Harness/Runtime.md
           - Evolution: Agent/Harness/Evolution.md
-      - 交互与多智能体:
           - Model: Agent/Model.md
           - Environment: Agent/Environment.md
           - Human: Agent/Human.md

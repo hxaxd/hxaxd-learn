@@ -34,11 +34,16 @@ nav:
           - Web开发工具: 工具/Web开发与部署/Web开发工具.md
           - 容器与编排: 工具/Web开发与部署/容器与编排.md
           - Web服务与反向代理: 工具/Web开发与部署/Web服务与反向代理.md
-  - 算法:
-      - 大话数据结构: 算法/大话数据结构.md
-      - 算法第四版: 算法/算法第四版.md
-      - 算法设计与分析: 算法/算法设计与分析.md
-      - 算法经典题: 算法/算法经典题.md
+  - 程序设计与算法:
+      - 算法与数据结构:
+          - 大话数据结构: 算法/大话数据结构.md
+          - 算法第四版: 算法/算法第四版.md
+          - 算法设计与分析: 算法/算法设计与分析.md
+          - 算法经典题: 算法/算法经典题.md
+      - 代码风格与软件设计:
+          - 设计模式: 代码风格与编程技术/设计模式.md
+          - 代码规范: 代码风格与编程技术/代码规范.md
+          - 软件工程: 代码风格与编程技术/软件工程.md
   - 计算机系统:
       - 系统编程语言:
           - C语言核心: C/C语言.md
@@ -56,10 +61,6 @@ nav:
           - 操作系统导论: 操作系统/操作系统导论.md
       - 计算机网络:
           - 自顶向下方法: 计算机网络/自顶向下方法.md
-  - 代码风格与编程技术:
-      - 设计模式: 代码风格与编程技术/设计模式.md
-      - 代码规范: 代码风格与编程技术/代码规范.md
-      - 软件工程: 代码风格与编程技术/软件工程.md
   - 数据与分布式系统:
       - 数据库原理:
           - 数据库系统概念: 数据库/数据库系统概念.md
@@ -76,7 +77,7 @@ nav:
           - Go: Go/Go.md
       - 数据工程与大数据:
           - 数据工程与大数据: 数据工程与大数据/数据工程与大数据.md
-  - 人工智能与机器学习:
+  - 机器学习:
       - Python与数据计算:
           - 流畅的Python: Python/流畅的Python.md
           - Python后端开发基本框架: Python/Python后端开发基本框架.md
@@ -85,19 +86,21 @@ nav:
           - 机器学习: 人工智能与机器学习/机器学习.md
           - 深度学习: 人工智能与机器学习/深度学习.md
           - 卷积神经网络: 人工智能与机器学习/卷积神经网络.md
-  - 并行计算与AI系统:
-      - 并行计算与AI系统: 并行计算与AI系统/并行计算与AI系统.md
-  - Agent:
-      - Harness总论: Agent/Harness/Agent.md
-      - Context: Agent/Harness/Context.md
-      - Runtime: Agent/Harness/Runtime.md
-      - Evolution: Agent/Harness/Evolution.md
-      - Model: Agent/Model.md
-      - Environment: Agent/Environment.md
-      - Human: Agent/Human.md
-      - Retrieval: Agent/Retrieval.md
-      - 多智能体: Agent/多智能体.md
-      - Cloud Agent: Agent/Cloud Agent.md
+      - 机器学习系统(MLSys):
+          - 并行计算与AI系统: 并行计算与AI系统/并行计算与AI系统.md
+  - 人工智能:
+      - Agent核心体系(Harness):
+          - Harness总论: Agent/Harness/Agent.md
+          - Context: Agent/Harness/Context.md
+          - Runtime: Agent/Harness/Runtime.md
+          - Evolution: Agent/Harness/Evolution.md
+      - 交互与多智能体:
+          - Model: Agent/Model.md
+          - Environment: Agent/Environment.md
+          - Human: Agent/Human.md
+          - Retrieval: Agent/Retrieval.md
+          - 多智能体: Agent/多智能体.md
+          - Cloud Agent: Agent/Cloud Agent.md
   - 其它:
       - 论文写作: 论文写作/论文写作.md
       - 计算机与人脑: 其它/计算机与人脑.md

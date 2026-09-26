@@ -1,6 +1,4 @@
-# 其他数据库
-
-## PostgreSQL
+# PostgreSQL
 
 ### ACID
 

@@ -90,6 +90,7 @@ nav:
           - 并行计算与AI系统: 并行计算与AI系统/并行计算与AI系统.md
   - 人工智能:
       - Agent核心体系(Harness):
+          - 深入理解Agent: Agent/深入理解Agent.md
           - Harness总论: Agent/Harness/Agent.md
           - Context: Agent/Harness/Context.md
           - Runtime: Agent/Harness/Runtime.md

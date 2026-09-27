@@ -55,28 +55,28 @@
 - [终端开发环境](工具/开发环境与协作/终端开发环境.md)
 - [Git](工具/开发环境与协作/Git.md)
 
-#### Linux 与 Shell
+#### Linux 与命令行
 
-- [Linux 基础](工具/Linux与Shell/Linux基础.md)
-- [Shell 基础](工具/Linux与Shell/Shell基础.md)
-- [Shell 文本处理](工具/Linux与Shell/Shell文本处理.md)
-- [Shell 编程](工具/Linux与Shell/Shell编程.md)
-- [Linux 系统与网络管理](工具/Linux与Shell/Linux系统与网络管理.md)
-- [远程开发与集群](工具/Linux与Shell/远程开发与集群.md)
+- [Linux 系统与网络运维](工具/Linux与Shell/Linux系统与网络运维.md)
+- [Shell 编程与文本处理](工具/Linux与Shell/Shell编程与文本处理.md)
+- [Linux 性能剖析](工具/Linux与Shell/Linux性能剖析.md)
+
+#### Web 与前端开发
+
+- [前端开发基础](工具/Web开发与部署/前端开发.md)
+- [JS&TS](JS&TS/JS&TS.md)
+- [Web 开发工具](工具/Web开发与部署/Web开发工具.md)
+
+#### 服务与容器部署
+
+- [Web 服务与反向代理](工具/Web开发与部署/Web服务与反向代理.md)
+- [容器与编排](工具/Web开发与部署/容器与编排.md)
 
 #### 文档与数据格式
 
 - [Markdown](工具/文档与数据格式/Markdown.md)
 - [TeX 基础](工具/文档与数据格式/TeX.md)
 - [标记语言与序列化](工具/文档与数据格式/标记语言与序列化.md)
-
-#### Web 开发与部署
-
-- [前端开发基础](工具/Web开发与部署/前端开发.md)
-- [JS&TS](JS&TS/JS&TS.md)
-- [Web 开发工具](工具/Web开发与部署/Web开发工具.md)
-- [容器与编排](工具/Web开发与部署/容器与编排.md)
-- [Web 服务与反向代理](工具/Web开发与部署/Web服务与反向代理.md)
 
 ### 程序设计与算法
 

@@ -107,6 +107,15 @@ _has_command hexyl && alias hex='hexyl'
 _has_command eza && alias ls='eza --icons --group-directories-first'
 _has_command eza && alias ll='eza -lh --icons --group-directories-first'
 
+# Conda：加载完整 Shell 集成，支持直接 activate/deactivate，但不自动激活环境。
+# 生成 hook 时显式关闭自动激活，避免本机 .condarc 的默认值影响启动。
+if _has_command conda; then
+  if _conda_setup="$(CONDA_AUTO_ACTIVATE_BASE=false conda shell.zsh hook 2>/dev/null)"; then
+    eval "$_conda_setup"
+  fi
+  unset _conda_setup
+fi
+
 # ==================== 5. 结束标志 ====================
 [[ ! -r "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
 

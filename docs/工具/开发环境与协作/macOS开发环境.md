@@ -5,6 +5,8 @@
 ## 新增
 
 - Bob
+- ShowMeYourHotKeys
+- 腾讯柠檬清理 (Tencent Lemon Lite)
 - Quick Look 插件: Glance, QLVideo, Suspicious Package
 - Xcode: Apple 平台开发
 

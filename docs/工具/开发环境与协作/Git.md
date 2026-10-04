@@ -2,6 +2,7 @@
 
 ## 参考资料
 
+- [本机环境](无头开发环境.md)
 - [Git book](https://git-scm.com/book/zh/v2)
 - [How to Write a Git Commit Message](https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md)
 
@@ -12,19 +13,6 @@
 - Git 有三种状态 modified staged committed 对应工作区 暂存区 (只是索引) 以及 Git 目录
 - `~/.gitconfig` 配置忽略文件
 - `~/.config/git/config` 配置文件
-- 安装完 Git 之后, 要做的第一件事就是设置你的用户名和邮件地址
-
-```bash
-git --version # 看一眼
-
-git config --global user.name "Your Name Here"
-git config --global user.email "your_email@youremail.com"
-# 设置 name & email
-
-git config --global credential.helper osxkeychain
-# 设置缓存凭据工具
-```
-
 ## Git 基本操作
 
 ### 创建, 提交, 配置

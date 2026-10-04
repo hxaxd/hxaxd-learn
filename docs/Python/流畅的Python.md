@@ -5,22 +5,9 @@
 - 流畅的 Python
 - Codex
 
-## 工具
+## 项目环境与工具
 
-### Python Install Manager
-
-- Windows 上官方推荐从 python.org 或 Microsoft Store 安装 Python Install Manager
-
-```powershell
-py # 启动默认 Python
-py -V:3.14 # 指定运行 Python 3.14
-py list # 查看已安装运行时
-py list --online # 查看可安装运行时
-py install 3.14 # 安装指定版本
-py install --update # 更新由 install manager 管理的运行时
-py uninstall 3.13 # 卸载指定版本
-py -m pip --version # 用指定解释器运行模块
-```
+- [本机环境](../工具/开发环境与协作/无头开发环境.md)
 
 ### `venv` 与 `pip`
 
@@ -46,18 +33,6 @@ deactivate
 ```
 
 ### uv
-
-#### 安装
-
-```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-uv --version
-```
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-uv --version
-```
 
 #### 项目管理
 
@@ -151,11 +126,6 @@ dependencies:
 - Pixi 是基于 conda-forge / prefix.dev 生态的项目环境工具
 - 相比 conda, Pixi 更项目化, 相比 uv, Pixi 更擅长非 Python 依赖和多语言依赖
 
-```powershell
-powershell -ExecutionPolicy ByPass -c "irm -useb https://pixi.sh/install.ps1 | iex"
-pixi --version
-```
-
 ```bash
 pixi init demo
 cd demo
@@ -163,7 +133,6 @@ pixi add python rich
 pixi task add start "python -c \"import rich, print('ok')\"" # 添加任务
 pixi run start # 运行任务
 pixi shell # 进入环境
-pixi global install ripgrep fd # 安装全局命令
 ```
 
 ### 常用工具

@@ -1,0 +1,288 @@
+{
+  "registry": [
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Dsh",
+      "name": "AllowNewsAndInterests",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭小组件与资讯",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+      "name": "DisableNotificationCenter",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "禁止通知中心",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+      "name": "HidePeopleBar",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "隐藏人脉入口",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+      "name": "NoLowDiskSpaceChecks",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "关闭磁盘空间提醒",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+      "name": "NoUseStoreOpenWith",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "禁止打开方式中的商店推荐",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+      "name": "EnableDynamicContentInWSB",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭搜索动态内容",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+      "name": "IsMSACloudSearchEnabled",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭个人账户云搜索",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+      "name": "IsAADCloudSearchEnabled",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭工作账户云搜索",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+      "name": "IsDeviceSearchHistoryEnabled",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭本机搜索历史",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
+      "name": "Enabled",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭广告标识",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection",
+      "name": "AllowTelemetry",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "必需级别诊断数据",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection",
+      "name": "MaxTelemetryAllowed",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "限制诊断数据级别",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient",
+      "name": "DisableSmartNameResolution",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "禁用智能多宿主解析",
+      "storage": "LocalGroupPolicy"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SYSTEM\\CurrentControlSet\\Services\\Dnscache\\Parameters",
+      "name": "DisableParallelAandAAAA",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "保留 DNS 解析兼容偏好",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "name": "ConsentPromptBehaviorAdmin",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "管理员提升不弹提示",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "name": "PromptOnSecureDesktop",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "提升不切换安全桌面",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+      "name": "AutoShareWks",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "禁止默认磁盘管理共享",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SYSTEM\\CurrentControlSet\\Control\\CI\\Config",
+      "name": "VulnerableDriverBlocklistEnable",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭易受攻击驱动阻止列表",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity",
+      "name": "Enabled",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "关闭内存完整性",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection",
+      "name": "DisableRealtimeMonitoring",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "关闭实时杀毒的显式策略",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+      "name": "BootExecute",
+      "type": "REG_MULTI_SZ",
+      "value": [],
+      "meaning": "关闭启动自动磁盘检查",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\\InprocServer32",
+      "name": "",
+      "type": "REG_SZ",
+      "value": "",
+      "meaning": "经典右键菜单",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+      "name": "Hidden",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "资源管理器隐藏文件显示偏好",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+      "name": "HideFileExt",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "资源管理器文件扩展名显示偏好",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+      "name": "ShowSuperHidden",
+      "type": "REG_DWORD",
+      "value": 0,
+      "meaning": "受保护系统文件显示偏好",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+      "name": "LaunchTo",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "资源管理器启动位置",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power",
+      "name": "HiberbootEnabled",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "快速启动",
+      "storage": "Registry"
+    },
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AppModelUnlock",
+      "name": "AllowDevelopmentWithoutDevLicense",
+      "type": "REG_DWORD",
+      "value": 1,
+      "meaning": "开发者模式",
+      "storage": "Registry"
+    }
+  ],
+  "localGroupPolicy": [
+    {
+      "hive": "HKLM",
+      "key": "SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient",
+      "name": "DisableSmartNameResolution",
+      "type": "REG_DWORD",
+      "value": 1
+    }
+  ],
+  "notExported": [
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Siuf\\Rules",
+      "name": "NumberOfSIUFInPeriod",
+      "reason": "[WinError 2] 系统找不到指定的文件。"
+    },
+    {
+      "hive": "HKCU",
+      "key": "SOFTWARE\\Microsoft\\Siuf\\Rules",
+      "name": "PeriodInNanoSeconds",
+      "reason": "[WinError 2] 系统找不到指定的文件。"
+    }
+  ],
+  "exclusions": [
+    "应用配置",
+    "环境变量",
+    "账户和 SID",
+    "证书和私钥",
+    "网络地址",
+    "完整安全策略",
+    "完整注册表"
+  ]
+}

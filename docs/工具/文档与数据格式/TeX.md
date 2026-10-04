@@ -3,6 +3,7 @@
 ## 参考资料
 
 - [知乎教程](https://zhuanlan.zhihu.com/p/456055339)
+- [本机环境](../开发环境与协作/无头开发环境.md)
 
 ## KaTex
 
@@ -13,10 +14,6 @@
 ### 语法
 
 - 记不住, 建议让 AI 帮忙写
-
-## 配置环境
-
-- [Tex Live](http://mirror.ctan.org/systems/texlive/Images/)+VSCode (插件 latex workshop/latex language support + 配置一下)
 
 ## 文档类型
 

@@ -1,3 +1,4 @@
+-- macOS WezTerm 配置，部署到 ~/.wezterm.lua。
 local wezterm = require 'wezterm'
 local act = wezterm.action
 
@@ -17,14 +18,14 @@ config.window_decorations = "RESIZE"
 
 -- 【关键建议】标签栏样式
 -- 如果追求“高级感”，建议开启 Fancy Tab Bar，因为非 Fancy 模式看起来像 DOS 界面
-config.use_fancy_tab_bar = true 
+config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.hide_tab_bar_if_only_one_tab = false
 
 -- 字体配置
 config.font = wezterm.font_with_fallback({
-  { 
-    family = "Monaspace Radon NF", 
+  {
+    family = "Monaspace Radon NF",
     weight = "Regular",
     harfbuzz_features = { "calt", "liga", "dlig", "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08" },
   },
@@ -35,8 +36,8 @@ config.line_height = 1.2
 
 -- ==================== 2. 实用功能配置 ====================
 
--- 使用 PATH 中的 pwsh.exe，随 PowerShell 7 更新自动采用当前版本。
-config.default_prog = { 'pwsh.exe', '-NoLogo' }
+-- macOS 登录 Shell。
+config.default_prog = { '/bin/zsh', '-l' }
 config.window_close_confirmation = 'NeverPrompt'
 config.scrollback_lines = 5000
 config.send_composed_key_when_left_alt_is_pressed = false
@@ -89,6 +90,6 @@ config.keys = {
 }
 
 -- ==================== 4. 渲染引擎优化 ====================
-config.front_end = "WebGpu" 
+config.front_end = "WebGpu"
 
 return config

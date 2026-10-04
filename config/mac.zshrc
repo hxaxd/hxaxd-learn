@@ -1,3 +1,4 @@
+# macOS zsh 配置，部署到 ~/.zshrc。
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -5,10 +6,24 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# 本机命令入口。项目依赖由项目环境管理。
+typeset -U path PATH
+path=("$HOME/.local/bin" $path)
+# Homebrew 工具入口按本机安装位置定位。
+if [[ -d /opt/homebrew ]]; then
+  _brew_prefix=/opt/homebrew
+else
+  _brew_prefix=/usr/local
+fi
+[[ ! -d "$_brew_prefix/opt/llvm/bin" ]] || path=("$_brew_prefix/opt/llvm/bin" $path)
+[[ ! -d "$_brew_prefix/opt/ccache/libexec" ]] || path=("$_brew_prefix/opt/ccache/libexec" $path)
+unset _brew_prefix
+export PATH
+
 # ==================== 1. Oh My Zsh 核心 ====================
 export ZSH="$HOME/.oh-my-zsh"
 
-# 皮肤：Powerlevel10k (目前地表最强)
+# 提示符主题。
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 _has_command() {
@@ -18,43 +33,34 @@ _has_command() {
 # 插件选择：
 # git: 基础
 # extract: 输入 x 文件名，自动解压任何格式
-# zoxide: 2025年替代 cd 的神器
-# zsh-autosuggestions: 自动补全（不过时，必装）
-# zsh-syntax-highlighting: 语法高亮（不过时，必装）
+# zoxide: 目录跳转
+# zsh-autosuggestions: 命令建议
+# zsh-syntax-highlighting: 语法高亮
 # sudo: 按两下 ESC 自动帮你在命令前加 sudo
 plugins=(
-    git 
-    extract 
-    zoxide 
+    git
+    extract
+    zoxide
     sudo
-    zsh-autosuggestions 
+    zsh-autosuggestions
     zsh-syntax-highlighting
     you-should-use
     thefuck
 )
 
-# [fzf] - 模糊搜索神器，按 Ctrl+R 搜历史记录快到飞起
-# 2025年官方推荐：一行命令加载所有快捷键(R/T/C)和补全
+# fzf 快捷键与补全。
+
 if _has_command fzf; then
   source <(fzf --zsh)
 fi
 
-source $ZSH/oh-my-zsh.sh
+[[ ! -r "$ZSH/oh-my-zsh.sh" ]] || source "$ZSH/oh-my-zsh.sh"
 
-# ==================== 3. 2025 墙裂推荐的现代插件初始化 ====================
+# ==================== 工具补全与筛选 ====================
 
 # uv 自动补全
 if _has_command uv; then
   eval "$(uv generate-shell-completion zsh)"
-fi
-# [zoxide] - 现代化的 cd，它能记住你常去的目录
-# 安装：brew install zoxide
-if _has_command zoxide; then
-  eval "$(zoxide init zsh)"
-fi
-
-if _has_command thefuck; then
-  eval "$(thefuck --alias)"
 fi
 
 # FZF 默认参数：加入预览窗格、圆角边框、Tokyo Night 配色
@@ -86,8 +92,8 @@ fi
 alias cls='clear'
 alias ..='cd ..'
 alias ...='cd ../..'
-_has_command lazygit && alias lg='lazygit'  # 如果你装了的话，非常推荐
-_has_command bat && alias cat='bat'     # 现代版的 cat (brew install bat)
+_has_command lazygit && alias lg='lazygit'
+_has_command bat && alias cat='bat'
 _has_command eza && alias lt='eza --tree --icons' # 树状显示目录结构
 # 现代工具替换
 _has_command duf && alias df='duf'
@@ -98,37 +104,17 @@ _has_command procs && alias ps='procs'
 _has_command doggo && alias dig='doggo'
 _has_command hexyl && alias hex='hexyl'
 
-# 推荐安装 eza 代替 ls (brew install eza)
-# 它能在终端显示非常漂亮的图标
 _has_command eza && alias ls='eza --icons --group-directories-first'
 _has_command eza && alias ll='eza -lh --icons --group-directories-first'
 
 # ==================== 5. 结束标志 ====================
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/opt/ccache/libexec:$PATH"
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+[[ ! -r "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
 
 if _has_command fnm; then
   eval "$(fnm env --use-on-cd)"
 fi
 
-# ==================== 修复 sudo 插件 Esc Esc 冲突 ====================
+# 双击 Esc 添加 sudo，优先于 thefuck 插件的同名按键。
 
 # 1. 显式重新绑定 sudo-command-line 到双击 Esc
 # Oh My Zsh 的 sudo 插件定义了这个 widget 名为 sudo-command-line
@@ -139,4 +125,4 @@ bindkey -M viins '\e\e' sudo-command-line
 # 2. 缩短按键延迟 (关键!)
 # Zsh 默认等待 0.4 秒来判断 Esc 后面是否还有后续按键。
 # 调低到 10-15ms 可以让双击 Esc 响应极快，且不影响 fzf 的 Alt+C 等功能。
-export KEYTIMEOUT=15
+KEYTIMEOUT=15

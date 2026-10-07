@@ -185,7 +185,6 @@
 
 #### Agent
 
-- [深入理解 Agent](Agent/深入理解Agent.md)
 - [Harness 总论](Agent/Harness/Agent.md)
 - [Context](Agent/Harness/Context.md)
 - [Runtime](Agent/Harness/Runtime.md)
